@@ -1,0 +1,21 @@
+{
+	"name": "@svelocity/auth",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Convex Auth client helpers — sign-in/out wrappers, session types, route guards.",
+	"license": "MIT",
+	"type": "module",
+	"exports": {
+		".": "./src/index.ts"
+	},
+	"scripts": {
+		"check": "tsc -p tsconfig.json"
+	},
+	"dependencies": {
+		"convex": "catalog:"
+	},
+	"devDependencies": {
+		"@svelocity/config": "workspace:*",
+		"typescript": "catalog:"
+	}
+}

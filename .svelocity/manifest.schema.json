@@ -1,0 +1,57 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "https://svelocity.dev/schemas/manifest.schema.json",
+	"title": "Svelocity Manifest",
+	"description": "Records what the Svelocity CLI generated so doctor/info (and future tooling) can reason about the project.",
+	"type": "object",
+	"additionalProperties": false,
+	"required": [
+		"stackVersion",
+		"createdWith",
+		"targets",
+		"ui",
+		"auth",
+		"backend",
+		"packageManager",
+		"aiTargets",
+		"skills"
+	],
+	"properties": {
+		"stackVersion": {
+			"type": "string",
+			"description": "Semver of the Svelocity Stack this project was created from.",
+			"pattern": "^\\d+\\.\\d+\\.\\d+(-[0-9A-Za-z-.]+)?$"
+		},
+		"createdWith": {
+			"type": "string",
+			"description": "CLI package and version that generated the project, e.g. create-svelocity@1.0.0.",
+			"pattern": "^create-svelocity@\\d+\\.\\d+\\.\\d+(-[0-9A-Za-z-.]+)?$"
+		},
+		"targets": {
+			"type": "array",
+			"description": "Platform shells present in this project.",
+			"items": { "enum": ["web", "desktop", "mobile"] },
+			"minItems": 1,
+			"uniqueItems": true
+		},
+		"ui": { "enum": ["bits-ui"] },
+		"auth": { "enum": ["convex-auth"] },
+		"backend": { "enum": ["convex"] },
+		"packageManager": {
+			"type": "string",
+			"pattern": "^pnpm@\\d+\\.\\d+\\.\\d+$"
+		},
+		"aiTargets": {
+			"type": "array",
+			"description": "AI instruction formats shipped with the project.",
+			"items": { "enum": ["agents-md", "cursor-rules"] },
+			"uniqueItems": true
+		},
+		"skills": {
+			"type": "array",
+			"description": "Skill directories shipped under skills/.",
+			"items": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+			"uniqueItems": true
+		}
+	}
+}

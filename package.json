@@ -1,0 +1,33 @@
+{
+	"name": "svelocity-stack",
+	"private": true,
+	"version": "0.1.0",
+	"description": "Opinionated, AI-ready Svelte monorepo template — web, desktop, and mobile from one shared core.",
+	"license": "MIT",
+	"author": "Emmanuel Addey",
+	"type": "module",
+	"packageManager": "pnpm@10.33.2",
+	"engines": {
+		"node": ">=22",
+		"pnpm": ">=10"
+	},
+	"scripts": {
+		"dev": "pnpm --filter web dev",
+		"dev:desktop": "pnpm --filter desktop dev",
+		"dev:mobile": "pnpm --filter mobile dev",
+		"build": "pnpm -r build",
+		"check": "pnpm -r check",
+		"test": "pnpm -r test",
+		"lint": "eslint . && prettier --check .",
+		"format": "prettier --write .",
+		"clean": "node scripts/clean.mjs",
+		"validate:manifest": "node scripts/validate-manifest.mjs"
+	},
+	"devDependencies": {
+		"@svelocity/config": "workspace:*",
+		"eslint": "catalog:",
+		"prettier": "catalog:",
+		"prettier-plugin-svelte": "catalog:",
+		"svelte": "catalog:"
+	}
+}

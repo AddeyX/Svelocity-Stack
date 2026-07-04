@@ -1,0 +1,10 @@
+{
+	"name": "desktop",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Electron desktop shell — implemented in Phase 4.",
+	"type": "module",
+	"devDependencies": {
+		"@svelocity/config": "workspace:*"
+	}
+}

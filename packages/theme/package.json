@@ -1,0 +1,23 @@
+{
+	"name": "@svelocity/theme",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Svelocity design tokens — CSS custom properties + platform overrides.",
+	"license": "MIT",
+	"type": "module",
+	"exports": {
+		".": "./src/tokens.ts",
+		"./tokens.css": "./src/tokens.css",
+		"./platform/web.css": "./platform/web.css",
+		"./platform/desktop.css": "./platform/desktop.css",
+		"./platform/mobile.css": "./platform/mobile.css"
+	},
+	"scripts": {
+		"check": "tsc -p tsconfig.json"
+	},
+	"devDependencies": {
+		"@svelocity/config": "workspace:*",
+		"typescript": "catalog:",
+		"@types/node": "catalog:"
+	}
+}

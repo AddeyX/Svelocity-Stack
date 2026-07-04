@@ -1,0 +1,11 @@
+pnpm-lock.yaml
+**/dist
+**/build
+**/.svelte-kit
+**/_generated
+**/android
+**/ios
+**/release
+**/coverage
+**/.vite
+CHANGELOG.md

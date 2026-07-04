@@ -1,0 +1,23 @@
+{
+	"name": "@svelocity/env",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Typed environment parsing — fail fast on missing or invalid env.",
+	"license": "MIT",
+	"type": "module",
+	"exports": {
+		".": "./src/index.ts"
+	},
+	"scripts": {
+		"check": "tsc -p tsconfig.json",
+		"test": "vitest run"
+	},
+	"dependencies": {
+		"zod": "catalog:"
+	},
+	"devDependencies": {
+		"@svelocity/config": "workspace:*",
+		"typescript": "catalog:",
+		"vitest": "catalog:"
+	}
+}

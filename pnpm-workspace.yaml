@@ -1,0 +1,65 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+
+# Version pins for the whole stack live here. Packages reference `catalog:`
+# (or `catalog:electron` / `catalog:capacitor`) instead of hardcoding versions.
+# Bump deliberately; the golden-path CI must stay green.
+catalog:
+  # core framework
+  svelte: ^5.55.5
+  '@sveltejs/kit': ^2.59.1
+  '@sveltejs/vite-plugin-svelte': ^7.0.0
+  '@sveltejs/adapter-cloudflare': ^7.2.8
+  vite: ^8.0.12
+  typescript: ^6.0.2
+  svelte-check: ^4.4.8
+  '@types/node': ^22.15.0
+  # backend + auth
+  convex: ^1.39.1
+  convex-svelte: ^0.14.0
+  '@convex-dev/auth': ^0.0.92
+  '@auth/core': 0.37.0
+  # ui
+  bits-ui: ^2.18.1
+  '@lucide/svelte': ^1.20.0
+  # validation
+  zod: ^4.3.6
+  # testing
+  vitest: ^4.1.6
+  '@testing-library/svelte': ^5.2.0
+  jsdom: ^29.1.1
+  '@playwright/test': ^1.60.0
+  # lint + format
+  prettier: ^3.8.4
+  prettier-plugin-svelte: ^3.5.1
+  eslint: ^9.0.0
+  typescript-eslint: ^8.0.0
+  eslint-plugin-svelte: ^3.0.0
+  eslint-config-prettier: ^10.0.0
+  globals: ^16.0.0
+  # web deploy
+  wrangler: ^4.90.1
+
+catalogs:
+  electron:
+    electron: ^38.3.0
+    electron-builder: ^26.0.12
+    concurrently: ^9.2.3
+    wait-on: ^7.2.0
+    cross-env: ^7.0.3
+  capacitor:
+    '@capacitor/core': ^8.2.0
+    '@capacitor/cli': ^8.2.0
+    '@capacitor/android': ^8.2.0
+    '@capacitor/ios': ^8.2.0
+    '@capacitor/app': ^8.0.0
+    '@capacitor/status-bar': ^8.0.0
+    '@capacitor/splash-screen': ^8.0.0
+
+# Dependencies allowed to run postinstall build scripts (pnpm 10).
+allowBuilds:
+  esbuild: true
+  electron: true
+  workerd: true
+  sharp: true

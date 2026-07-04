@@ -1,0 +1,38 @@
+{
+	"name": "@svelocity/ui",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Shared Svelte 5 components — Bits UI primitives styled with Svelocity tokens.",
+	"license": "MIT",
+	"type": "module",
+	"svelte": "./src/index.ts",
+	"exports": {
+		".": {
+			"svelte": "./src/index.ts",
+			"default": "./src/index.ts"
+		}
+	},
+	"scripts": {
+		"check": "svelte-check --tsconfig ./tsconfig.json",
+		"test": "vitest run --passWithNoTests"
+	},
+	"dependencies": {
+		"bits-ui": "catalog:",
+		"@lucide/svelte": "catalog:",
+		"@svelocity/theme": "workspace:*"
+	},
+	"peerDependencies": {
+		"svelte": "catalog:"
+	},
+	"devDependencies": {
+		"@svelocity/config": "workspace:*",
+		"svelte": "catalog:",
+		"svelte-check": "catalog:",
+		"typescript": "catalog:",
+		"vitest": "catalog:",
+		"jsdom": "catalog:",
+		"@testing-library/svelte": "catalog:",
+		"@sveltejs/vite-plugin-svelte": "catalog:",
+		"vite": "catalog:"
+	}
+}

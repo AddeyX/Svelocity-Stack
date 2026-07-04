@@ -1,0 +1,10 @@
+{
+	"name": "web",
+	"version": "0.1.0",
+	"private": true,
+	"description": "SvelteKit web shell — implemented in Phase 3.",
+	"type": "module",
+	"devDependencies": {
+		"@svelocity/config": "workspace:*"
+	}
+}

@@ -1,0 +1,10 @@
+{
+	"name": "mobile",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Capacitor mobile shell — implemented in Phase 5.",
+	"type": "module",
+	"devDependencies": {
+		"@svelocity/config": "workspace:*"
+	}
+}

@@ -1,0 +1,4 @@
+{
+	"extends": "@svelocity/config/tsconfig/base",
+	"include": ["src/**/*.ts"]
+}
