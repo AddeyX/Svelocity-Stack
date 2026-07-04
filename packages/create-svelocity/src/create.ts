@@ -13,21 +13,17 @@ import {
 import { defineCommand, runMain } from 'citty';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import validateNpmName from 'validate-npm-package-name';
 import { buildManifest, writeProjectManifest } from './commands/create/manifest.js';
 import { nextSteps } from './commands/create/next-steps.js';
 import { scaffold } from './commands/create/scaffold.js';
 import { colors } from './lib/output.js';
+import { cliVersion, pkgRoot } from './lib/pkg.js';
 import { commandVersion, run } from './lib/proc.js';
 import { isValidAppId, toAppId, toDisplayName, type TokenMap } from './lib/tokens.js';
 import { MIN_NODE, MIN_PNPM, satisfiesMin } from './lib/versions.js';
 
-const pkgRoot = resolve(fileURLToPath(import.meta.url), '../..');
 const templateDir = join(pkgRoot, 'template');
-const cliPkg = JSON.parse(readFileSync(join(pkgRoot, 'package.json'), 'utf8')) as {
-	version: string;
-};
 
 function fail(message: string): never {
 	console.error(`${colors.red('x')} ${message}`);
@@ -45,7 +41,7 @@ function guard<T>(value: T | symbol): T {
 const main = defineCommand({
 	meta: {
 		name: 'create-svelocity',
-		version: cliPkg.version,
+		version: cliVersion,
 		description: 'Scaffold a Svelocity Stack project'
 	},
 	args: {
@@ -166,7 +162,7 @@ const main = defineCommand({
 		writeProjectManifest(
 			targetDir,
 			buildManifest({
-				cliVersion: cliPkg.version,
+				cliVersion,
 				stackVersion: rootPkg.version ?? '0.1.0',
 				packageManager: rootPkg.packageManager ?? 'pnpm@10.0.0'
 			})

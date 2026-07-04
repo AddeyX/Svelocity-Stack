@@ -1,17 +1,10 @@
 #!/usr/bin/env node
 import { defineCommand, runMain } from 'citty';
-import { readFileSync } from 'node:fs';
-import { join, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { runDoctor } from './commands/doctor/run.js';
 import { renderInfo } from './commands/info/info.js';
 import { findProjectRoot, readManifest } from './lib/manifest.js';
 import { colors, glyph } from './lib/output.js';
-
-const pkgRoot = resolve(fileURLToPath(import.meta.url), '../..');
-const cliPkg = JSON.parse(readFileSync(join(pkgRoot, 'package.json'), 'utf8')) as {
-	version: string;
-};
+import { cliVersion } from './lib/pkg.js';
 
 const doctor = defineCommand({
 	meta: { name: 'doctor', description: 'Static health checks for a Svelocity project' },
@@ -50,7 +43,7 @@ runMain(
 	defineCommand({
 		meta: {
 			name: 'svelocity',
-			version: cliPkg.version,
+			version: cliVersion,
 			description: 'Svelocity Stack project tooling'
 		},
 		subCommands: { doctor, info }
