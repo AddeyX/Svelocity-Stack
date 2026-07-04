@@ -1,0 +1,38 @@
+name: CLI golden path
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: cli-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cli:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        # version comes from packageManager field in package.json
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install (frozen lockfile - fails on drift)
+        run: pnpm install --frozen-lockfile
+
+      - name: Unit tests + typecheck
+        run: |
+          pnpm --filter create-svelocity check
+          pnpm --filter create-svelocity test
+
+      - name: Generate and validate golden path
+        run: CLI_INTEGRATION=1 pnpm --filter create-svelocity test -- tests/integration.spec.ts
+        env:
+          CI: 'true'
