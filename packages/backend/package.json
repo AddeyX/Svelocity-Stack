@@ -1,0 +1,27 @@
+{
+	"name": "@svelocity/backend",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Shared Convex backend — schema, functions, auth config, and the generated API consumed by all three apps.",
+	"license": "MIT",
+	"type": "module",
+	"exports": {
+		".": "./convex/_generated/api.js",
+		"./dataModel": "./convex/_generated/dataModel.d.ts"
+	},
+	"scripts": {
+		"dev": "convex dev",
+		"gen": "convex codegen",
+		"check": "pnpm gen && tsc -p tsconfig.json"
+	},
+	"dependencies": {
+		"convex": "catalog:",
+		"@convex-dev/auth": "catalog:",
+		"@auth/core": "catalog:",
+		"@svelocity/app-core": "workspace:*"
+	},
+	"devDependencies": {
+		"@svelocity/config": "workspace:*",
+		"typescript": "catalog:"
+	}
+}

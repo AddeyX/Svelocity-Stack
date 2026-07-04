@@ -2,20 +2,33 @@
 	"name": "@svelocity/auth",
 	"version": "0.1.0",
 	"private": true,
-	"description": "Convex Auth client helpers — sign-in/out wrappers, session types, route guards.",
+	"description": "Convex Auth client helpers — sign-in/out wrappers, session state, route guards.",
 	"license": "MIT",
 	"type": "module",
+	"svelte": "./src/index.ts",
 	"exports": {
-		".": "./src/index.ts"
+		".": {
+			"svelte": "./src/index.ts",
+			"default": "./src/index.ts"
+		}
 	},
 	"scripts": {
-		"check": "tsc -p tsconfig.json"
+		"check": "tsc -p tsconfig.json",
+		"test": "vitest run"
 	},
 	"dependencies": {
 		"convex": "catalog:"
 	},
+	"peerDependencies": {
+		"svelte": "catalog:"
+	},
 	"devDependencies": {
 		"@svelocity/config": "workspace:*",
-		"typescript": "catalog:"
+		"svelte": "catalog:",
+		"svelte-check": "catalog:",
+		"typescript": "catalog:",
+		"vitest": "catalog:",
+		"@sveltejs/vite-plugin-svelte": "catalog:",
+		"vite": "catalog:"
 	}
 }

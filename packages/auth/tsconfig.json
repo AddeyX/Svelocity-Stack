@@ -1,4 +1,4 @@
 {
-	"extends": "@svelocity/config/tsconfig/base",
+	"extends": "@svelocity/config/tsconfig/svelte",
 	"include": ["src/**/*.ts"]
 }

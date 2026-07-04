@@ -2,9 +2,36 @@
 	"name": "web",
 	"version": "0.1.0",
 	"private": true,
-	"description": "SvelteKit web shell — implemented in Phase 3.",
+	"description": "Svelocity web shell — SvelteKit + Convex + Shared Tasks demo, deploys to Cloudflare.",
 	"type": "module",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"prepare": "svelte-kit sync || echo ''",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"convex:dev": "pnpm --filter @svelocity/backend dev",
+		"test:e2e": "playwright test"
+	},
+	"dependencies": {
+		"@svelocity/app-core": "workspace:*",
+		"@svelocity/auth": "workspace:*",
+		"@svelocity/backend": "workspace:*",
+		"@svelocity/env": "workspace:*",
+		"@svelocity/theme": "workspace:*",
+		"@svelocity/ui": "workspace:*",
+		"convex": "catalog:",
+		"convex-svelte": "catalog:"
+	},
 	"devDependencies": {
-		"@svelocity/config": "workspace:*"
+		"@playwright/test": "catalog:",
+		"@svelocity/config": "workspace:*",
+		"@sveltejs/adapter-cloudflare": "catalog:",
+		"@sveltejs/kit": "catalog:",
+		"@sveltejs/vite-plugin-svelte": "catalog:",
+		"svelte": "catalog:",
+		"svelte-check": "catalog:",
+		"typescript": "catalog:",
+		"vite": "catalog:"
 	}
 }

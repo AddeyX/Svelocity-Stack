@@ -39,7 +39,10 @@ export default tseslint.config(
 			'@typescript-eslint/no-unused-vars': [
 				'error',
 				{ argsIgnorePattern: '^_', varsIgnorePattern: '^_' }
-			]
+			],
+			// Svelocity apps don't set a base path; requiring resolve() on every
+			// static href/goto adds friction without payoff in this template.
+			'svelte/no-navigation-without-resolve': 'off'
 		}
 	},
 	{

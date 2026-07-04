@@ -1,0 +1,11 @@
+{
+	"stackVersion": "0.1.0",
+	"createdWith": "create-svelocity@0.1.0",
+	"targets": ["web"],
+	"ui": "bits-ui",
+	"auth": "convex-auth",
+	"backend": "convex",
+	"packageManager": "pnpm@10.33.2",
+	"aiTargets": [],
+	"skills": []
+}

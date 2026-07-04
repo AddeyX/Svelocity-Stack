@@ -34,9 +34,12 @@ Svelocity Stack v1 is an opinionated, AI-ready Svelte monorepo template for solo
 packages/config     — shared tsconfig, eslint, prettier, vite presets
 packages/theme      — design tokens (CSS custom properties)
 packages/ui         — shared Svelte components (Bits UI wrappers)
-packages/app-core   — business logic, Convex client wrappers, validation
+packages/app-core   — business logic, validation, domain types
 packages/auth       — Convex Auth helpers, session types, route guards
 packages/env        — typed environment parsing
+packages/backend    — shared Convex schema/functions + generated API
+                      (added Phase 3: one backend for all three apps;
+                      keeps the "apps never import apps" rule intact)
 ```
 
 **Deferred packages:** `platform`, `testing` (standalone), `assets` (inline in theme/ui for v1)

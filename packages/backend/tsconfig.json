@@ -1,0 +1,7 @@
+{
+	"extends": "@svelocity/config/tsconfig/base",
+	"compilerOptions": {
+		"verbatimModuleSyntax": false
+	},
+	"include": ["convex/**/*.ts"]
+}

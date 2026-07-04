@@ -8,9 +8,13 @@ export const clientEnvSchema = z.object({
 	PUBLIC_CONVEX_URL: z
 		.string()
 		.url()
-		.refine((u) => u.startsWith('https://') || u.startsWith('http://localhost'), {
-			message: 'PUBLIC_CONVEX_URL must be https (or localhost in dev)'
-		})
+		.refine(
+			(u) =>
+				u.startsWith('https://') ||
+				u.startsWith('http://localhost') ||
+				u.startsWith('http://127.0.0.1'),
+			{ message: 'PUBLIC_CONVEX_URL must be https (or localhost/127.0.0.1 in dev)' }
+		)
 });
 
 export type ClientEnv = z.infer<typeof clientEnvSchema>;
