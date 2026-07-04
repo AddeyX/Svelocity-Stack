@@ -15,6 +15,7 @@
 		"dev": "pnpm --filter web dev",
 		"dev:desktop": "pnpm --filter desktop dev",
 		"dev:mobile": "pnpm --filter mobile dev",
+		"dev:backend": "pnpm --filter backend dev",
 		"build": "pnpm -r build",
 		"check": "pnpm -r check",
 		"test": "pnpm -r test",
