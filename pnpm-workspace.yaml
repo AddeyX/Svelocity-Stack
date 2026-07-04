@@ -62,5 +62,6 @@ catalogs:
 allowBuilds:
   esbuild: true
   electron: true
+  electron-winstaller: true
   workerd: true
   sharp: true

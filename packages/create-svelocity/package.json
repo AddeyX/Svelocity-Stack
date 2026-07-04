@@ -24,7 +24,7 @@
 		"prepublishOnly": "pnpm build"
 	},
 	"devDependencies": {
-		"@clack/prompts": "^1.7.0",
+		"@clack/prompts": "1.6.0",
 		"@svelocity/config": "workspace:*",
 		"@types/node": "catalog:",
 		"@types/validate-npm-package-name": "^4.0.2",
