@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { readManifest, type Manifest } from '../../lib/manifest.js';
 import type { CheckStatus } from '../../lib/output.js';
-import { commandVersion } from '../../lib/proc.js';
+import { commandVersion, run } from '../../lib/proc.js';
 import { MIN_NODE, MIN_PNPM, satisfiesMin } from '../../lib/versions.js';
 
 export interface CheckResult {
@@ -175,10 +175,11 @@ export async function checkNativeTooling(): Promise<CheckResult[]> {
 				)
 	);
 	if (process.platform === 'darwin') {
-		const xcode = await commandVersion('xcodebuild');
+		const xcode = await run('xcodebuild', ['-version']);
+		const xcodeSummary = xcode.stdout.split('\n')[0] ?? 'xcodebuild';
 		results.push(
-			xcode
-				? result('native tooling', 'xcode', 'pass', xcode.split('\n')[0])
+			xcode.code === 0
+				? result('native tooling', 'xcode', 'pass', xcodeSummary)
 				: result('native tooling', 'xcode', 'warn', 'xcodebuild not found', 'install Xcode (needed for iOS builds only)')
 		);
 	}
