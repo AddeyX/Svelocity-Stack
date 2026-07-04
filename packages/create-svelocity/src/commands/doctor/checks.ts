@@ -21,6 +21,19 @@ const result = (
 	fix?: string
 ): CheckResult => ({ category, name, status, message, fix });
 
+function pkgHasDep(pkgPath: string, dep: string): boolean {
+	if (!existsSync(pkgPath)) return false;
+	try {
+		const pkg = JSON.parse(readFileSync(pkgPath, 'utf8')) as {
+			dependencies?: Record<string, string>;
+			devDependencies?: Record<string, string>;
+		};
+		return Boolean(pkg.dependencies?.[dep] ?? pkg.devDependencies?.[dep]);
+	} catch {
+		return false;
+	}
+}
+
 export async function checkEnvironment(): Promise<CheckResult[]> {
 	const results: CheckResult[] = [];
 	results.push(
@@ -104,8 +117,7 @@ export function checkConvex(root: string): CheckResult[] {
 			: result('convex', 'convex directory', 'fail', 'packages/backend/convex missing')
 	);
 	const backendPkg = join(root, 'packages/backend/package.json');
-	const hasConvexCli =
-		existsSync(backendPkg) && readFileSync(backendPkg, 'utf8').includes('"convex"');
+	const hasConvexCli = pkgHasDep(backendPkg, 'convex');
 	results.push(
 		hasConvexCli
 			? result('convex', 'convex cli dependency', 'pass', 'backend package includes convex')
@@ -118,9 +130,9 @@ export function checkConvex(root: string): CheckResult[] {
 				)
 	);
 	const envFiles = ['apps/web/.env.local', 'apps/web/.env', '.env.local', '.env'];
+	const setsConvexUrl = /^\s*PUBLIC_CONVEX_URL\s*=\s*\S/m;
 	const hasUrl = envFiles.some(
-		(f) =>
-			existsSync(join(root, f)) && readFileSync(join(root, f), 'utf8').includes('PUBLIC_CONVEX_URL')
+		(f) => existsSync(join(root, f)) && setsConvexUrl.test(readFileSync(join(root, f), 'utf8'))
 	);
 	results.push(
 		hasUrl
@@ -162,7 +174,7 @@ export function checkTargets(root: string, manifest: Manifest | null): CheckResu
 	}
 	if (targets.includes('desktop')) {
 		const pkgPath = join(root, 'apps/desktop/package.json');
-		const hasElectron = existsSync(pkgPath) && readFileSync(pkgPath, 'utf8').includes('"electron"');
+		const hasElectron = pkgHasDep(pkgPath, 'electron');
 		results.push(
 			hasElectron
 				? result('targets', 'desktop app', 'pass', 'apps/desktop with electron dep')

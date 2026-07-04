@@ -65,6 +65,23 @@ describe('checkConvex', () => {
 		writeFileSync(join(root, 'apps/web/.env.local'), 'PUBLIC_CONVEX_URL=http://127.0.0.1:3210\n');
 		expect(checkConvex(root).find((r) => r.name === 'PUBLIC_CONVEX_URL')?.status).toBe('pass');
 	});
+
+	it('warns when PUBLIC_CONVEX_URL is only a commented-out line', () => {
+		const root = makeProject();
+		writeFileSync(join(root, 'apps/web/.env.local'), '# PUBLIC_CONVEX_URL=\n');
+		expect(checkConvex(root).find((r) => r.name === 'PUBLIC_CONVEX_URL')?.status).toBe('warn');
+	});
+
+	it('does not treat a "convex" script as the cli dependency', () => {
+		const root = makeProject();
+		writeFileSync(
+			join(root, 'packages/backend/package.json'),
+			'{"scripts":{"convex":"convex dev"},"dependencies":{}}'
+		);
+		expect(checkConvex(root).find((r) => r.name === 'convex cli dependency')?.status).toBe(
+			'warn'
+		);
+	});
 });
 
 describe('checkTargets', () => {
