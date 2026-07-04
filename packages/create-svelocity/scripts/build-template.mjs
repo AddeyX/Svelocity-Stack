@@ -16,7 +16,7 @@ import {
 	statSync,
 	writeFileSync
 } from 'node:fs';
-import { dirname, join, relative, resolve, sep } from 'node:path';
+import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const pkgRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -53,7 +53,8 @@ const EXCLUDE_PATHS = new Set([
 	'docs/V1.1-BACKLOG.md',
 	'docs/RISKS.md',
 	'docs/Svelocity-Stack-PR.md',
-	'README.md'
+	'README.md',
+	'LICENSE'
 ]);
 
 const DOTFILE_RENAMES = new Map([
@@ -85,7 +86,7 @@ function toPosix(path) {
 
 function isInside(parent, child) {
 	const rel = relative(parent, child);
-	return rel !== '' && !rel.startsWith('..') && !resolve(rel).startsWith('..');
+	return rel !== '' && !rel.startsWith('..') && !isAbsolute(rel);
 }
 
 function excluded(rel, name) {

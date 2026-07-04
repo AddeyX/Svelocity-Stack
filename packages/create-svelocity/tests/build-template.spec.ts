@@ -30,7 +30,8 @@ describe('build-template', () => {
 			'docs/V1-SCOPE.md',
 			'.svelocity/manifest.json',
 			'apps/desktop/release',
-			'apps/web/.wrangler'
+			'apps/web/.wrangler',
+			'LICENSE'
 		]) {
 			expect(existsSync(join(out, p)), `${p} should be excluded`).toBe(false);
 		}

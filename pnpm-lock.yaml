@@ -448,9 +448,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
-      unrun:
-        specifier: 0.3.1
-        version: 0.3.1
       validate-npm-package-name:
         specifier: ^8.0.0
         version: 8.0.0
@@ -7245,6 +7242,7 @@ snapshots:
   unrun@0.3.1:
     dependencies:
       rolldown: 1.1.4
+    optional: true
 
   untildify@4.0.0: {}
 

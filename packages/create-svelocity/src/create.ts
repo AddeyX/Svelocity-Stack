@@ -18,7 +18,7 @@ import { buildManifest, writeProjectManifest } from './commands/create/manifest.
 import { nextSteps } from './commands/create/next-steps.js';
 import { scaffold } from './commands/create/scaffold.js';
 import { targetDirProblem } from './commands/create/target-dir.js';
-import { colors } from './lib/output.js';
+import { colors, glyph } from './lib/output.js';
 import { cliVersion, pkgRoot } from './lib/pkg.js';
 import { commandVersion, run } from './lib/proc.js';
 import { isValidAppId, toAppId, toDisplayName, type TokenMap } from './lib/tokens.js';
@@ -27,7 +27,7 @@ import { MIN_NODE, MIN_PNPM, satisfiesMin } from './lib/versions.js';
 const templateDir = join(pkgRoot, 'template');
 
 function fail(message: string): never {
-	console.error(`${colors.red('x')} ${message}`);
+	console.error(`${glyph('fail')} ${message}`);
 	process.exit(1);
 }
 
@@ -175,14 +175,14 @@ const main = defineCommand({
 					cwd: targetDir
 				});
 				if (commit.code === 0) {
-					console.log(`${colors.green('v')} git repository initialized`);
+					console.log(`${glyph('pass')} git repository initialized`);
 				} else {
 					console.log(
-						`${colors.yellow('!')} git init succeeded; initial commit failed - continuing`
+						`${glyph('warn')} git init succeeded; initial commit failed - continuing`
 					);
 				}
 			} else {
-				console.log(`${colors.yellow('!')} git init failed - continuing without git`);
+				console.log(`${glyph('warn')} git init failed - continuing without git`);
 			}
 		}
 
