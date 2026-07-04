@@ -30,4 +30,12 @@ describe('derivations', () => {
 		expect(isValidAppId('com..acme')).toBe(false);
 		expect(isValidAppId('com.9acme')).toBe(false);
 	});
+
+	it('keeps derived app ids valid when the name starts with a digit', () => {
+		expect(isValidAppId(toAppId('123-app'))).toBe(true);
+	});
+
+	it('handles names that sanitize to nothing', () => {
+		expect(isValidAppId(toAppId('---'))).toBe(true);
+	});
 });

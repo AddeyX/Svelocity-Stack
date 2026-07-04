@@ -16,12 +16,16 @@ export function toDisplayName(name: string): string {
 	return name
 		.split(/[-_]+/)
 		.filter(Boolean)
-		.map((word) => word[0].toUpperCase() + word.slice(1))
+		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 		.join(' ');
 }
 
 export function toAppId(name: string): string {
-	return `com.example.${name.replace(/[^a-zA-Z0-9]/g, '').toLowerCase()}`;
+	let segment = name.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+	if (!segment || !/^[a-zA-Z]/.test(segment)) {
+		segment = `app${segment}`;
+	}
+	return `com.example.${segment}`;
 }
 
 export function isValidAppId(id: string): boolean {
