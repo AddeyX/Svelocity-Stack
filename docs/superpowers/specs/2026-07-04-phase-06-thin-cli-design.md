@@ -28,6 +28,9 @@ publish/test time. No separately maintained template copy.
 | Convex setup during create | Print instructions only; never spawn the Convex CLI | Create cannot hang on interactive login/network; both prompt paths end in printed next steps |
 | Package scope in output | Generated projects keep `@svelocity/*` internal package names | Imports stay stable; skills/docs reference them; scope rename deferred to v1.1 |
 | Docs in output | Trim to user-facing: keep README (tokenized), CONVENTIONS, COMPATIBILITY, `adr/`; exclude `docs/phases`, `docs/superpowers`, V1-SCOPE, V1.1-BACKLOG, RISKS, PR doc | Generated project reads like a product, not the stack's build log |
+| Native ios/android dirs | Excluded from template; next steps print `pnpm --filter mobile exec cap add ios android` | App ID `dev.svelocity.tasks` is baked into pbxproj, build.gradle, strings.xml, and the Java package directory path — rewriting all of that at scaffold is the riskiest surface in the phase. `cap add` regenerates natives with the correct tokenized appId/appName from `capacitor.config.ts`. Doctor treats missing natives as WARN with the fix command. |
+| Generated README | Replaced wholesale from `assets/README.template.md` in the CLI package (contains tokens) | The stack README describes the stack, not a generated product; swapping is cleaner than tokenizing |
+| `.github/` | Excluded from template | Stack CI references `packages/create-svelocity` and stack-only jobs; broken CI in a fresh project is worse than none. Tailored workflow = v1.1 |
 
 ## Architecture
 
@@ -111,7 +114,7 @@ Static checks only. Runs from any subdirectory of a project (walks up to find
 | Manifest | valid vs bundled schema; `stackVersion` recognized | FAIL |
 | Convex | `packages/backend/convex/` exists; `CONVEX_URL`/`PUBLIC_CONVEX_URL` env set; convex CLI resolvable | FAIL (env: WARN) |
 | Auth | Convex Auth config present in backend; auth env vars (JWT_PRIVATE_KEY etc.) | WARN |
-| Targets | per manifest target: `apps/web`, `apps/desktop` (Electron deps), `apps/mobile` (capacitor config + native dirs) | FAIL |
+| Targets | per manifest target: `apps/web`, `apps/desktop` (Electron deps), `apps/mobile` (capacitor config; native dirs missing → WARN + `cap add` hint) | FAIL (native dirs: WARN) |
 | Native tooling | Android SDK detected; Xcode detected (macOS only) | WARN only |
 
 Summary table at end (PASS/WARN/FAIL counts). Exit 1 if any FAIL, else 0.
