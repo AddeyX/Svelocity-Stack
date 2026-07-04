@@ -1,0 +1,4 @@
+{
+	"extends": "@svelocity/config/tsconfig/node",
+	"include": ["electron/**/*.ts"]
+}

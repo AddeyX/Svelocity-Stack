@@ -17,6 +17,7 @@ export default tseslint.config(
 		ignores: [
 			'**/node_modules/**',
 			'**/dist/**',
+			'**/dist-electron/**',
 			'**/build/**',
 			'**/.svelte-kit/**',
 			'**/_generated/**',

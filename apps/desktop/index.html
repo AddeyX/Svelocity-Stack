@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<!-- Renderer CSP: self + inline styles (Svelte) + ws/http(s) for Convex. -->
+		<meta
+			http-equiv="Content-Security-Policy"
+			content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https: http://127.0.0.1:* http://localhost:* ws://127.0.0.1:* ws://localhost:* wss:;"
+		/>
+		<title>Shared Tasks</title>
+	</head>
+	<body>
+		<div id="app"></div>
+		<script type="module" src="/src/main.ts"></script>
+	</body>
+</html>

@@ -2,9 +2,42 @@
 	"name": "desktop",
 	"version": "0.1.0",
 	"private": true,
-	"description": "Electron desktop shell — implemented in Phase 4.",
+	"description": "Svelocity desktop shell — secure Electron app running the Shared Tasks demo.",
 	"type": "module",
+	"main": "dist-electron/main.js",
+	"scripts": {
+		"dev": "concurrently -n vite,electron -c blue,green \"vite\" \"wait-on http://localhost:5174 && pnpm build:electron && cross-env NODE_ENV=development ELECTRON_DISABLE_SECURITY_WARNINGS=true electron .\"",
+		"build:renderer": "vite build",
+		"build:main": "vite build -c vite.main.config.ts",
+		"build:preload": "vite build -c vite.preload.config.ts",
+		"build:electron": "pnpm build:main && pnpm build:preload",
+		"build": "pnpm build:renderer && pnpm build:electron",
+		"start": "electron .",
+		"package": "pnpm build && electron-builder --config electron-builder.json",
+		"check": "svelte-check --tsconfig ./tsconfig.json && tsc -p tsconfig.electron.json"
+	},
+	"dependencies": {
+		"@svelocity/app-core": "workspace:*",
+		"@svelocity/auth": "workspace:*",
+		"@svelocity/backend": "workspace:*",
+		"@svelocity/env": "workspace:*",
+		"@svelocity/theme": "workspace:*",
+		"@svelocity/ui": "workspace:*",
+		"convex": "catalog:",
+		"convex-svelte": "catalog:"
+	},
 	"devDependencies": {
-		"@svelocity/config": "workspace:*"
+		"@svelocity/config": "workspace:*",
+		"@sveltejs/vite-plugin-svelte": "catalog:",
+		"@types/node": "catalog:",
+		"concurrently": "catalog:electron",
+		"cross-env": "catalog:electron",
+		"electron": "catalog:electron",
+		"electron-builder": "catalog:electron",
+		"svelte": "catalog:",
+		"svelte-check": "catalog:",
+		"typescript": "catalog:",
+		"vite": "catalog:",
+		"wait-on": "catalog:electron"
 	}
 }

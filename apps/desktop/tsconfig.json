@@ -1,0 +1,7 @@
+{
+	"extends": "@svelocity/config/tsconfig/svelte",
+	"compilerOptions": {
+		"types": ["svelte", "vite/client"]
+	},
+	"include": ["src/**/*.ts", "src/**/*.svelte"]
+}

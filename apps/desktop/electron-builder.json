@@ -1,0 +1,21 @@
+{
+	"$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
+	"appId": "dev.svelocity.tasks",
+	"productName": "Shared Tasks",
+	"directories": {
+		"output": "release"
+	},
+	"files": ["dist/**", "dist-electron/**", "package.json"],
+	"mac": {
+		"category": "public.app-category.productivity",
+		"target": [{ "target": "dmg", "arch": ["arm64"] }],
+		"identity": null
+	},
+	"win": {
+		"target": [{ "target": "nsis", "arch": ["x64"] }]
+	},
+	"linux": {
+		"target": [{ "target": "AppImage", "arch": ["x64"] }],
+		"category": "Utility"
+	}
+}
