@@ -1,0 +1,38 @@
+{
+	"name": "create-svelocity",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Scaffold a Svelocity Stack project — web, desktop, and mobile from one shared core.",
+	"license": "MIT",
+	"type": "module",
+	"bin": {
+		"create-svelocity": "./dist/create.js",
+		"svelocity": "./dist/cli.js"
+	},
+	"files": [
+		"dist",
+		"template"
+	],
+	"engines": {
+		"node": ">=22"
+	},
+	"scripts": {
+		"build:template": "node scripts/build-template.mjs",
+		"build": "pnpm build:template && tsdown",
+		"check": "tsc -p tsconfig.json",
+		"test": "vitest run",
+		"prepublishOnly": "pnpm build"
+	},
+	"devDependencies": {
+		"@clack/prompts": "^1.7.0",
+		"@svelocity/config": "workspace:*",
+		"@types/node": "catalog:",
+		"@types/validate-npm-package-name": "^4.0.2",
+		"citty": "^0.2.2",
+		"picocolors": "^1.1.1",
+		"tsdown": "^0.22.3",
+		"typescript": "catalog:",
+		"validate-npm-package-name": "^8.0.0",
+		"vitest": "catalog:"
+	}
+}
