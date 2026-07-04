@@ -7,6 +7,7 @@
 import {
 	cpSync,
 	existsSync,
+	mkdtempSync,
 	mkdirSync,
 	readdirSync,
 	readFileSync,
@@ -20,7 +21,10 @@ import { fileURLToPath } from 'node:url';
 
 const pkgRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const repoRoot = resolve(pkgRoot, '../..');
-const out = process.env.TEMPLATE_OUT ?? join(pkgRoot, 'template');
+const finalOut = process.env.TEMPLATE_OUT ?? join(pkgRoot, 'template');
+const out = isInside(repoRoot, finalOut)
+	? mkdtempSync(join(dirname(repoRoot), '.svelocity-template-'))
+	: finalOut;
 
 const EXCLUDE_DIR_NAMES = new Set([
 	'node_modules',
@@ -79,6 +83,11 @@ function toPosix(path) {
 	return path.split(sep).join('/');
 }
 
+function isInside(parent, child) {
+	const rel = relative(parent, child);
+	return rel !== '' && !rel.startsWith('..') && !resolve(rel).startsWith('..');
+}
+
 function excluded(rel, name) {
 	if (EXCLUDE_DIR_NAMES.has(name)) return true;
 	if (EXCLUDE_PATHS.has(toPosix(rel))) return true;
@@ -132,4 +141,10 @@ for (const [rel, pairs] of TOKENIZE) {
 
 cpSync(join(pkgRoot, 'assets/README.template.md'), join(out, 'README.md'));
 
-console.log(`template written to ${out}`);
+if (out !== finalOut) {
+	rmSync(finalOut, { recursive: true, force: true });
+	mkdirSync(dirname(finalOut), { recursive: true });
+	renameSync(out, finalOut);
+}
+
+console.log(`template written to ${finalOut}`);

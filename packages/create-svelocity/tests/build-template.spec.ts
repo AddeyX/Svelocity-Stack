@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdtempSync, readFileSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -71,5 +71,17 @@ describe('build-template', () => {
 	it('leaves @svelocity/* package names untouched', () => {
 		const ui = readFileSync(join(out, 'packages/ui/package.json'), 'utf8');
 		expect(ui).toContain('"@svelocity/ui"');
+	});
+
+	it('writes default template inside the package', () => {
+		const defaultOut = join(pkgRoot, 'template');
+		rmSync(defaultOut, { recursive: true, force: true });
+		const { TEMPLATE_OUT: _templateOut, ...env } = process.env;
+		execFileSync('node', [join(pkgRoot, 'scripts/build-template.mjs')], {
+			env,
+			stdio: 'pipe'
+		});
+		expect(existsSync(join(defaultOut, 'pnpm-workspace.yaml'))).toBe(true);
+		rmSync(defaultOut, { recursive: true, force: true });
 	});
 });
