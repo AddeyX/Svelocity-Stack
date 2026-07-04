@@ -8,21 +8,21 @@
 
 ## Exit Criteria
 
-- [ ] `pnpm --filter mobile dev` serves app for mobile testing
-- [ ] `pnpm --filter mobile sync` generates native projects
+- [x] `pnpm --filter mobile dev` serves app for mobile testing
+- [x] `pnpm --filter mobile sync` generates native projects
 - [ ] Android project compiles locally
-- [ ] iOS project compiles on macOS (if available)
-- [ ] Shared Tasks demo works in simulator/emulator
-- [ ] Auth and Convex real-time work on mobile
-- [ ] Safe areas and touch targets meet mobile baseline
+- [x] iOS project compiles on macOS (if available)
+- [x] Shared Tasks demo works in simulator/emulator
+- [x] Auth and Convex real-time work on mobile
+- [x] Safe areas and touch targets meet mobile baseline
 
 ---
 
 ## 5.1 — Capacitor App Scaffold
 
-- [ ] Initialize `apps/mobile` with Vite + Svelte (SPA, same pattern as desktop)
-- [ ] Add Capacitor dependencies via pnpm catalog
-- [ ] Structure:
+- [x] Initialize `apps/mobile` with Vite + Svelte (SPA, same pattern as desktop)
+- [x] Add Capacitor dependencies via pnpm catalog
+- [x] Structure:
   ```text
   apps/mobile/
   ├── capacitor.config.ts
@@ -33,130 +33,130 @@
   │   └── main.ts
   └── package.json
   ```
-- [ ] Wire `@svelocity/config` tooling
-- [ ] Import `@svelocity/theme/tokens.css`
+- [x] Wire `@svelocity/config` tooling
+- [x] Import `@svelocity/theme/tokens.css`
 
 ## 5.2 — Capacitor Configuration
 
-- [ ] Create `capacitor.config.ts` with app ID, name, webDir
-- [ ] Set `appId`: e.g. `com.svelocity.tasks`
-- [ ] Set `appName`: "Shared Tasks" (or project name)
-- [ ] Configure `webDir` to Vite build output
-- [ ] Set `server.url` for live reload in dev (optional)
-- [ ] Add Android and iOS platforms: `npx cap add android`, `npx cap add ios`
+- [x] Create `capacitor.config.ts` with app ID, name, webDir
+- [x] Set `appId`: e.g. `com.svelocity.tasks`
+- [x] Set `appName`: "Shared Tasks" (or project name)
+- [x] Configure `webDir` to Vite build output
+- [x] Set `server.url` for live reload in dev (optional)
+- [x] Add Android and iOS platforms: `npx cap add android`, `npx cap add ios`
 
 ## 5.3 — Renderer App (Svelte SPA)
 
-- [ ] Reuse `@svelocity/app-core` task logic
-- [ ] Reuse `@svelocity/auth` client helpers
-- [ ] Reuse `@svelocity/ui` components
-- [ ] Build views:
-  - [ ] Login view
-  - [ ] Tasks view
-- [ ] Client-side routing matching desktop pattern
-- [ ] Connect to same Convex deployment
+- [x] Reuse `@svelocity/app-core` task logic
+- [x] Reuse `@svelocity/auth` client helpers
+- [x] Reuse `@svelocity/ui` components
+- [x] Build views:
+  - [x] Login view
+  - [x] Tasks view
+- [x] Client-side routing matching desktop pattern
+- [x] Connect to same Convex deployment
 
 ## 5.4 — Mobile Shell UI
 
-- [ ] `MobileShell.svelte` — app shell with safe areas
-- [ ] Bottom navigation or mobile-appropriate nav pattern
-- [ ] Show platform badge ("Mobile") in demo header
-- [ ] Apply `packages/theme/platform/mobile.css` overrides:
-  - [ ] `env(safe-area-inset-*)`
-  - [ ] Minimum 44px touch targets
-  - [ ] Disable hover-dependent interactions
-- [ ] Responsive layout for phone screen sizes
-- [ ] Handle keyboard overlap on input fields
+- [x] `MobileShell.svelte` — app shell with safe areas
+- [x] Bottom navigation or mobile-appropriate nav pattern
+- [x] Show platform badge ("Mobile") in demo header
+- [x] Apply `packages/theme/platform/mobile.css` overrides:
+  - [x] `env(safe-area-inset-*)`
+  - [x] Minimum 44px touch targets
+  - [x] Disable hover-dependent interactions
+- [x] Responsive layout for phone screen sizes
+- [x] Handle keyboard overlap on input fields
 
 ## 5.5 — Convex Client on Mobile
 
-- [ ] Configure Convex client for Capacitor WebView
-- [ ] Use same `PUBLIC_CONVEX_URL` env
-- [ ] Test auth session persistence in WebView
-- [ ] Test real-time sync: mobile + browser simultaneously
-- [ ] Handle app backgrounding/foregrounding (session refresh)
+- [x] Configure Convex client for Capacitor WebView
+- [x] Use same `PUBLIC_CONVEX_URL` env
+- [x] Test auth session persistence in WebView
+- [x] Test real-time sync: mobile + browser simultaneously
+- [x] Handle app backgrounding/foregrounding (session refresh)
 
 ## 5.6 — Capacitor Plugins (Minimal)
 
-- [ ] `@capacitor/app` — app state, back button
-- [ ] `@capacitor/status-bar` — style status bar
-- [ ] `@capacitor/splash-screen` — splash on launch
-- [ ] Defer: camera, push, secure storage to v1.1
-- [ ] Document plugin policy: minimal for v1
+- [x] `@capacitor/app` — app state, back button
+- [x] `@capacitor/status-bar` — style status bar
+- [x] `@capacitor/splash-screen` — splash on launch
+- [x] Defer: camera, push, secure storage to v1.1
+- [x] Document plugin policy: minimal for v1
 
 ## 5.7 — Android Setup
 
-- [ ] Generate `android/` project via Capacitor
+- [x] Generate `android/` project via Capacitor
 - [ ] Verify Android Studio can open project
 - [ ] Set minimum SDK version (document choice)
-- [ ] Configure app icon placeholder
-- [ ] Configure splash screen
+- [x] Configure app icon placeholder
+- [x] Configure splash screen
 - [ ] `npx cap run android` works on emulator or device
-- [ ] Document JDK and Android SDK prerequisites
+- [x] Document JDK and Android SDK prerequisites
 
 ## 5.8 — iOS Setup
 
-- [ ] Generate `ios/` project via Capacitor
-- [ ] Verify Xcode can open workspace
-- [ ] Set deployment target (document choice)
-- [ ] Configure app icon placeholder
-- [ ] Configure splash screen
-- [ ] `npx cap run ios` works on simulator (macOS required)
-- [ ] Document Xcode and CocoaPods prerequisites
+- [x] Generate `ios/` project via Capacitor
+- [x] Verify Xcode can open workspace
+- [x] Set deployment target (document choice)
+- [x] Configure app icon placeholder
+- [x] Configure splash screen
+- [x] `npx cap run ios` works on simulator (macOS required)
+- [x] Document Xcode and CocoaPods prerequisites
 
 ## 5.9 — Environment and Config
 
-- [ ] `apps/mobile/.env.example`
-- [ ] Vite env for `PUBLIC_CONVEX_URL`
-- [ ] Use `@svelocity/env` for validation
-- [ ] Document that mobile uses same Convex deployment as web/desktop
+- [x] `apps/mobile/.env.example`
+- [x] Vite env for `PUBLIC_CONVEX_URL`
+- [x] Use `@svelocity/env` for validation
+- [x] Document that mobile uses same Convex deployment as web/desktop
 
 ## 5.10 — Dev Workflow
 
-- [ ] `pnpm --filter mobile dev` — Vite dev server
-- [ ] `pnpm --filter mobile build` — production web build
-- [ ] `pnpm --filter mobile sync` — `cap sync` after build
-- [ ] `pnpm --filter mobile open:android` — open Android Studio
-- [ ] `pnpm --filter mobile open:ios` — open Xcode
-- [ ] Document live reload setup for development
+- [x] `pnpm --filter mobile dev` — Vite dev server
+- [x] `pnpm --filter mobile build` — production web build
+- [x] `pnpm --filter mobile sync` — `cap sync` after build
+- [x] `pnpm --filter mobile open:android` — open Android Studio
+- [x] `pnpm --filter mobile open:ios` — open Xcode
+- [x] Document live reload setup for development
 
 ## 5.11 — Native Permissions (Minimal)
 
-- [ ] v1 demo should need no special permissions
-- [ ] Document how to add permissions when needed
-- [ ] Verify no unnecessary permissions in AndroidManifest or Info.plist
+- [x] v1 demo should need no special permissions
+- [x] Document how to add permissions when needed
+- [x] Verify no unnecessary permissions in AndroidManifest or Info.plist
 
 ## 5.12 — Testing
 
 - [ ] Smoke test on Android emulator: launch, login, create task
-- [ ] Smoke test on iOS simulator: launch, login, create task (if macOS)
-- [ ] Verify safe area padding on notched device profile
-- [ ] Verify touch targets are usable
-- [ ] Manual checklist for mobile-specific UX
+- [x] Smoke test on iOS simulator: launch, login, create task (if macOS)
+- [x] Verify safe area padding on notched device profile
+- [x] Verify touch targets are usable
+- [x] Manual checklist for mobile-specific UX
 
 ## 5.13 — Build Verification
 
-- [ ] `pnpm --filter mobile build` succeeds
-- [ ] `cap sync` succeeds after build
+- [x] `pnpm --filter mobile build` succeeds
+- [x] `cap sync` succeeds after build
 - [ ] Android debug APK builds
-- [ ] iOS debug build compiles (macOS)
-- [ ] Document release signing as manual (Phase 9 guide)
+- [x] iOS debug build compiles (macOS)
+- [x] Document release signing as manual (Phase 9 guide)
 
 ## 5.14 — Manifest Update
 
-- [ ] Add `mobile` to `.svelocity/manifest.json` targets
+- [x] Add `mobile` to `.svelocity/manifest.json` targets
 
 ## 5.15 — Documentation Stubs
 
-- [ ] `apps/mobile/README.md` — dev, sync, run commands
-- [ ] Prerequisites: Android Studio, Xcode, SDK versions
-- [ ] Common failures: CocoaPods, Gradle, WebView debugging
+- [x] `apps/mobile/README.md` — dev, sync, run commands
+- [x] Prerequisites: Android Studio, Xcode, SDK versions
+- [x] Common failures: CocoaPods, Gradle, WebView debugging
 
 ## 5.16 — Verification
 
-- [ ] Mobile app runs Shared Tasks end-to-end in emulator
-- [ ] Same Convex backend — tasks sync with web/desktop
-- [ ] No duplicated business logic
-- [ ] Safe areas and touch targets verified
-- [ ] `pnpm --filter mobile check && pnpm --filter mobile build` passes
-- [ ] Phase 6 (CLI) todo reviewed and unblocked
+- [x] Mobile app runs Shared Tasks end-to-end in emulator
+- [x] Same Convex backend — tasks sync with web/desktop
+- [x] No duplicated business logic
+- [x] Safe areas and touch targets verified
+- [x] `pnpm --filter mobile check && pnpm --filter mobile build` passes
+- [x] Phase 6 (CLI) todo reviewed and unblocked
