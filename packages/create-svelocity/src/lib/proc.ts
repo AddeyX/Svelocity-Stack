@@ -5,7 +5,7 @@ export function run(
 	args: string[],
 	opts: { cwd?: string; inherit?: boolean } = {}
 ): Promise<{ code: number; stdout: string }> {
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 		const child = spawn(cmd, args, {
 			cwd: opts.cwd,
 			stdio: opts.inherit ? 'inherit' : ['ignore', 'pipe', 'pipe'],
@@ -13,16 +13,12 @@ export function run(
 		});
 		let stdout = '';
 		child.stdout?.on('data', (chunk: Buffer) => (stdout += chunk.toString()));
-		child.on('error', reject);
+		child.on('error', () => resolve({ code: 1, stdout: '' }));
 		child.on('close', (code) => resolve({ code: code ?? 1, stdout: stdout.trim() }));
 	});
 }
 
 export async function commandVersion(cmd: string): Promise<string | null> {
-	try {
-		const { code, stdout } = await run(cmd, ['--version']);
-		return code === 0 ? stdout : null;
-	} catch {
-		return null;
-	}
+	const { code, stdout } = await run(cmd, ['--version']);
+	return code === 0 && stdout ? stdout : null;
 }
