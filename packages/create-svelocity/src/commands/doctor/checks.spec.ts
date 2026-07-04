@@ -12,6 +12,7 @@ function makeProject(): string {
 	}
 	writeFileSync(join(root, 'apps/mobile/capacitor.config.ts'), "appId: 'com.acme.app'");
 	writeFileSync(join(root, 'apps/desktop/package.json'), '{"devDependencies":{"electron":"^38.0.0"}}');
+	writeFileSync(join(root, 'packages/backend/package.json'), '{"dependencies":{"convex":"^1.0.0"}}');
 	return root;
 }
 
@@ -40,6 +41,7 @@ describe('checkConvex', () => {
 		const root = makeProject();
 		const results = checkConvex(root);
 		expect(results.find((r) => r.name === 'convex directory')?.status).toBe('pass');
+		expect(results.find((r) => r.name === 'convex cli dependency')?.status).toBe('pass');
 		expect(results.find((r) => r.name === 'PUBLIC_CONVEX_URL')?.status).toBe('warn');
 
 		const bare = mkdtempSync(join(tmpdir(), 'sv-noconvex-'));

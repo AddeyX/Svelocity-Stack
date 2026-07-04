@@ -92,6 +92,13 @@ export function checkConvex(root: string): CheckResult[] {
 			? result('convex', 'convex directory', 'pass', 'packages/backend/convex')
 			: result('convex', 'convex directory', 'fail', 'packages/backend/convex missing')
 	);
+	const backendPkg = join(root, 'packages/backend/package.json');
+	const hasConvexCli = existsSync(backendPkg) && readFileSync(backendPkg, 'utf8').includes('"convex"');
+	results.push(
+		hasConvexCli
+			? result('convex', 'convex cli dependency', 'pass', 'backend package includes convex')
+			: result('convex', 'convex cli dependency', 'warn', 'backend package does not include convex dependency', 'pnpm add convex --filter @svelocity/backend')
+	);
 	const envFiles = ['apps/web/.env.local', 'apps/web/.env', '.env.local', '.env'];
 	const hasUrl = envFiles.some(
 		(f) => existsSync(join(root, f)) && readFileSync(join(root, f), 'utf8').includes('PUBLIC_CONVEX_URL')
