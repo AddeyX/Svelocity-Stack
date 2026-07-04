@@ -39,6 +39,10 @@ gated('create-svelocity end to end', () => {
 		execFileSync('pnpm', ['-r', 'check'], { cwd: project, stdio: 'inherit' });
 	}, 900_000);
 
+	it('passes pnpm -r build', () => {
+		execFileSync('pnpm', ['-r', 'build'], { cwd: project, stdio: 'inherit' });
+	}, 900_000);
+
 	it('doctor exits 0 (no FAILs) in the generated project', () => {
 		execFileSync('node', [join(pkgRoot, 'dist/cli.js'), 'doctor'], {
 			cwd: project,
