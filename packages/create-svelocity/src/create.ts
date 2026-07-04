@@ -1,5 +1,15 @@
 #!/usr/bin/env node
-import { cancel, confirm, intro, isCancel, note, outro, select, spinner, text } from '@clack/prompts';
+import {
+	cancel,
+	confirm,
+	intro,
+	isCancel,
+	note,
+	outro,
+	select,
+	spinner,
+	text
+} from '@clack/prompts';
 import { defineCommand, runMain } from 'citty';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
@@ -52,7 +62,8 @@ const main = defineCommand({
 			fail(`Node ${MIN_NODE}+ required (you have ${process.version}). Install: https://nodejs.org`);
 		}
 		const pnpmVersion = await commandVersion('pnpm');
-		if (!pnpmVersion) fail('pnpm not found. Install: npm install -g pnpm  (or corepack enable pnpm)');
+		if (!pnpmVersion)
+			fail('pnpm not found. Install: npm install -g pnpm  (or corepack enable pnpm)');
 		if (!satisfiesMin(pnpmVersion, MIN_PNPM)) {
 			fail(`pnpm ${MIN_PNPM}+ required (you have ${pnpmVersion}). Upgrade: npm install -g pnpm`);
 		}
@@ -99,11 +110,13 @@ const main = defineCommand({
 				await text({
 					message: 'App id (reverse-DNS, used by desktop + mobile builds)',
 					initialValue: toAppId(name),
-					validate: (value) => (isValidAppId(value ?? '') ? undefined : 'must look like com.acme.app')
+					validate: (value) =>
+						isValidAppId(value ?? '') ? undefined : 'must look like com.acme.app'
 				})
 			);
 		}
-		if (!isValidAppId(appId)) fail(`invalid app id ${JSON.stringify(appId)} - must look like com.acme.app`);
+		if (!isValidAppId(appId))
+			fail(`invalid app id ${JSON.stringify(appId)} - must look like com.acme.app`);
 
 		note(
 			[
@@ -121,18 +134,28 @@ const main = defineCommand({
 					await select({
 						message: 'Convex backend setup',
 						options: [
-							{ value: false, label: "I'll set up Convex later", hint: 'instructions printed at end' },
+							{
+								value: false,
+								label: "I'll set up Convex later",
+								hint: 'instructions printed at end'
+							},
 							{ value: true, label: 'Show me Convex walkthrough now' }
 						]
 					})
 				) === true;
 		}
-		const doGit = args.yes ? args.git : guard(await confirm({ message: 'Initialize git repository?', initialValue: args.git }));
+		const doGit = args.yes
+			? args.git
+			: guard(await confirm({ message: 'Initialize git repository?', initialValue: args.git }));
 		const doInstall = args.yes
 			? args.install
 			: guard(await confirm({ message: 'Install dependencies?', initialValue: args.install }));
 
-		const tokens: TokenMap = { PROJECT_NAME: name, DISPLAY_NAME: toDisplayName(name), APP_ID: appId };
+		const tokens: TokenMap = {
+			PROJECT_NAME: name,
+			DISPLAY_NAME: toDisplayName(name),
+			APP_ID: appId
+		};
 		const s = spinner();
 		s.start('Copying template');
 		scaffold(templateDir, targetDir, tokens);
@@ -160,7 +183,9 @@ const main = defineCommand({
 				if (commit.code === 0) {
 					console.log(`${colors.green('v')} git repository initialized`);
 				} else {
-					console.log(`${colors.yellow('!')} git init succeeded; initial commit failed - continuing`);
+					console.log(
+						`${colors.yellow('!')} git init succeeded; initial commit failed - continuing`
+					);
 				}
 			} else {
 				console.log(`${colors.yellow('!')} git init failed - continuing without git`);
@@ -171,7 +196,9 @@ const main = defineCommand({
 			console.log(colors.dim('Running pnpm install...'));
 			const install = await run('pnpm', ['install'], { cwd: targetDir, inherit: true });
 			if (install.code !== 0) {
-				fail('pnpm install failed - see output above. Fix and re-run `pnpm install` inside project.');
+				fail(
+					'pnpm install failed - see output above. Fix and re-run `pnpm install` inside project.'
+				);
 			}
 		}
 

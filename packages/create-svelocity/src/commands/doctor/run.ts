@@ -14,7 +14,9 @@ import {
 export async function runDoctor(cwd: string): Promise<number> {
 	const root = findProjectRoot(cwd);
 	if (!root) {
-		console.error(`${glyph('fail')} not inside a Svelocity project (no .svelocity/manifest.json found walking up from ${cwd})`);
+		console.error(
+			`${glyph('fail')} not inside a Svelocity project (no .svelocity/manifest.json found walking up from ${cwd})`
+		);
 		return 1;
 	}
 	console.log(`${colors.bold('svelocity doctor')} ${colors.dim(root)}\n`);

@@ -41,7 +41,13 @@ export async function checkEnvironment(): Promise<CheckResult[]> {
 		results.push(
 			satisfiesMin(pnpm, MIN_PNPM)
 				? result('environment', 'pnpm', 'pass', pnpm)
-				: result('environment', 'pnpm', 'fail', `${pnpm} < required ${MIN_PNPM}`, 'npm install -g pnpm')
+				: result(
+						'environment',
+						'pnpm',
+						'fail',
+						`${pnpm} < required ${MIN_PNPM}`,
+						'npm install -g pnpm'
+					)
 		);
 	}
 	return results;
@@ -77,10 +83,15 @@ export function checkManifest(root: string): { results: CheckResult[]; manifest:
 		};
 	}
 	if (errors.length > 0) {
-		return { results: [result('manifest', 'schema validation', 'fail', errors.join('; '))], manifest };
+		return {
+			results: [result('manifest', 'schema validation', 'fail', errors.join('; '))],
+			manifest
+		};
 	}
 	return {
-		results: [result('manifest', 'schema validation', 'pass', `stackVersion ${manifest.stackVersion}`)],
+		results: [
+			result('manifest', 'schema validation', 'pass', `stackVersion ${manifest.stackVersion}`)
+		],
 		manifest
 	};
 }
@@ -93,15 +104,23 @@ export function checkConvex(root: string): CheckResult[] {
 			: result('convex', 'convex directory', 'fail', 'packages/backend/convex missing')
 	);
 	const backendPkg = join(root, 'packages/backend/package.json');
-	const hasConvexCli = existsSync(backendPkg) && readFileSync(backendPkg, 'utf8').includes('"convex"');
+	const hasConvexCli =
+		existsSync(backendPkg) && readFileSync(backendPkg, 'utf8').includes('"convex"');
 	results.push(
 		hasConvexCli
 			? result('convex', 'convex cli dependency', 'pass', 'backend package includes convex')
-			: result('convex', 'convex cli dependency', 'warn', 'backend package does not include convex dependency', 'pnpm add convex --filter @svelocity/backend')
+			: result(
+					'convex',
+					'convex cli dependency',
+					'warn',
+					'backend package does not include convex dependency',
+					'pnpm add convex --filter @svelocity/backend'
+				)
 	);
 	const envFiles = ['apps/web/.env.local', 'apps/web/.env', '.env.local', '.env'];
 	const hasUrl = envFiles.some(
-		(f) => existsSync(join(root, f)) && readFileSync(join(root, f), 'utf8').includes('PUBLIC_CONVEX_URL')
+		(f) =>
+			existsSync(join(root, f)) && readFileSync(join(root, f), 'utf8').includes('PUBLIC_CONVEX_URL')
 	);
 	results.push(
 		hasUrl
@@ -122,7 +141,12 @@ export function checkAuth(root: string): CheckResult[] {
 		existsSync(join(root, 'packages/backend/convex/auth.ts')) &&
 		existsSync(join(root, 'packages/backend/convex/auth.config.ts'))
 			? result('auth', 'convex auth config', 'pass', 'auth.ts + auth.config.ts present')
-			: result('auth', 'convex auth config', 'warn', 'auth.ts / auth.config.ts missing in packages/backend/convex')
+			: result(
+					'auth',
+					'convex auth config',
+					'warn',
+					'auth.ts / auth.config.ts missing in packages/backend/convex'
+				)
 	];
 }
 
@@ -151,7 +175,8 @@ export function checkTargets(root: string, manifest: Manifest | null): CheckResu
 				? result('targets', 'mobile app', 'pass', 'capacitor.config.ts present')
 				: result('targets', 'mobile app', 'fail', 'apps/mobile/capacitor.config.ts missing')
 		);
-		const hasNative = existsSync(join(root, 'apps/mobile/ios')) && existsSync(join(root, 'apps/mobile/android'));
+		const hasNative =
+			existsSync(join(root, 'apps/mobile/ios')) && existsSync(join(root, 'apps/mobile/android'));
 		results.push(
 			hasNative
 				? result('targets', 'mobile native projects', 'pass', 'ios/ + android/ present')
@@ -187,7 +212,13 @@ export async function checkNativeTooling(): Promise<CheckResult[]> {
 		results.push(
 			xcode.code === 0
 				? result('native tooling', 'xcode', 'pass', xcodeSummary)
-				: result('native tooling', 'xcode', 'warn', 'xcodebuild not found', 'install Xcode (needed for iOS builds only)')
+				: result(
+						'native tooling',
+						'xcode',
+						'warn',
+						'xcodebuild not found',
+						'install Xcode (needed for iOS builds only)'
+					)
 		);
 	}
 	return results;

@@ -20,6 +20,7 @@
 		"build:template": "node scripts/build-template.mjs",
 		"build": "pnpm build:template && tsdown",
 		"check": "tsc -p tsconfig.json",
+		"start": "node dist/create.js",
 		"test": "vitest run",
 		"prepublishOnly": "pnpm build"
 	},

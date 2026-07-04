@@ -9,7 +9,9 @@ import { findProjectRoot, readManifest } from './lib/manifest.js';
 import { colors, glyph } from './lib/output.js';
 
 const pkgRoot = resolve(fileURLToPath(import.meta.url), '../..');
-const cliPkg = JSON.parse(readFileSync(join(pkgRoot, 'package.json'), 'utf8')) as { version: string };
+const cliPkg = JSON.parse(readFileSync(join(pkgRoot, 'package.json'), 'utf8')) as {
+	version: string;
+};
 
 const doctor = defineCommand({
 	meta: { name: 'doctor', description: 'Static health checks for a Svelocity project' },
@@ -30,11 +32,15 @@ const info = defineCommand({
 		}
 		const { manifest, errors } = readManifest(root);
 		if (!manifest) {
-			console.error(`${glyph('fail')} could not read manifest: ${errors.join('; ')}\n  try ${colors.bold('svelocity doctor')}`);
+			console.error(
+				`${glyph('fail')} could not read manifest: ${errors.join('; ')}\n  try ${colors.bold('svelocity doctor')}`
+			);
 			process.exit(1);
 		}
 		if (errors.length > 0) {
-			console.error(`${glyph('warn')} manifest has schema issues - run ${colors.bold('svelocity doctor')}`);
+			console.error(
+				`${glyph('warn')} manifest has schema issues - run ${colors.bold('svelocity doctor')}`
+			);
 		}
 		console.log(renderInfo(manifest));
 	}
@@ -42,7 +48,11 @@ const info = defineCommand({
 
 runMain(
 	defineCommand({
-		meta: { name: 'svelocity', version: cliPkg.version, description: 'Svelocity Stack project tooling' },
+		meta: {
+			name: 'svelocity',
+			version: cliPkg.version,
+			description: 'Svelocity Stack project tooling'
+		},
 		subCommands: { doctor, info }
 	})
 );

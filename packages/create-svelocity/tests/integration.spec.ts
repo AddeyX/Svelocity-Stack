@@ -13,11 +13,18 @@ gated('create-svelocity end to end', () => {
 	const project = join(work, 'e2e-app');
 
 	beforeAll(() => {
-		execFileSync('pnpm', ['--filter', 'create-svelocity', 'build'], { cwd: pkgRoot, stdio: 'inherit' });
-		execFileSync('node', [join(pkgRoot, 'dist/create.js'), '--name', 'e2e-app', '--yes', '--no-git'], {
-			cwd: work,
+		execFileSync('pnpm', ['--filter', 'create-svelocity', 'build'], {
+			cwd: pkgRoot,
 			stdio: 'inherit'
 		});
+		execFileSync(
+			'node',
+			[join(pkgRoot, 'dist/create.js'), '--name', 'e2e-app', '--yes', '--no-git'],
+			{
+				cwd: work,
+				stdio: 'inherit'
+			}
+		);
 	}, 900_000);
 
 	it('generated a schema-valid project', () => {
@@ -33,6 +40,9 @@ gated('create-svelocity end to end', () => {
 	}, 900_000);
 
 	it('doctor exits 0 (no FAILs) in the generated project', () => {
-		execFileSync('node', [join(pkgRoot, 'dist/cli.js'), 'doctor'], { cwd: project, stdio: 'inherit' });
+		execFileSync('node', [join(pkgRoot, 'dist/cli.js'), 'doctor'], {
+			cwd: project,
+			stdio: 'inherit'
+		});
 	}, 120_000);
 });

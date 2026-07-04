@@ -12,7 +12,10 @@ function makeTemplate(): string {
 	writeFileSync(join(dir, '_gitignore'), 'node_modules\n');
 	writeFileSync(join(dir, '_npmrc'), 'public-hoist-pattern[]=*\n');
 	mkdirSync(join(dir, 'apps/mobile'), { recursive: true });
-	writeFileSync(join(dir, 'apps/mobile/capacitor.config.ts'), "appId: '{{APP_ID}}', appName: '{{DISPLAY_NAME}}'");
+	writeFileSync(
+		join(dir, 'apps/mobile/capacitor.config.ts'),
+		"appId: '{{APP_ID}}', appName: '{{DISPLAY_NAME}}'"
+	);
 	writeFileSync(join(dir, 'apps/mobile/icon.png'), Buffer.from([0x89, 0x50, 0x4e, 0x47]));
 	return dir;
 }

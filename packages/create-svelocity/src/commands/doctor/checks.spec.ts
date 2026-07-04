@@ -7,12 +7,24 @@ import { checkConvex, checkTargets, checkWorkspace } from './checks.js';
 function makeProject(): string {
 	const root = mkdtempSync(join(tmpdir(), 'sv-doctor-'));
 	writeFileSync(join(root, 'pnpm-workspace.yaml'), 'packages:\n  - apps/*\n  - packages/*\n');
-	for (const dir of ['apps/web', 'apps/desktop', 'apps/mobile', 'packages/backend/convex', '.svelocity']) {
+	for (const dir of [
+		'apps/web',
+		'apps/desktop',
+		'apps/mobile',
+		'packages/backend/convex',
+		'.svelocity'
+	]) {
 		mkdirSync(join(root, dir), { recursive: true });
 	}
 	writeFileSync(join(root, 'apps/mobile/capacitor.config.ts'), "appId: 'com.acme.app'");
-	writeFileSync(join(root, 'apps/desktop/package.json'), '{"devDependencies":{"electron":"^38.0.0"}}');
-	writeFileSync(join(root, 'packages/backend/package.json'), '{"dependencies":{"convex":"^1.0.0"}}');
+	writeFileSync(
+		join(root, 'apps/desktop/package.json'),
+		'{"devDependencies":{"electron":"^38.0.0"}}'
+	);
+	writeFileSync(
+		join(root, 'packages/backend/package.json'),
+		'{"dependencies":{"convex":"^1.0.0"}}'
+	);
 	return root;
 }
 

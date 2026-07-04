@@ -9,3 +9,5 @@ pnpm-lock.yaml
 **/coverage
 **/.vite
 CHANGELOG.md
+docs/superpowers/
+docs/Svelocity-Stack-PR.md

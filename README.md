@@ -7,6 +7,12 @@ real-time sync and Convex Auth.
 > Status: pre-1.0, built phase by phase. See [docs/phases](docs/phases/README.md) for
 > the plan and current progress.
 
+## Create a New Project
+
+```bash
+pnpm create svelocity    # until published: pnpm dlx ./packages/create-svelocity
+```
+
 ## The Golden Path
 
 ```bash
