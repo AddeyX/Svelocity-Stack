@@ -11,12 +11,13 @@ import {
 	text
 } from '@clack/prompts';
 import { defineCommand, runMain } from 'citty';
-import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import validateNpmName from 'validate-npm-package-name';
 import { buildManifest, writeProjectManifest } from './commands/create/manifest.js';
 import { nextSteps } from './commands/create/next-steps.js';
 import { scaffold } from './commands/create/scaffold.js';
+import { targetDirProblem } from './commands/create/target-dir.js';
 import { colors } from './lib/output.js';
 import { cliVersion, pkgRoot } from './lib/pkg.js';
 import { commandVersion, run } from './lib/proc.js';
@@ -82,9 +83,7 @@ const main = defineCommand({
 						if (!result.validForNewPackages) {
 							return (result.errors ?? result.warnings ?? ['invalid name']).join(', ');
 						}
-						if (existsSync(resolve(raw)) && readdirSync(resolve(raw)).length > 0) {
-							return `directory ${raw} exists and is not empty`;
-						}
+						return targetDirProblem(resolve(raw), raw);
 					}
 				})
 			);
@@ -96,9 +95,8 @@ const main = defineCommand({
 			);
 		}
 		const targetDir = resolve(name);
-		if (existsSync(targetDir) && readdirSync(targetDir).length > 0) {
-			fail(`directory ${name} exists and is not empty - pick a new name or empty it.`);
-		}
+		const dirProblem = targetDirProblem(targetDir, name);
+		if (dirProblem) fail(dirProblem);
 
 		let appId = args['app-id'] ?? (args.yes ? toAppId(name) : undefined);
 		if (!appId) {
