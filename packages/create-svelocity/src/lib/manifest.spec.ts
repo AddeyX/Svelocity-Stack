@@ -67,4 +67,14 @@ describe('findProjectRoot / readManifest', () => {
 		const { errors } = readManifest(root);
 		expect(errors.length).toBeGreaterThan(0);
 	});
+
+	it('reports a corrupted schema file instead of throwing', () => {
+		const root = mkdtempSync(join(tmpdir(), 'sv-badschema-'));
+		mkdirSync(join(root, '.svelocity'), { recursive: true });
+		writeFileSync(join(root, '.svelocity/manifest.json'), JSON.stringify(valid));
+		writeFileSync(join(root, '.svelocity/manifest.schema.json'), '{ not json');
+		const { manifest, errors } = readManifest(root);
+		expect(manifest).not.toBeNull();
+		expect(errors.some((e) => e.includes('manifest.schema.json'))).toBe(true);
+	});
 });

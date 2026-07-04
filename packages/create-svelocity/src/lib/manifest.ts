@@ -103,6 +103,11 @@ export function readManifest(projectRoot: string): { manifest: Manifest | null; 
 	}
 	const schemaPath = join(projectRoot, '.svelocity/manifest.schema.json');
 	if (!existsSync(schemaPath)) return { manifest, errors: [] };
-	const schema = JSON.parse(readFileSync(schemaPath, 'utf8')) as unknown;
+	let schema: unknown;
+	try {
+		schema = JSON.parse(readFileSync(schemaPath, 'utf8'));
+	} catch (error) {
+		return { manifest, errors: [`could not read ${schemaPath}: ${String(error)}`] };
+	}
 	return { manifest, errors: validateAgainstSchema(manifest, schema) };
 }
