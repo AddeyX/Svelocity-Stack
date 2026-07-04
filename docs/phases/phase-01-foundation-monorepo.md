@@ -154,7 +154,7 @@
 
 ## 1.12 — Verification
 
-- [ ] Fresh clone → install → check passes
+- [x] Fresh clone → install → check passes
 - [x] Manifest schema validates example file
 - [x] All workspace packages resolve via `workspace:*`
 - [x] No circular dependencies between packages

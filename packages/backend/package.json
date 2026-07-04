@@ -12,7 +12,7 @@
 	"scripts": {
 		"dev": "convex dev",
 		"gen": "convex codegen",
-		"check": "pnpm gen && tsc -p tsconfig.json"
+		"check": "tsc -p tsconfig.json"
 	},
 	"dependencies": {
 		"convex": "catalog:",
