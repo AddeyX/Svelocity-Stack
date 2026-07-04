@@ -1,0 +1,17 @@
+{
+	"version": "0.0.1",
+	"configurations": [
+		{
+			"name": "ui-preview",
+			"runtimeExecutable": "pnpm",
+			"runtimeArgs": ["--filter", "@svelocity/ui", "dev"],
+			"port": 5199
+		},
+		{
+			"name": "web",
+			"runtimeExecutable": "pnpm",
+			"runtimeArgs": ["--filter", "web", "dev"],
+			"port": 5173
+		}
+	]
+}

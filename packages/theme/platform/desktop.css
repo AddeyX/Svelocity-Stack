@@ -1,1 +1,20 @@
-/* desktop platform overrides — populated in Phase 2. */
+/**
+ * Desktop (Electron) platform overrides. Import alongside tokens.css in apps/desktop only.
+ * Hover states on; leaves room for window chrome.
+ */
+:root {
+	--sv-touch-target: 2.25rem;
+	/* Height reserved for a draggable title-bar region (frameless-window ready). */
+	--sv-titlebar-height: 2.5rem;
+}
+
+/* Custom title bars are draggable; interactive children opt out. */
+.sv-titlebar {
+	-webkit-app-region: drag;
+	height: var(--sv-titlebar-height);
+}
+.sv-titlebar button,
+.sv-titlebar a,
+.sv-titlebar input {
+	-webkit-app-region: no-drag;
+}

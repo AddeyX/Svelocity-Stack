@@ -15,6 +15,7 @@ export const nodeTest = {
 /** Svelte component packages/apps — requires jsdom + @testing-library/svelte. */
 export const componentTest = {
 	environment: 'jsdom',
-	include: ['src/**/*.spec.ts', 'test/**/*.spec.ts'],
-	setupFiles: []
+	// globals gives @testing-library/svelte its afterEach auto-cleanup hook.
+	globals: true,
+	include: ['src/**/*.spec.ts', 'test/**/*.spec.ts']
 };

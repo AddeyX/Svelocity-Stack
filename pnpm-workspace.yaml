@@ -28,6 +28,7 @@ catalog:
   # testing
   vitest: ^4.1.6
   '@testing-library/svelte': ^5.2.0
+  '@testing-library/user-event': ^14.5.0
   jsdom: ^29.1.1
   '@playwright/test': ^1.60.0
   # lint + format

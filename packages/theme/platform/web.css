@@ -1,1 +1,7 @@
-/* web platform overrides — populated in Phase 2. */
+/**
+ * Web platform overrides. Import alongside tokens.css in apps/web only.
+ * Web is the baseline — hover states on, default touch targets.
+ */
+:root {
+	--sv-touch-target: 2.25rem;
+}

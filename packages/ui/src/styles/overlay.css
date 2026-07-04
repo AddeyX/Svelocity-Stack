@@ -1,0 +1,33 @@
+/* Shared overlay surfaces for Dialog + AlertDialog (imported by both). */
+.sv-dialog-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: var(--sv-z-overlay);
+	background: var(--sv-color-overlay);
+}
+.sv-dialog-content {
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	z-index: var(--sv-z-modal);
+	width: min(28rem, calc(100vw - 2 * var(--sv-space-4)));
+	max-height: min(85vh, 40rem);
+	overflow-y: auto;
+	padding: var(--sv-space-6);
+	background: var(--sv-color-surface-raised);
+	border: 1px solid var(--sv-color-border);
+	border-radius: var(--sv-radius-lg);
+	box-shadow: var(--sv-shadow-overlay);
+}
+.sv-dialog-title {
+	margin: 0;
+	font-size: var(--sv-text-lg);
+	font-weight: var(--sv-font-semibold);
+	color: var(--sv-color-text);
+}
+.sv-dialog-description {
+	margin: var(--sv-space-1) 0 0;
+	font-size: var(--sv-text-sm);
+	color: var(--sv-color-text-muted);
+}

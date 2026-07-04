@@ -1,4 +1,228 @@
-/* Svelocity theme tokens — populated in Phase 2. */
+/**
+ * Svelocity design tokens.
+ * Naming: --sv-<category>-<name>. Semantic tokens reference primitives.
+ * Personality: bold, playful, fast — generous radius, snappy motion, Svelte-orange brand.
+ *
+ * Light is the v1 default; dark tokens ship as [data-theme='dark'] structure
+ * (polish pass lands in Phase 10).
+ */
+
 :root {
-	--sv-color-primary: #6d28d9;
+	/* ------------------------------------------------------------------ */
+	/* Primitives — palette                                                */
+	/* ------------------------------------------------------------------ */
+	--sv-palette-orange-500: #ff3e00; /* Svelte brand — accents only (fails AA on white) */
+	--sv-palette-orange-600: #ea580c;
+	--sv-palette-orange-700: #c2410c; /* interactive primary — 4.8:1 on white */
+	--sv-palette-orange-800: #9a3412;
+	--sv-palette-orange-900: #7c2d12;
+	--sv-palette-orange-300: #fdba74;
+	--sv-palette-orange-100: #ffedd5;
+	--sv-palette-orange-50: #fff7ed;
+
+	--sv-palette-gray-50: #fafaf9;
+	--sv-palette-gray-100: #f5f5f4;
+	--sv-palette-gray-200: #e7e5e4;
+	--sv-palette-gray-300: #d6d3d1;
+	--sv-palette-gray-400: #a8a29e;
+	--sv-palette-gray-500: #78716c;
+	--sv-palette-gray-600: #57534e;
+	--sv-palette-gray-700: #44403c;
+	--sv-palette-gray-800: #292524;
+	--sv-palette-gray-900: #1c1917;
+	--sv-palette-gray-950: #0c0a09;
+
+	--sv-palette-green-600: #16a34a;
+	--sv-palette-green-50: #f0fdf4;
+	--sv-palette-green-200: #bbf7d0;
+	--sv-palette-red-600: #dc2626;
+	--sv-palette-red-700: #b91c1c;
+	--sv-palette-red-50: #fef2f2;
+	--sv-palette-red-200: #fecaca;
+	--sv-palette-amber-600: #d97706;
+	--sv-palette-amber-50: #fffbeb;
+	--sv-palette-amber-200: #fde68a;
+	--sv-palette-blue-600: #2563eb;
+	--sv-palette-blue-50: #eff6ff;
+	--sv-palette-blue-200: #bfdbfe;
+
+	/* ------------------------------------------------------------------ */
+	/* Semantic — color                                                    */
+	/* ------------------------------------------------------------------ */
+	--sv-color-bg: var(--sv-palette-gray-50);
+	--sv-color-surface: #ffffff;
+	--sv-color-surface-raised: #ffffff;
+	--sv-color-surface-sunken: var(--sv-palette-gray-100);
+	--sv-color-border: var(--sv-palette-gray-200);
+	--sv-color-border-strong: var(--sv-palette-gray-300);
+
+	--sv-color-text: var(--sv-palette-gray-900);
+	--sv-color-text-muted: var(--sv-palette-gray-500);
+	--sv-color-text-faint: var(--sv-palette-gray-400);
+	--sv-color-text-on-primary: #ffffff;
+
+	--sv-color-brand: var(--sv-palette-orange-500);
+	--sv-color-primary: var(--sv-palette-orange-700);
+	--sv-color-primary-hover: var(--sv-palette-orange-800);
+	--sv-color-primary-active: var(--sv-palette-orange-900);
+	--sv-color-primary-soft: var(--sv-palette-orange-50);
+	--sv-color-primary-soft-border: var(--sv-palette-orange-100);
+
+	--sv-color-success: var(--sv-palette-green-600);
+	--sv-color-success-soft: var(--sv-palette-green-50);
+	--sv-color-success-soft-border: var(--sv-palette-green-200);
+	--sv-color-warning: var(--sv-palette-amber-600);
+	--sv-color-warning-soft: var(--sv-palette-amber-50);
+	--sv-color-warning-soft-border: var(--sv-palette-amber-200);
+	--sv-color-danger: var(--sv-palette-red-600);
+	--sv-color-danger-hover: var(--sv-palette-red-700);
+	--sv-color-danger-soft: var(--sv-palette-red-50);
+	--sv-color-danger-soft-border: var(--sv-palette-red-200);
+	--sv-color-info: var(--sv-palette-blue-600);
+	--sv-color-info-soft: var(--sv-palette-blue-50);
+	--sv-color-info-soft-border: var(--sv-palette-blue-200);
+
+	--sv-color-focus-ring: var(--sv-palette-orange-600);
+	--sv-color-overlay: rgb(12 10 9 / 0.5);
+
+	/* ------------------------------------------------------------------ */
+	/* Typography                                                          */
+	/* ------------------------------------------------------------------ */
+	--sv-font-sans:
+		ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+	--sv-font-mono:
+		ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+
+	--sv-text-xs: 0.75rem;
+	--sv-text-sm: 0.875rem;
+	--sv-text-md: 1rem;
+	--sv-text-lg: 1.125rem;
+	--sv-text-xl: 1.25rem;
+	--sv-text-2xl: 1.5rem;
+	--sv-text-3xl: 1.875rem;
+	--sv-text-4xl: 2.25rem;
+
+	--sv-font-regular: 400;
+	--sv-font-medium: 500;
+	--sv-font-semibold: 600;
+	--sv-font-bold: 700;
+
+	--sv-leading-tight: 1.2;
+	--sv-leading-normal: 1.5;
+	--sv-leading-relaxed: 1.7;
+
+	/* ------------------------------------------------------------------ */
+	/* Spacing (4px scale)                                                 */
+	/* ------------------------------------------------------------------ */
+	--sv-space-0: 0;
+	--sv-space-1: 0.25rem;
+	--sv-space-2: 0.5rem;
+	--sv-space-3: 0.75rem;
+	--sv-space-4: 1rem;
+	--sv-space-5: 1.25rem;
+	--sv-space-6: 1.5rem;
+	--sv-space-8: 2rem;
+	--sv-space-10: 2.5rem;
+	--sv-space-12: 3rem;
+	--sv-space-16: 4rem;
+	--sv-space-20: 5rem;
+	--sv-space-24: 6rem;
+
+	/* ------------------------------------------------------------------ */
+	/* Radius — generous, playful                                          */
+	/* ------------------------------------------------------------------ */
+	--sv-radius-sm: 0.375rem;
+	--sv-radius-md: 0.625rem;
+	--sv-radius-lg: 0.875rem;
+	--sv-radius-xl: 1.25rem;
+	--sv-radius-full: 9999px;
+
+	/* ------------------------------------------------------------------ */
+	/* Shadows                                                             */
+	/* ------------------------------------------------------------------ */
+	--sv-shadow-sm: 0 1px 2px rgb(12 10 9 / 0.06);
+	--sv-shadow-md: 0 2px 8px rgb(12 10 9 / 0.08), 0 1px 2px rgb(12 10 9 / 0.06);
+	--sv-shadow-lg: 0 8px 24px rgb(12 10 9 / 0.12), 0 2px 6px rgb(12 10 9 / 0.08);
+	--sv-shadow-overlay: 0 16px 48px rgb(12 10 9 / 0.2), 0 4px 12px rgb(12 10 9 / 0.1);
+
+	/* ------------------------------------------------------------------ */
+	/* Motion — fast, snappy                                               */
+	/* ------------------------------------------------------------------ */
+	--sv-duration-fast: 120ms;
+	--sv-duration-normal: 200ms;
+	--sv-duration-slow: 320ms;
+	--sv-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+	--sv-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+	/* ------------------------------------------------------------------ */
+	/* Z-index scale                                                       */
+	/* ------------------------------------------------------------------ */
+	--sv-z-base: 0;
+	--sv-z-dropdown: 50;
+	--sv-z-sticky: 100;
+	--sv-z-overlay: 200;
+	--sv-z-modal: 300;
+	--sv-z-toast: 400;
+
+	/* ------------------------------------------------------------------ */
+	/* Platform hooks (overridden by platform/*.css)                       */
+	/* ------------------------------------------------------------------ */
+	--sv-touch-target: 2.25rem; /* 36px web default; mobile raises to 44px */
+	--sv-safe-top: 0px;
+	--sv-safe-bottom: 0px;
+	--sv-safe-left: 0px;
+	--sv-safe-right: 0px;
+}
+
+/* Dark mode structure — token values only; visual polish in Phase 10. */
+[data-theme='dark'] {
+	--sv-color-bg: var(--sv-palette-gray-950);
+	--sv-color-surface: var(--sv-palette-gray-900);
+	--sv-color-surface-raised: var(--sv-palette-gray-800);
+	--sv-color-surface-sunken: #171412;
+	--sv-color-border: var(--sv-palette-gray-800);
+	--sv-color-border-strong: var(--sv-palette-gray-700);
+
+	--sv-color-text: var(--sv-palette-gray-50);
+	--sv-color-text-muted: var(--sv-palette-gray-400);
+	--sv-color-text-faint: var(--sv-palette-gray-500);
+	--sv-color-text-on-primary: var(--sv-palette-gray-950);
+
+	--sv-color-primary: var(--sv-palette-orange-600);
+	--sv-color-primary-hover: var(--sv-palette-orange-500);
+	--sv-color-primary-active: var(--sv-palette-orange-300);
+	--sv-color-primary-soft: rgb(255 62 0 / 0.12);
+	--sv-color-primary-soft-border: rgb(255 62 0 / 0.24);
+
+	--sv-color-success-soft: rgb(22 163 74 / 0.14);
+	--sv-color-success-soft-border: rgb(22 163 74 / 0.3);
+	--sv-color-warning-soft: rgb(217 119 6 / 0.14);
+	--sv-color-warning-soft-border: rgb(217 119 6 / 0.3);
+	--sv-color-danger-soft: rgb(220 38 38 / 0.14);
+	--sv-color-danger-soft-border: rgb(220 38 38 / 0.3);
+	--sv-color-info-soft: rgb(37 99 235 / 0.14);
+	--sv-color-info-soft-border: rgb(37 99 235 / 0.3);
+
+	--sv-color-overlay: rgb(0 0 0 / 0.65);
+	--sv-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+	--sv-shadow-md: 0 2px 8px rgb(0 0 0 / 0.45), 0 1px 2px rgb(0 0 0 / 0.4);
+	--sv-shadow-lg: 0 8px 24px rgb(0 0 0 / 0.5), 0 2px 6px rgb(0 0 0 / 0.45);
+	--sv-shadow-overlay: 0 16px 48px rgb(0 0 0 / 0.6), 0 4px 12px rgb(0 0 0 / 0.5);
+}
+
+/* Minimal base so tokens are useful out of the box. */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	background: var(--sv-color-bg);
+	color: var(--sv-color-text);
+	font-family: var(--sv-font-sans);
+	font-size: var(--sv-text-md);
+	line-height: var(--sv-leading-normal);
+	-webkit-font-smoothing: antialiased;
 }

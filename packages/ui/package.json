@@ -13,8 +13,9 @@
 		}
 	},
 	"scripts": {
+		"dev": "vite",
 		"check": "svelte-check --tsconfig ./tsconfig.json",
-		"test": "vitest run --passWithNoTests"
+		"test": "vitest run"
 	},
 	"dependencies": {
 		"bits-ui": "catalog:",
@@ -32,6 +33,7 @@
 		"vitest": "catalog:",
 		"jsdom": "catalog:",
 		"@testing-library/svelte": "catalog:",
+		"@testing-library/user-event": "catalog:",
 		"@sveltejs/vite-plugin-svelte": "catalog:",
 		"vite": "catalog:"
 	}

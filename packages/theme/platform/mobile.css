@@ -1,1 +1,26 @@
-/* mobile platform overrides — populated in Phase 2. */
+/**
+ * Mobile (Capacitor) platform overrides. Import alongside tokens.css in apps/mobile only.
+ * Safe areas on, ≥44px touch targets, hover-dependent interactions off.
+ */
+:root {
+	--sv-touch-target: 2.75rem; /* 44px iOS/Android minimum */
+	--sv-safe-top: env(safe-area-inset-top, 0px);
+	--sv-safe-bottom: env(safe-area-inset-bottom, 0px);
+	--sv-safe-left: env(safe-area-inset-left, 0px);
+	--sv-safe-right: env(safe-area-inset-right, 0px);
+}
+
+/* Kill hover styling on touch — components gate hover rules behind (hover: hover),
+   this catches any stragglers from app-local CSS. */
+@media (hover: none) {
+	a:hover,
+	button:hover {
+		filter: none;
+	}
+}
+
+/* Prevent iOS text-size adjustment and rubber-band overscroll surprises. */
+html {
+	-webkit-text-size-adjust: 100%;
+	overscroll-behavior-y: none;
+}
