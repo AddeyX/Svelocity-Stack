@@ -19,6 +19,9 @@ release/
 # convex
 .convex/
 
+# wrangler / miniflare local state
+.wrangler/
+
 # native build artifacts (projects themselves are committed)
 apps/mobile/android/app/build/
 apps/mobile/android/.gradle/
@@ -43,3 +46,4 @@ test-results/
 
 # logs
 *.log
+.superpowers/
