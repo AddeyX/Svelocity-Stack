@@ -31,7 +31,9 @@ describe('build-template', () => {
 			'.svelocity/manifest.json',
 			'apps/desktop/release',
 			'apps/web/.wrangler',
-			'LICENSE'
+			'LICENSE',
+			'docs/CONTRIBUTING-STACK.md',
+			'.claude'
 		]) {
 			expect(existsSync(join(out, p)), `${p} should be excluded`).toBe(false);
 		}
@@ -46,7 +48,15 @@ describe('build-template', () => {
 			'.svelocity/manifest.example.json',
 			'apps/web/.env.example',
 			'docs/CONVENTIONS.md',
-			'docs/COMPATIBILITY.md'
+			'docs/COMPATIBILITY.md',
+			'AGENTS.md',
+			'.cursor/rules/svelocity.mdc',
+			'.agents/README.md',
+			'.agents/skills/svelocity-convex/SKILL.md',
+			'.agents/skills/svelocity-auth/SKILL.md',
+			'.agents/skills/svelocity-add-platform/SKILL.md',
+			'.agents/skills/svelocity-alignment-audit/SKILL.md',
+			'.agents/skills/svelocity-changelog/SKILL.md'
 		]) {
 			expect(existsSync(join(out, p)), `${p} should be included`).toBe(true);
 		}
@@ -67,6 +77,7 @@ describe('build-template', () => {
 		const eb = readFileSync(join(out, 'apps/desktop/electron-builder.json'), 'utf8');
 		expect(eb).toContain('{{APP_ID}}');
 		expect(eb).toContain('{{DISPLAY_NAME}}');
+		expect(readFileSync(join(out, 'AGENTS.md'), 'utf8')).toContain('# {{DISPLAY_NAME}} — Agent Guide');
 	});
 
 	it('leaves @svelocity/* package names untouched', () => {

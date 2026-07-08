@@ -53,6 +53,7 @@ const EXCLUDE_PATHS = new Set([
 	'docs/V1.1-BACKLOG.md',
 	'docs/RISKS.md',
 	'docs/Svelocity-Stack-PR.md',
+	'docs/CONTRIBUTING-STACK.md',
 	'README.md',
 	'LICENSE'
 ]);
@@ -77,7 +78,8 @@ const TOKENIZE = [
 			['dev.svelocity.tasks', '{{APP_ID}}'],
 			['Shared Tasks', '{{DISPLAY_NAME}}']
 		]
-	]
+	],
+	['AGENTS.md', [['# Svelocity Stack — Agent Guide', '# {{DISPLAY_NAME}} — Agent Guide']]]
 ];
 
 function toPosix(path) {
