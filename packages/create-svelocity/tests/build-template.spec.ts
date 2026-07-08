@@ -103,9 +103,9 @@ describe('build-template', () => {
 		const agents = readFileSync(join(out, 'AGENTS.md'), 'utf8');
 		const refs = [
 			...new Set(
-				[
-					...agents.matchAll(/`((?:docs|packages|apps|\.agents|\.svelocity)\/[A-Za-z0-9._/-]+)`/g)
-				].map((m) => m[1])
+				[...agents.matchAll(/`((?:docs|packages|apps|\.agents|\.svelocity)\/[A-Za-z0-9._/-]+)`/g)]
+					.map((m) => m[1])
+					.filter((ref): ref is string => ref !== undefined)
 			)
 		];
 		expect(refs.length).toBeGreaterThan(0);
