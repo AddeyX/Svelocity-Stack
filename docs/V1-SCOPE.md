@@ -13,18 +13,18 @@ Svelocity Stack v1 is an opinionated, AI-ready Svelte monorepo template for solo
 
 ## Locked Decisions
 
-| Decision            | V1 choice                                                 |
-| ------------------- | --------------------------------------------------------- |
-| **Platforms**       | Web (SvelteKit) + Desktop (Electron) + Mobile (Capacitor) |
-| **UI system**       | Bits UI + Svelocity theme tokens                          |
-| **Authentication**  | Convex Auth                                               |
-| **Backend**         | Convex                                                    |
-| **Package manager** | pnpm workspaces                                           |
-| **Web deployment**  | Cloudflare (adapter-cloudflare)                           |
-| **Demo app**        | Shared Tasks (auth + CRUD + real-time)                    |
-| **CLI commands**    | `create`, `doctor`, `info`                                |
-| **AI assets**       | `AGENTS.md`, Cursor rules, 3 skills                       |
-| **Documentation**   | In-repo README + guides                                   |
+| Decision            | V1 choice                                                  |
+| ------------------- | ---------------------------------------------------------- |
+| **Platforms**       | Web (SvelteKit) + Desktop (Electron) + Mobile (Capacitor)  |
+| **UI system**       | Bits UI + Svelocity theme tokens                           |
+| **Authentication**  | Convex Auth                                                |
+| **Backend**         | Convex                                                     |
+| **Package manager** | pnpm workspaces                                            |
+| **Web deployment**  | Cloudflare (adapter-cloudflare)                            |
+| **Demo app**        | Shared Tasks (auth + CRUD + real-time)                     |
+| **CLI commands**    | `create`, `doctor`, `info`                                 |
+| **AI assets**       | `AGENTS.md`, one Cursor rule, 5 skills (`.agents/skills/`) |
+| **Documentation**   | In-repo README + guides                                    |
 
 ---
 
@@ -59,10 +59,14 @@ apps/mobile   — Capacitor SPA + shared demo
 ## V1 Skills
 
 ```text
-skills/svelocity-convex/
-skills/svelocity-auth/
-skills/svelocity-add-platform/    # manual guide until `svelocity add` in v1.1
+.agents/skills/svelocity-convex/
+.agents/skills/svelocity-auth/
+.agents/skills/svelocity-add-platform/    # manual guide until `svelocity add` in v1.1
+.agents/skills/svelocity-alignment-audit/ # read-only docs ↔ code alignment report
+.agents/skills/svelocity-changelog/        # public CHANGELOG + version bump
 ```
+
+Claude Code loads these via `.claude/skills/` symlinks; see `.agents/README.md`.
 
 ---
 
