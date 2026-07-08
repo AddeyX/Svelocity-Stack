@@ -77,7 +77,9 @@ describe('build-template', () => {
 		const eb = readFileSync(join(out, 'apps/desktop/electron-builder.json'), 'utf8');
 		expect(eb).toContain('{{APP_ID}}');
 		expect(eb).toContain('{{DISPLAY_NAME}}');
-		expect(readFileSync(join(out, 'AGENTS.md'), 'utf8')).toContain('# {{DISPLAY_NAME}} — Agent Guide');
+		expect(readFileSync(join(out, 'AGENTS.md'), 'utf8')).toContain(
+			'# {{DISPLAY_NAME}} — Agent Guide'
+		);
 	});
 
 	it('leaves @svelocity/* package names untouched', () => {
