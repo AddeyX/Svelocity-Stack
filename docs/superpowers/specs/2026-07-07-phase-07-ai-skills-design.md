@@ -84,8 +84,7 @@ Cairno's ordered-protocol structure, mapped to Svelocity:
 
 ## After Every Change
 1. pnpm check && pnpm test before declaring a task complete
-2. Update CHANGELOG.md via the svelocity-changelog skill (user-facing changes)
-3. Commit only with user permission; conventional commits
+2. Commit only with user permission; conventional commits
 
 ## Foundational Stack
 # table: Svelte 5 (runes) / SvelteKit 2 / Bits UI / Convex + Convex Auth /
