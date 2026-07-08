@@ -1,0 +1,13 @@
+---
+description: Svelocity architecture guardrails — always apply
+alwaysApply: true
+---
+
+Read `AGENTS.md` at the repo root before starting any task. Non-negotiable rules:
+
+- Business logic lives in `packages/app-core`, never in apps.
+- Shared UI lives in `packages/ui` — never duplicated per app.
+- Apps are thin platform shells: they import packages only, never other apps.
+- Packages never import from apps.
+- Svelte 5 runes only (`$state`, `$derived`, `$props`, `$effect`) — no legacy Svelte 4 patterns.
+- No secrets in client bundles. Never disable Electron `contextIsolation`.
