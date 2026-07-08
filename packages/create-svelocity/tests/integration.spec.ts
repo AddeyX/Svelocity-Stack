@@ -35,6 +35,32 @@ gated('create-svelocity end to end', () => {
 		expect(existsSync(join(project, 'apps/mobile/ios'))).toBe(false);
 	});
 
+	it('ships AI assets', () => {
+		const agents = readFileSync(join(project, 'AGENTS.md'), 'utf8');
+		expect(agents).toContain('# E2e App — Agent Guide');
+		expect(agents).not.toContain('{{');
+		const skills = [
+			'svelocity-convex',
+			'svelocity-auth',
+			'svelocity-add-platform',
+			'svelocity-alignment-audit',
+			'svelocity-changelog'
+		];
+		for (const name of skills) {
+			expect(existsSync(join(project, `.agents/skills/${name}/SKILL.md`))).toBe(true);
+			expect(readFileSync(join(project, `.claude/skills/${name}/SKILL.md`), 'utf8')).toContain(
+				name
+			);
+		}
+		expect(existsSync(join(project, '.cursor/rules/svelocity.mdc'))).toBe(true);
+		expect(existsSync(join(project, 'docs/CONTRIBUTING-STACK.md'))).toBe(false);
+		const manifest = JSON.parse(
+			readFileSync(join(project, '.svelocity/manifest.json'), 'utf8')
+		) as { aiTargets: string[]; skills: string[] };
+		expect(manifest.aiTargets).toEqual(['agents-md', 'cursor-rules']);
+		expect(manifest.skills).toEqual(skills);
+	});
+
 	it('passes pnpm -r check', () => {
 		execFileSync('pnpm', ['-r', 'check'], { cwd: project, stdio: 'inherit' });
 	}, 900_000);
