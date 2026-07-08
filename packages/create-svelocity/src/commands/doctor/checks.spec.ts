@@ -78,9 +78,7 @@ describe('checkConvex', () => {
 			join(root, 'packages/backend/package.json'),
 			'{"scripts":{"convex":"convex dev"},"dependencies":{}}'
 		);
-		expect(checkConvex(root).find((r) => r.name === 'convex cli dependency')?.status).toBe(
-			'warn'
-		);
+		expect(checkConvex(root).find((r) => r.name === 'convex cli dependency')?.status).toBe('warn');
 	});
 });
 

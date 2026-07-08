@@ -188,14 +188,14 @@ Expected: doctor reports **0 fail** on a freshly generated project (this is the 
 
 ## Reference — ports & credentials
 
-| Thing            | Value                        |
-|------------------|------------------------------|
-| Web app          | http://localhost:5173        |
-| Desktop renderer | http://localhost:5174        |
-| Mobile shell     | http://localhost:5175        |
-| Convex backend   | http://127.0.0.1:3210        |
-| Demo user        | demo@svelocity.dev           |
-| Demo password    | svelocity-demo-1234          |
+| Thing            | Value                 |
+| ---------------- | --------------------- |
+| Web app          | http://localhost:5173 |
+| Desktop renderer | http://localhost:5174 |
+| Mobile shell     | http://localhost:5175 |
+| Convex backend   | http://127.0.0.1:3210 |
+| Demo user        | demo@svelocity.dev    |
+| Demo password    | svelocity-demo-1234   |
 
 ## Scope note
 

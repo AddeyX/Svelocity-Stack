@@ -184,9 +184,7 @@ const main = defineCommand({
 				if (commit.code === 0) {
 					console.log(`${glyph('pass')} git repository initialized`);
 				} else {
-					console.log(
-						`${glyph('warn')} git init succeeded; initial commit failed - continuing`
-					);
+					console.log(`${glyph('warn')} git init succeeded; initial commit failed - continuing`);
 				}
 			} else {
 				console.log(`${glyph('warn')} git init failed - continuing without git`);
