@@ -14,6 +14,7 @@ import { defineCommand, runMain } from 'citty';
 import { existsSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import validateNpmName from 'validate-npm-package-name';
+import { linkSkills } from './commands/create/link-skills.js';
 import { buildManifest, writeProjectManifest } from './commands/create/manifest.js';
 import { nextSteps } from './commands/create/next-steps.js';
 import { scaffold } from './commands/create/scaffold.js';
@@ -165,7 +166,13 @@ const main = defineCommand({
 				packageManager: rootPkg.packageManager ?? 'pnpm@10.0.0'
 			})
 		);
+		const skillLinks = linkSkills(targetDir);
 		s.stop('Template copied');
+		if (skillLinks.copied.length > 0) {
+			console.log(
+				`${glyph('warn')} symlinks unavailable - copied skills into .claude/skills: ${skillLinks.copied.join(', ')}`
+			);
+		}
 
 		if (doGit) {
 			const init = await run('git', ['init', '-b', 'main'], { cwd: targetDir });
