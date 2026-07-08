@@ -31,5 +31,5 @@ Everything else (`add`, `upgrade`, `sync`, `generate`, `audit`) is v1.1 backlog.
 ## Consequences
 
 - Adding a platform after create is a documented manual guide
-  (`skills/svelocity-add-platform`) rather than automation.
+  (`.agents/skills/svelocity-add-platform`) rather than automation.
 - The manifest schema is designed now so v1.1 tooling can rely on it.

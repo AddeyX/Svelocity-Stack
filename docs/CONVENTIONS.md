@@ -38,7 +38,8 @@ packages/
   app-core/   — domain types, validation, Convex wrappers, stores
   auth/       — Convex Auth client helpers, guards
   env/        — zod env schemas, parseEnv
-skills/       — AI skills (Phase 7)
+  backend/    — Convex schema, functions, generated API
+.agents/skills/ — bundled AI skills (canonical; .claude/skills/ mirrors via symlink)
 docs/         — phase plan, guides, ADRs
 .svelocity/   — manifest + schema
 ```
