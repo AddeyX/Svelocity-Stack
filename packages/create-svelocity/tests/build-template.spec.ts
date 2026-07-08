@@ -98,4 +98,19 @@ describe('build-template', () => {
 		expect(existsSync(join(defaultOut, 'pnpm-workspace.yaml'))).toBe(true);
 		rmSync(defaultOut, { recursive: true, force: true });
 	});
+
+	it('AGENTS.md only references paths that exist in the template', () => {
+		const agents = readFileSync(join(out, 'AGENTS.md'), 'utf8');
+		const refs = [
+			...new Set(
+				[
+					...agents.matchAll(/`((?:docs|packages|apps|\.agents|\.svelocity)\/[A-Za-z0-9._/-]+)`/g)
+				].map((m) => m[1])
+			)
+		];
+		expect(refs.length).toBeGreaterThan(0);
+		for (const ref of refs) {
+			expect(existsSync(join(out, ref)), `AGENTS.md references missing path: ${ref}`).toBe(true);
+		}
+	});
 });
