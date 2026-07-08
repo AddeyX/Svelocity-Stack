@@ -21,6 +21,22 @@ describe('buildManifest', () => {
 		expect(m.auth).toBe('convex-auth');
 		expect(m.backend).toBe('convex');
 	});
+
+	it('records ai targets and bundled skills', () => {
+		const manifest = buildManifest({
+			cliVersion: '0.1.0',
+			stackVersion: '0.1.0',
+			packageManager: 'pnpm@10.33.2'
+		});
+		expect(manifest.aiTargets).toEqual(['agents-md', 'cursor-rules']);
+		expect(manifest.skills).toEqual([
+			'svelocity-convex',
+			'svelocity-auth',
+			'svelocity-add-platform',
+			'svelocity-alignment-audit',
+			'svelocity-changelog'
+		]);
+	});
 });
 
 describe('writeProjectManifest', () => {

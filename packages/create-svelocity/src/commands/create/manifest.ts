@@ -15,8 +15,14 @@ export function buildManifest(opts: {
 		auth: 'convex-auth',
 		backend: 'convex',
 		packageManager: opts.packageManager,
-		aiTargets: [],
-		skills: []
+		aiTargets: ['agents-md', 'cursor-rules'],
+		skills: [
+			'svelocity-convex',
+			'svelocity-auth',
+			'svelocity-add-platform',
+			'svelocity-alignment-audit',
+			'svelocity-changelog'
+		]
 	};
 }
 

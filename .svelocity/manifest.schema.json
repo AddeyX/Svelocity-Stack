@@ -49,7 +49,7 @@
 		},
 		"skills": {
 			"type": "array",
-			"description": "Skill directories shipped under skills/.",
+			"description": "Skill directories shipped under .agents/skills/.",
 			"items": { "type": "string", "pattern": "^[a-z0-9-]+$" },
 			"uniqueItems": true
 		}

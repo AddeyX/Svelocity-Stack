@@ -7,5 +7,11 @@
 	"backend": "convex",
 	"packageManager": "pnpm@10.33.2",
 	"aiTargets": ["agents-md", "cursor-rules"],
-	"skills": ["svelocity-convex", "svelocity-auth", "svelocity-add-platform"]
+	"skills": [
+		"svelocity-convex",
+		"svelocity-auth",
+		"svelocity-add-platform",
+		"svelocity-alignment-audit",
+		"svelocity-changelog"
+	]
 }
