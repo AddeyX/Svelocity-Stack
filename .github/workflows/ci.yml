@@ -40,3 +40,26 @@ jobs:
 
       - name: Build
         run: pnpm -r build
+
+  doctor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        # version comes from packageManager field in package.json
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install (frozen lockfile — fails on drift)
+        run: pnpm install --frozen-lockfile
+
+      - name: Build CLI
+        run: pnpm --filter create-svelocity build
+
+      - name: Doctor on the reference repo (warns allowed, fails not)
+        run: node packages/create-svelocity/dist/cli.js doctor
