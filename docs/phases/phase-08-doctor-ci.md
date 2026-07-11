@@ -11,7 +11,7 @@
 - [x] `svelocity doctor` catches all common misconfiguration cases
 - [x] CI generates or validates golden-path project on every PR
 - [x] Full workspace `check`, `test`, `build` runs in CI
-- [ ] Playwright e2e runs in CI for web auth + tasks flow _(workflow landed; ticks after first green run on main)_
+- [x] Playwright e2e runs in CI for web auth + tasks flow _(first green run on main 2026-07-11)_
 - [x] Compatibility matrix enforced in doctor and CI
 
 ---
@@ -125,8 +125,8 @@
 
 ## 8.12 — Verification
 
-- [ ] CI green on main
+- [x] CI green on main _(2026-07-11: CI + CLI golden path + E2E all green)_
 - [x] Intentionally break env → doctor catches it _(scratch project: 5 FAILs, each with a fix hint, exit 1; `--fix` copies the env example and reports honestly)_
 - [x] Intentionally break template → generation CI catches it _(cli.yml golden-path generation runs scaffold → install → check → build → doctor on every PR)_
-- [ ] E2E catches auth regression _(anti-silent-skip guard fails the job if 0 tests execute; ticks after first green run)_
-- [ ] Phase 9 todo reviewed and unblocked _(docs-only, prerequisites = Phases 3–8; ticks when CI is green on main)_
+- [x] E2E catches auth regression _(first run caught a real pre-hydration submit bug; anti-silent-skip guard verified to exit 1 when the suite self-skips)_
+- [x] Phase 9 todo reviewed and unblocked _(docs-only; prerequisites Phases 3–8 now complete)_
