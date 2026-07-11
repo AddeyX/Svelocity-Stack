@@ -43,6 +43,12 @@
 		if (decision === 'toLogin') goto('/login');
 		else if (decision === 'toApp') goto('/tasks');
 	});
+
+	// Hydration marker so e2e tests can wait before interacting — pre-hydration
+	// form submits fall back to native navigation.
+	$effect(() => {
+		document.body.dataset.hydrated = 'true';
+	});
 </script>
 
 {@render children()}

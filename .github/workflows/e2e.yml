@@ -99,7 +99,7 @@ jobs:
         env:
           PUBLIC_CONVEX_URL: http://127.0.0.1:3210
           PLAYWRIGHT_JSON_OUTPUT_FILE: ${{ runner.temp }}/playwright-results.json
-        run: pnpm --filter web test:e2e -- --trace retain-on-failure --reporter=list,json
+        run: pnpm --filter web test:e2e
 
       - name: Fail if the suite silently skipped
         env:

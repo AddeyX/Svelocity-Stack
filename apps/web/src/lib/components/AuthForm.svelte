@@ -53,7 +53,9 @@
 				<Alert variant="error" title={error} />
 			{/if}
 
-			<form onsubmit={submit} novalidate>
+			<!-- method="post" so a pre-hydration native submit can never leak
+		     credentials into the URL as query params -->
+			<form method="post" onsubmit={submit} novalidate>
 				<Stack gap={4}>
 					<FormField label="Email">
 						{#snippet children({ id, describedBy, invalid })}
