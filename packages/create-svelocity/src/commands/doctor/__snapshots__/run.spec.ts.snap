@@ -1,0 +1,78 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`runDoctor --json > prints a { root, results, summary } payload and exits 0 when healthy 1`] = `
+[
+  {
+    "category": "workspace",
+    "message": "present",
+    "name": "pnpm-workspace.yaml",
+    "status": "pass",
+  },
+  {
+    "category": "workspace",
+    "message": "present",
+    "name": "apps directory",
+    "status": "pass",
+  },
+  {
+    "category": "workspace",
+    "message": "present",
+    "name": "packages directory",
+    "status": "pass",
+  },
+  {
+    "category": "manifest",
+    "message": "stackVersion 0.1.0",
+    "name": "schema validation",
+    "status": "pass",
+  },
+  {
+    "category": "convex",
+    "message": "packages/backend/convex",
+    "name": "convex directory",
+    "status": "pass",
+  },
+  {
+    "category": "convex",
+    "message": "backend package includes convex",
+    "name": "convex cli dependency",
+    "status": "pass",
+  },
+  {
+    "category": "convex",
+    "message": "set in env file",
+    "name": "PUBLIC_CONVEX_URL",
+    "status": "pass",
+  },
+  {
+    "category": "auth",
+    "message": "auth.ts + auth.config.ts present",
+    "name": "convex auth config",
+    "status": "pass",
+  },
+  {
+    "category": "targets",
+    "message": "apps/web present",
+    "name": "web app",
+    "status": "pass",
+  },
+  {
+    "category": "targets",
+    "message": "apps/desktop with electron dep",
+    "name": "desktop app",
+    "status": "pass",
+  },
+  {
+    "category": "targets",
+    "message": "capacitor.config.ts present",
+    "name": "mobile app",
+    "status": "pass",
+  },
+  {
+    "category": "targets",
+    "message": "ios/ + android/ present",
+    "name": "mobile native projects",
+    "status": "pass",
+  },
+]
+`;

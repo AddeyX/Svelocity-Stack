@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { readManifest, type Manifest } from '../../lib/manifest.js';
 import type { CheckStatus } from '../../lib/output.js';
 import { commandVersion, run } from '../../lib/proc.js';
-import { MIN_NODE, MIN_PNPM, satisfiesMin } from '../../lib/versions.js';
+import { readEngines, satisfiesMin } from '../../lib/versions.js';
 
 export interface CheckResult {
 	category: string;
@@ -34,17 +34,19 @@ function pkgHasDep(pkgPath: string, dep: string): boolean {
 	}
 }
 
-export async function checkEnvironment(): Promise<CheckResult[]> {
+export async function checkEnvironment(root: string): Promise<CheckResult[]> {
+	const mins = readEngines(root);
+	const source = mins.fromEngines ? 'package.json engines' : 'stack default';
 	const results: CheckResult[] = [];
 	results.push(
-		satisfiesMin(process.version, MIN_NODE)
+		satisfiesMin(process.version, mins.node)
 			? result('environment', 'node', 'pass', process.version)
 			: result(
 					'environment',
 					'node',
 					'fail',
-					`${process.version} < required ${MIN_NODE}`,
-					`install Node ${MIN_NODE}+`
+					`${process.version} < required ${mins.node} (${source})`,
+					`install Node ${mins.node}+`
 				)
 	);
 	const pnpm = await commandVersion('pnpm');
@@ -52,13 +54,13 @@ export async function checkEnvironment(): Promise<CheckResult[]> {
 		results.push(result('environment', 'pnpm', 'fail', 'not found', 'npm install -g pnpm'));
 	} else {
 		results.push(
-			satisfiesMin(pnpm, MIN_PNPM)
+			satisfiesMin(pnpm, mins.pnpm)
 				? result('environment', 'pnpm', 'pass', pnpm)
 				: result(
 						'environment',
 						'pnpm',
 						'fail',
-						`${pnpm} < required ${MIN_PNPM}`,
+						`${pnpm} < required ${mins.pnpm} (${source})`,
 						'npm install -g pnpm'
 					)
 		);
@@ -67,15 +69,23 @@ export async function checkEnvironment(): Promise<CheckResult[]> {
 }
 
 export function checkWorkspace(root: string): CheckResult[] {
-	const entries: Array<[string, string]> = [
-		['pnpm-workspace.yaml', 'pnpm-workspace.yaml'],
-		['apps directory', 'apps'],
-		['packages directory', 'packages']
+	const entries: Array<[string, string, string]> = [
+		[
+			'pnpm-workspace.yaml',
+			'pnpm-workspace.yaml',
+			'restore pnpm-workspace.yaml (declares apps/* + packages/* and the version catalog)'
+		],
+		['apps directory', 'apps', 'restore apps/ from git history or re-run create-svelocity'],
+		[
+			'packages directory',
+			'packages',
+			'restore packages/ from git history or re-run create-svelocity'
+		]
 	];
-	return entries.map(([name, rel]) =>
+	return entries.map(([name, rel, fix]) =>
 		existsSync(join(root, rel))
 			? result('workspace', name, 'pass', 'present')
-			: result('workspace', name, 'fail', `${rel} missing`)
+			: result('workspace', name, 'fail', `${rel} missing`, fix)
 	);
 }
 
@@ -97,7 +107,15 @@ export function checkManifest(root: string): { results: CheckResult[]; manifest:
 	}
 	if (errors.length > 0) {
 		return {
-			results: [result('manifest', 'schema validation', 'fail', errors.join('; '))],
+			results: [
+				result(
+					'manifest',
+					'schema validation',
+					'fail',
+					errors.join('; '),
+					'edit .svelocity/manifest.json to match .svelocity/manifest.schema.json'
+				)
+			],
 			manifest
 		};
 	}
@@ -109,12 +127,34 @@ export function checkManifest(root: string): { results: CheckResult[]; manifest:
 	};
 }
 
-export function checkConvex(root: string): CheckResult[] {
+const ENV_FILES = ['apps/web/.env.local', 'apps/web/.env', '.env.local', '.env'];
+const SETS_CONVEX_URL = /^\s*PUBLIC_CONVEX_URL\s*=\s*\S/m;
+
+export function envSetsConvexUrl(root: string): boolean {
+	return ENV_FILES.some((f) => {
+		const path = join(root, f);
+		if (!existsSync(path)) return false;
+		try {
+			return SETS_CONVEX_URL.test(readFileSync(path, 'utf8'));
+		} catch {
+			// unreadable file or a directory named like an env file — treat as not set
+			return false;
+		}
+	});
+}
+
+export function checkConvex(root: string, opts: { envFileCopied?: boolean } = {}): CheckResult[] {
 	const results: CheckResult[] = [];
 	results.push(
 		existsSync(join(root, 'packages/backend/convex'))
 			? result('convex', 'convex directory', 'pass', 'packages/backend/convex')
-			: result('convex', 'convex directory', 'fail', 'packages/backend/convex missing')
+			: result(
+					'convex',
+					'convex directory',
+					'fail',
+					'packages/backend/convex missing',
+					'restore packages/backend from git history or re-run create-svelocity'
+				)
 	);
 	const backendPkg = join(root, 'packages/backend/package.json');
 	const hasConvexCli = pkgHasDep(backendPkg, 'convex');
@@ -129,22 +169,30 @@ export function checkConvex(root: string): CheckResult[] {
 					'pnpm add convex --filter @svelocity/backend'
 				)
 	);
-	const envFiles = ['apps/web/.env.local', 'apps/web/.env', '.env.local', '.env'];
-	const setsConvexUrl = /^\s*PUBLIC_CONVEX_URL\s*=\s*\S/m;
-	const hasUrl = envFiles.some(
-		(f) => existsSync(join(root, f)) && setsConvexUrl.test(readFileSync(join(root, f), 'utf8'))
-	);
-	results.push(
-		hasUrl
-			? result('convex', 'PUBLIC_CONVEX_URL', 'pass', 'set in env file')
-			: result(
-					'convex',
-					'PUBLIC_CONVEX_URL',
-					'warn',
-					'no env file sets it',
-					'cp apps/web/.env.example apps/web/.env.local and set PUBLIC_CONVEX_URL'
-				)
-	);
+	const hasUrl = envSetsConvexUrl(root);
+	if (opts.envFileCopied) {
+		results.push(
+			result(
+				'convex',
+				'PUBLIC_CONVEX_URL',
+				'warn',
+				'apps/web/.env.local created from .env.example — still set to the placeholder URL',
+				'edit PUBLIC_CONVEX_URL in apps/web/.env.local'
+			)
+		);
+	} else {
+		results.push(
+			hasUrl
+				? result('convex', 'PUBLIC_CONVEX_URL', 'pass', 'set in env file')
+				: result(
+						'convex',
+						'PUBLIC_CONVEX_URL',
+						'warn',
+						'no env file sets it',
+						'cp apps/web/.env.example apps/web/.env.local and set PUBLIC_CONVEX_URL (or run doctor --fix)'
+					)
+		);
+	}
 	return results;
 }
 
@@ -157,7 +205,8 @@ export function checkAuth(root: string): CheckResult[] {
 					'auth',
 					'convex auth config',
 					'warn',
-					'auth.ts / auth.config.ts missing in packages/backend/convex'
+					'auth.ts / auth.config.ts missing in packages/backend/convex',
+					'restore them from git history (see the svelocity-auth skill)'
 				)
 	];
 }
@@ -169,7 +218,13 @@ export function checkTargets(root: string, manifest: Manifest | null): CheckResu
 		results.push(
 			existsSync(join(root, 'apps/web'))
 				? result('targets', 'web app', 'pass', 'apps/web present')
-				: result('targets', 'web app', 'fail', 'apps/web missing')
+				: result(
+						'targets',
+						'web app',
+						'fail',
+						'apps/web missing',
+						'restore apps/web or remove "web" from manifest targets (svelocity-add-platform skill)'
+					)
 		);
 	}
 	if (targets.includes('desktop')) {
@@ -178,14 +233,26 @@ export function checkTargets(root: string, manifest: Manifest | null): CheckResu
 		results.push(
 			hasElectron
 				? result('targets', 'desktop app', 'pass', 'apps/desktop with electron dep')
-				: result('targets', 'desktop app', 'fail', 'apps/desktop missing or electron dep absent')
+				: result(
+						'targets',
+						'desktop app',
+						'fail',
+						'apps/desktop missing or electron dep absent',
+						'run pnpm install; if apps/desktop is gone, restore it (svelocity-add-platform skill)'
+					)
 		);
 	}
 	if (targets.includes('mobile')) {
 		results.push(
 			existsSync(join(root, 'apps/mobile/capacitor.config.ts'))
 				? result('targets', 'mobile app', 'pass', 'capacitor.config.ts present')
-				: result('targets', 'mobile app', 'fail', 'apps/mobile/capacitor.config.ts missing')
+				: result(
+						'targets',
+						'mobile app',
+						'fail',
+						'apps/mobile/capacitor.config.ts missing',
+						'restore apps/mobile or remove "mobile" from manifest targets (svelocity-add-platform skill)'
+					)
 		);
 		const hasNative =
 			existsSync(join(root, 'apps/mobile/ios')) && existsSync(join(root, 'apps/mobile/android'));
