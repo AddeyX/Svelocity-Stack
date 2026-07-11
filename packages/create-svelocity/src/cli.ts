@@ -8,8 +8,20 @@ import { cliVersion } from './lib/pkg.js';
 
 const doctor = defineCommand({
 	meta: { name: 'doctor', description: 'Static health checks for a Svelocity project' },
-	async run() {
-		process.exit(await runDoctor(process.cwd()));
+	args: {
+		json: {
+			type: 'boolean',
+			default: false,
+			description: 'Machine-readable JSON output (root, results, summary)'
+		},
+		fix: {
+			type: 'boolean',
+			default: false,
+			description: 'Apply safe auto-fixes (copy apps/web/.env.example to .env.local)'
+		}
+	},
+	async run({ args }) {
+		process.exit(await runDoctor(process.cwd(), { json: args.json, fix: args.fix }));
 	}
 });
 
@@ -35,7 +47,7 @@ const info = defineCommand({
 				`${glyph('warn')} manifest has schema issues - run ${colors.bold('svelocity doctor')}`
 			);
 		}
-		console.log(renderInfo(manifest));
+		console.log(renderInfo(manifest, root));
 	}
 });
 

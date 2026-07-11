@@ -19,7 +19,8 @@
 
 ## 10.1 — End-to-End Validation
 
-- [ ] Run full validation script on clean machine (macOS)
+- [ ] Run full validation script on clean machine (macOS) — `pnpm validate:v1`
+      (`scripts/validate-v1.sh`, Phase 8 §8.11; add `RUN_E2E=1` for Playwright)
 - [ ] Run on Windows (if available)
 - [ ] Run on Linux (if available)
 - [ ] Record actual setup times:

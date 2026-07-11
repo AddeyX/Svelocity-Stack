@@ -22,7 +22,8 @@
 		"lint": "eslint . && prettier --check .",
 		"format": "prettier --write .",
 		"clean": "node scripts/clean.mjs",
-		"validate:manifest": "node scripts/validate-manifest.mjs"
+		"validate:manifest": "node scripts/validate-manifest.mjs",
+		"validate:v1": "bash scripts/validate-v1.sh"
 	},
 	"devDependencies": {
 		"@svelocity/config": "workspace:*",

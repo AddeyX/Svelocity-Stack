@@ -1,0 +1,137 @@
+name: E2E
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        # version comes from packageManager field in package.json
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install (frozen lockfile — fails on drift)
+        run: pnpm install --frozen-lockfile
+
+      - name: Read Playwright version
+        id: playwright-version
+        run: echo "version=$(node --print "require('./apps/web/node_modules/@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-${{ runner.os }}-${{ steps.playwright-version.outputs.version }}
+
+      - name: Install Playwright chromium
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: pnpm --filter web exec playwright install --with-deps chromium
+
+      - name: Install Playwright system deps (browser cache hit)
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: pnpm --filter web exec playwright install-deps chromium
+
+      - name: Start local Convex backend (anonymous) and wait for readiness
+        env:
+          CONVEX_AGENT_MODE: anonymous
+        run: |
+          pnpm --filter @svelocity/backend dev > "$RUNNER_TEMP/convex-dev.log" 2>&1 &
+          echo "Waiting for the local Convex backend to serve and push functions..."
+          for i in $(seq 1 150); do
+            if grep -q "Convex functions ready" "$RUNNER_TEMP/convex-dev.log" 2>/dev/null &&
+              curl -fsS http://127.0.0.1:3210/instance_name > /dev/null 2>&1; then
+              echo "Convex backend ready (functions pushed, http://127.0.0.1:3210 serving)."
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "::error::Convex local backend did not become ready within 300s"
+          tail -n 200 "$RUNNER_TEMP/convex-dev.log" || true
+          exit 1
+
+      - name: Set Convex Auth env vars on the deployment
+        working-directory: packages/backend
+        env:
+          CONVEX_AGENT_MODE: anonymous
+        run: |
+          node - <<'EOF'
+          const { execFileSync } = require('node:child_process');
+          const { generateKeyPairSync } = require('node:crypto');
+          // Same key shape as `npx @convex-dev/auth` (its cli/generateKeys.ts):
+          // PKCS8 PEM with newlines collapsed to spaces + a JWKS of the public key.
+          const { privateKey, publicKey } = generateKeyPairSync('rsa', { modulusLength: 2048 });
+          const pem = privateKey
+            .export({ type: 'pkcs8', format: 'pem' })
+            .toString()
+            .trimEnd()
+            .replace(/\n/g, ' ');
+          const jwks = JSON.stringify({
+            keys: [{ use: 'sig', ...publicKey.export({ format: 'jwk' }) }]
+          });
+          const convex = './node_modules/.bin/convex';
+          // PEM goes in via stdin — it starts with dashes, which the arg parser would eat.
+          execFileSync(convex, ['env', 'set', 'JWT_PRIVATE_KEY'], {
+            input: pem,
+            stdio: ['pipe', 'inherit', 'inherit']
+          });
+          execFileSync(convex, ['env', 'set', 'JWKS', jwks], { stdio: 'inherit' });
+          execFileSync(convex, ['env', 'set', 'SITE_URL', 'http://localhost:5173'], {
+            stdio: 'inherit'
+          });
+          EOF
+
+      - name: Run web e2e (Playwright)
+        env:
+          PUBLIC_CONVEX_URL: http://127.0.0.1:3210
+          PLAYWRIGHT_JSON_OUTPUT_FILE: ${{ runner.temp }}/playwright-results.json
+        run: pnpm --filter web test:e2e -- --trace retain-on-failure --reporter=list,json
+
+      - name: Fail if the suite silently skipped
+        env:
+          RESULTS_FILE: ${{ runner.temp }}/playwright-results.json
+        run: |
+          node - <<'EOF'
+          // tasks.spec.ts self-skips when PUBLIC_CONVEX_URL is unset. If a regression
+          // drops that env var, the run would stay green while testing nothing — fail
+          // unless at least one test executed and none were skipped.
+          const { readFileSync } = require('node:fs');
+          const report = JSON.parse(readFileSync(process.env.RESULTS_FILE, 'utf8'));
+          const { expected = 0, unexpected = 0, flaky = 0, skipped = 0 } = report.stats ?? {};
+          const executed = expected + unexpected + flaky;
+          console.log(
+            `Playwright stats: expected=${expected} unexpected=${unexpected} flaky=${flaky} skipped=${skipped}`
+          );
+          if (executed === 0 || skipped > 0) {
+            console.error(
+              'E2E suite did not fully execute — is PUBLIC_CONVEX_URL still wired through?'
+            );
+            process.exit(1);
+          }
+          EOF
+
+      - name: Upload Playwright traces + report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-artifacts
+          path: |
+            apps/web/test-results/
+            ${{ runner.temp }}/playwright-results.json
+            ${{ runner.temp }}/convex-dev.log
+          if-no-files-found: ignore
+          retention-days: 7
