@@ -1,5 +1,11 @@
 # Svelocity Stack
 
+[![CI](https://github.com/AddeyX/Svelocity-Stack/actions/workflows/ci.yml/badge.svg)](https://github.com/AddeyX/Svelocity-Stack/actions/workflows/ci.yml)
+[![CLI golden path](https://github.com/AddeyX/Svelocity-Stack/actions/workflows/cli.yml/badge.svg)](https://github.com/AddeyX/Svelocity-Stack/actions/workflows/cli.yml)
+[![E2E](https://github.com/AddeyX/Svelocity-Stack/actions/workflows/e2e.yml/badge.svg)](https://github.com/AddeyX/Svelocity-Stack/actions/workflows/e2e.yml)
+[![node >=22](https://img.shields.io/badge/node-%3E%3D22-brightgreen)](docs/COMPATIBILITY.md)
+[![pnpm >=10](https://img.shields.io/badge/pnpm-%3E%3D10-f69220)](docs/COMPATIBILITY.md)
+
 **Opinionated, AI-ready Svelte monorepo template.** One shared core — web (SvelteKit +
 Cloudflare), desktop (Electron), and mobile (Capacitor) — connected by Convex with
 real-time sync and Convex Auth.
