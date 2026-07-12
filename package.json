@@ -22,6 +22,7 @@
 		"lint": "eslint . && prettier --check .",
 		"format": "prettier --write .",
 		"clean": "node scripts/clean.mjs",
+		"doctor": "node packages/create-svelocity/dist/cli.js doctor",
 		"validate:manifest": "node scripts/validate-manifest.mjs",
 		"validate:v1": "bash scripts/validate-v1.sh"
 	},

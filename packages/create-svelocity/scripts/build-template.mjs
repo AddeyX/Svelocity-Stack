@@ -64,7 +64,18 @@ const DOTFILE_RENAMES = new Map([
 ]);
 
 const TOKENIZE = [
-	['package.json', [['"name": "svelocity-stack"', '"name": "{{PROJECT_NAME}}"']]],
+	[
+		'package.json',
+		[
+			['"name": "svelocity-stack"', '"name": "{{PROJECT_NAME}}"'],
+			// The stack repo runs its locally built CLI; a generated project has no
+			// packages/create-svelocity, so doctor comes from the published package.
+			[
+				'"doctor": "node packages/create-svelocity/dist/cli.js doctor"',
+				'"doctor": "pnpm dlx --package=create-svelocity svelocity doctor"'
+			]
+		]
+	],
 	[
 		'apps/mobile/capacitor.config.ts',
 		[

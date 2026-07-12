@@ -32,7 +32,7 @@ pnpm --filter mobile sync
 ## Health Check
 
 ```bash
-pnpm dlx create-svelocity svelocity doctor   # or `svelocity doctor` if installed
+pnpm doctor   # static checks: env, versions, workspace, manifest
 ```
 
 ## Layout

@@ -171,7 +171,9 @@ Follow the prompts (project name, flags). Then inside the generated project:
 ```bash
 cd <your-new-project>
 pnpm install
-node_modules/.bin/svelocity doctor   # expect 0 failures
+# `pnpm doctor` in a generated project uses the published CLI via dlx;
+# pre-publish, run the locally built one instead:
+node /Users/emmanueladdey/Documents/Addey-The-Dev/Svelocity-Stack/packages/create-svelocity/dist/cli.js doctor   # expect 0 failures
 ```
 
 Expected: doctor reports **0 fail** on a freshly generated project (this is the gated e2e assertion — 52/52).

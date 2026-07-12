@@ -1,7 +1,7 @@
 # Troubleshooting
 
 Symptom → cause → fix, for the failures people actually hit. Run
-`pnpm exec svelocity doctor` first — it catches most environment problems and
+`pnpm doctor` first — it catches most environment problems and
 `--fix` handles the common one (missing `.env.local`).
 
 ## Install and environment
@@ -9,7 +9,7 @@ Symptom → cause → fix, for the failures people actually hit. Run
 ### `pnpm install` fails
 
 - **`ERR_PNPM_UNSUPPORTED_ENGINE`** → Node or pnpm too old. This repo needs Node ≥ 22
-  and pnpm ≥ 10 (`node --version`, `pnpm --version`); `pnpm exec svelocity doctor`
+  and pnpm ≥ 10 (`node --version`, `pnpm --version`); `pnpm doctor`
   checks both. Upgrade via your version manager; `corepack enable` gets you the
   pinned pnpm.
 - **Lockfile conflicts / `ERR_PNPM_OUTDATED_LOCKFILE`** → you edited a `package.json`
@@ -22,7 +22,7 @@ Symptom → cause → fix, for the failures people actually hit. Run
 
 Symptom: `engines` warnings, weird syntax errors in dependencies, or doctor failing
 its version checks. Fix: install Node 22 LTS and pnpm 10; verify with
-`pnpm exec svelocity doctor`. Version pins live in `pnpm-workspace.yaml`
+`pnpm doctor`. Version pins live in `pnpm-workspace.yaml`
 (catalog) — trust them over whatever an agent or tutorial suggests.
 
 ## Convex

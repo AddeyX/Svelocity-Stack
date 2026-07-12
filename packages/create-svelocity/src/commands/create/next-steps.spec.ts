@@ -8,7 +8,7 @@ describe('nextSteps', () => {
 		expect(text).toContain('pnpm --filter @svelocity/backend dev');
 		expect(text).toContain('pnpm dev');
 		expect(text).toContain('cap add ios');
-		expect(text).toContain('svelocity doctor');
+		expect(text).toContain('pnpm doctor');
 	});
 
 	it('expands the convex walkthrough when convexNow', () => {
