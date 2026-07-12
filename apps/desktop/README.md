@@ -37,5 +37,5 @@ Backend must be running (`pnpm --filter @svelocity/backend dev`) and
 ## Packaging notes
 
 - macOS build is unsigned (`identity: null`) — signing/notarization is a manual
-  release step (guide lands in Phase 9).
+  release step ([docs/guides/desktop.md](../../docs/guides/desktop.md)).
 - App icon is the Electron default in v1; replace via `electron-builder.json`.
