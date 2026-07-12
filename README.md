@@ -96,6 +96,7 @@ docs/                  guides, ADRs, phase plan
 | `pnpm lint`              | ESLint + Prettier check                            |
 | `pnpm format`            | Prettier write                                     |
 | `pnpm clean`             | Remove build artifacts                             |
+| `pnpm doctor`            | Static health checks (env, versions, manifest)     |
 | `pnpm validate:manifest` | Validate `.svelocity/` manifest against schema     |
 | `pnpm validate:v1`       | Pre-release gauntlet (`RUN_E2E=1` adds Playwright) |
 

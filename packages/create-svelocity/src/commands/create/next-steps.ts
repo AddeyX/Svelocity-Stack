@@ -34,7 +34,7 @@ export function nextSteps(opts: { projectName: string; convexNow: boolean }): st
 		'pnpm --filter mobile exec cap add android',
 		'',
 		'# Health check any time:',
-		'pnpm exec svelocity doctor',
+		'pnpm doctor',
 		''
 	].join('\n');
 }

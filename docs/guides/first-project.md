@@ -23,7 +23,7 @@ pnpm install
 `pnpm install` finishes without errors. Verify the environment any time with:
 
 ```bash
-pnpm exec svelocity doctor
+pnpm doctor
 ```
 
 ## 2. Start the Convex backend
