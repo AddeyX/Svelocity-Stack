@@ -42,4 +42,4 @@ pnpm --filter web dev
   `@svelocity/app-core`, auth helpers from `@svelocity/auth`, UI from
   `@svelocity/ui`, backend API from `@svelocity/backend`. This app is routing +
   composition only.
-- **Deploy:** `wrangler` guide lands in Phase 9 (`docs/guides/deploy-cloudflare.md`).
+- **Deploy:** see [docs/guides/deploy-cloudflare.md](../../docs/guides/deploy-cloudflare.md).

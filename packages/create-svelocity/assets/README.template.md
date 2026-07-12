@@ -1,6 +1,6 @@
 # {{DISPLAY_NAME}}
 
-Built with the [Svelocity Stack](https://github.com/manny4u67/Svelocity-Stack) - SvelteKit web, Electron desktop, and Capacitor mobile apps sharing one core, backed by Convex.
+Built with the [Svelocity Stack](https://github.com/AddeyX/Svelocity-Stack) - SvelteKit web, Electron desktop, and Capacitor mobile apps sharing one core, backed by Convex.
 
 ## Getting Started
 
