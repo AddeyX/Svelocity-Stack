@@ -11,10 +11,10 @@ maintainer's Cairno, Jaut Desktop, and EZ Money apps.
 
 ## Runtime Targets
 
-| Tool | Minimum | Tested | Notes                                                         |
-| ---- | ------- | ------ | ------------------------------------------------------------- |
-| Node | 22 LTS  | 22.x   | `engines.node: ">=22"` in root package.json                   |
-| pnpm | 10      | 10.x   | Workspace protocol + catalogs require pnpm 9.5+; we target 10 |
+| Tool | Minimum | Tested | Notes                                                                                                        |
+| ---- | ------- | ------ | ------------------------------------------------------------------------------------------------------------ |
+| Node | 22.18+  | 22.23  | `engines.node: ">=22.18"` in root package.json (tsdown build requirement; generated projects need only >=22) |
+| pnpm | 10      | 10.x   | Workspace protocol + catalogs require pnpm 9.5+; we target 10                                                |
 
 ## Core Framework
 
