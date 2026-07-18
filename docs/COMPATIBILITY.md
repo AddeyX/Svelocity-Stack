@@ -11,10 +11,10 @@ maintainer's Cairno, Jaut Desktop, and EZ Money apps.
 
 ## Runtime Targets
 
-| Tool | Minimum | Tested | Notes                                                                                                        |
-| ---- | ------- | ------ | ------------------------------------------------------------------------------------------------------------ |
-| Node | 22.18+  | 22.23  | `engines.node: ">=22.18"` in root package.json (tsdown build requirement; generated projects need only >=22) |
-| pnpm | 10      | 10.x   | Workspace protocol + catalogs require pnpm 9.5+; we target 10                                                |
+| Tool | Minimum | Tested | Notes                                                                       |
+| ---- | ------- | ------ | --------------------------------------------------------------------------- |
+| Node | 22.18+  | 22.23  | `engines.node: ">=22.18"` in stack and generated-project package.json files |
+| pnpm | 10      | 10.x   | Workspace protocol + catalogs require pnpm 9.5+; we target 10               |
 
 ## Core Framework
 
@@ -45,11 +45,11 @@ maintainer's Cairno, Jaut Desktop, and EZ Money apps.
 
 ## Desktop (Electron)
 
-| Package                                | Catalog pin         | Notes                                     |
-| -------------------------------------- | ------------------- | ----------------------------------------- |
-| `electron`                             | latest stable (38+) | Catalog group `catalog:electron`          |
-| `electron-builder`                     | 26.x                | Packaging; signing is a manual step in v1 |
-| `concurrently`, `wait-on`, `cross-env` | latest              | Dev orchestration                         |
+| Package                                | Catalog pin | Notes                                     |
+| -------------------------------------- | ----------- | ----------------------------------------- |
+| `electron`                             | 39.8.10+    | Security-patched catalog floor            |
+| `electron-builder`                     | 26.x        | Packaging; signing is a manual step in v1 |
+| `concurrently`, `wait-on`, `cross-env` | latest      | Dev orchestration                         |
 
 ## Mobile (Capacitor)
 
@@ -68,11 +68,12 @@ maintainer's Cairno, Jaut Desktop, and EZ Money apps.
 
 ## Testing
 
-| Package                   | Catalog pin | Notes                                                  |
-| ------------------------- | ----------- | ------------------------------------------------------ |
-| `vitest`                  | 4.x         | Unit + component tests                                 |
-| `@testing-library/svelte` | latest      | UI package component tests                             |
-| `playwright`              | latest      | E2E config stub in v1; full suite gated on live Convex |
+| Package                   | Catalog pin | Notes                                       |
+| ------------------------- | ----------- | ------------------------------------------- |
+| `vitest`                  | 4.x         | Unit + component tests                      |
+| `@testing-library/svelte` | latest      | UI package component tests                  |
+| `playwright`              | latest      | Golden-path + axe E2E, gated on live Convex |
+| `@axe-core/playwright`    | latest      | WCAG A/AA browser audit                     |
 
 ## Native Toolchain Prerequisites (documented, not bundled)
 

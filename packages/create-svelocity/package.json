@@ -1,9 +1,26 @@
 {
 	"name": "create-svelocity",
-	"version": "0.1.0",
-	"private": true,
+	"version": "1.0.0",
 	"description": "Scaffold a Svelocity Stack project — web, desktop, and mobile from one shared core.",
 	"license": "MIT",
+	"homepage": "https://github.com/AddeyX/Svelocity-Stack#readme",
+	"bugs": {
+		"url": "https://github.com/AddeyX/Svelocity-Stack/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/AddeyX/Svelocity-Stack.git",
+		"directory": "packages/create-svelocity"
+	},
+	"keywords": [
+		"svelte",
+		"sveltekit",
+		"electron",
+		"capacitor",
+		"convex",
+		"monorepo",
+		"scaffold"
+	],
 	"type": "module",
 	"bin": {
 		"create-svelocity": "./dist/create.js",
@@ -14,7 +31,7 @@
 		"template"
 	],
 	"engines": {
-		"node": ">=22"
+		"node": ">=22.18"
 	},
 	"scripts": {
 		"build:template": "node scripts/build-template.mjs",

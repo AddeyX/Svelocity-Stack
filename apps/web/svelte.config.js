@@ -5,7 +5,26 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 const config = {
 	preprocess: vitePreprocess(),
 	kit: {
-		adapter: adapter()
+		adapter: adapter(),
+		csp: {
+			mode: 'auto',
+			directives: {
+				'default-src': ['self'],
+				'base-uri': ['none'],
+				'object-src': ['none'],
+				'frame-ancestors': ['none'],
+				'img-src': ['self', 'data:'],
+				'connect-src': [
+					'self',
+					'https:',
+					'wss:',
+					'http://127.0.0.1:*',
+					'http://localhost:*',
+					'ws://127.0.0.1:*',
+					'ws://localhost:*'
+				]
+			}
+		}
 	}
 };
 

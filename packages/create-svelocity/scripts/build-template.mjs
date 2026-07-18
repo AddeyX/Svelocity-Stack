@@ -31,12 +31,15 @@ const EXCLUDE_DIR_NAMES = new Set([
 	'.git',
 	'.svelte-kit',
 	'.wrangler',
+	'.convex',
 	'.superpowers',
 	'dist',
 	'dist-electron',
 	'release',
 	'build',
 	'coverage',
+	'playwright-report',
+	'test-results',
 	'.claude',
 	'.DS_Store'
 ]);
@@ -51,9 +54,12 @@ const EXCLUDE_PATHS = new Set([
 	'docs/superpowers',
 	'docs/V1-SCOPE.md',
 	'docs/V1.1-BACKLOG.md',
+	'docs/V1-VALIDATION-REPORT.md',
 	'docs/RISKS.md',
 	'docs/Svelocity-Stack-PR.md',
 	'docs/CONTRIBUTING-STACK.md',
+	'CHANGELOG.md',
+	'CONTRIBUTING.md',
 	'README.md',
 	'LICENSE'
 ]);

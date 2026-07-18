@@ -11,7 +11,7 @@
 </script>
 
 <!-- Mount once at the app root, after main content. -->
-<div class="sv-toaster sv-toaster--{position}" aria-live="polite" aria-label="Notifications">
+<div class="sv-toaster sv-toaster--{position}">
 	{#each toast.items as item (item.id)}
 		<div
 			class="sv-toast sv-toast--{item.variant}"

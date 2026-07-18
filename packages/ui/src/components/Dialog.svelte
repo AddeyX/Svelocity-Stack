@@ -10,7 +10,7 @@
 		description?: string;
 		/** Bindable open state. */
 		open?: boolean;
-		/** Optional explicit trigger button; otherwise control via bind:open. */
+		/** Optional trigger content rendered inside the dialog trigger button. */
 		trigger?: Snippet;
 		/** Dialog body. */
 		children?: Snippet;
@@ -31,11 +31,7 @@
 
 <Dialog.Root bind:open {...rest}>
 	{#if trigger}
-		<Dialog.Trigger>
-			{#snippet child({ props })}
-				<span {...props} class="sv-dialog-trigger">{@render trigger()}</span>
-			{/snippet}
-		</Dialog.Trigger>
+		<Dialog.Trigger class="sv-dialog-trigger">{@render trigger()}</Dialog.Trigger>
 	{/if}
 	<Dialog.Portal>
 		<Dialog.Overlay class="sv-dialog-overlay" />
@@ -55,8 +51,29 @@
 </Dialog.Root>
 
 <style>
-	.sv-dialog-trigger {
-		display: contents;
+	:global(.sv-dialog-trigger) {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: var(--sv-touch-target);
+		padding: var(--sv-space-2) var(--sv-space-4);
+		background: var(--sv-color-primary);
+		border: 1px solid transparent;
+		border-radius: var(--sv-radius-md);
+		font-family: var(--sv-font-sans);
+		font-size: var(--sv-text-sm);
+		font-weight: var(--sv-font-semibold);
+		color: var(--sv-color-text-on-primary);
+		cursor: pointer;
+	}
+	@media (hover: hover) {
+		:global(.sv-dialog-trigger:hover) {
+			background: var(--sv-color-primary-hover);
+		}
+	}
+	:global(.sv-dialog-trigger:focus-visible) {
+		outline: 2px solid var(--sv-color-focus-ring);
+		outline-offset: 2px;
 	}
 	.sv-dialog-body {
 		margin-top: var(--sv-space-4);

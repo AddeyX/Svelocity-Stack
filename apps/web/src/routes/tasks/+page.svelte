@@ -34,11 +34,7 @@
 	const remaining = $derived(openCount(tasks.data ?? []));
 
 	async function createTask(title: string) {
-		try {
-			await client.mutation(api.tasks.create, { title });
-		} catch {
-			toast.error('Could not create the task.');
-		}
+		await client.mutation(api.tasks.create, { title });
 	}
 
 	function toggleTask(task: TaskDoc, completed: boolean) {

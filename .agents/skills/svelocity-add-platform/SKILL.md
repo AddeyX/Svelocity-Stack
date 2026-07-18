@@ -5,7 +5,7 @@ description: >
   mobile — to a Svelocity Stack project. Use when the user asks to add a platform,
   re-add a removed shell, or understand what a platform shell owns. v1 is a guided
   manual process; `svelocity add` automates this in v1.1.
-compatibleStackVersion: 0.1.x
+compatibleStackVersion: 1.0.x
 ---
 
 # Svelocity Add Platform

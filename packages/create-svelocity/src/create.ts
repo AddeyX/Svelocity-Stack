@@ -162,7 +162,7 @@ const main = defineCommand({
 			targetDir,
 			buildManifest({
 				cliVersion,
-				stackVersion: rootPkg.version ?? '0.1.0',
+				stackVersion: rootPkg.version ?? '1.0.0',
 				packageManager: rootPkg.packageManager ?? 'pnpm@10.0.0'
 			})
 		);

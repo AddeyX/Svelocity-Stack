@@ -50,6 +50,7 @@ applyTheme('dark'); // sets data-theme="dark" on <html>
 
 - Components and apps use **semantic** tokens (`--sv-color-primary`), never palette
   primitives and never hex values.
-- Dark mode: `data-theme="dark"` on `<html>`; structure ships now, polish in Phase 10.
+- Dark mode: `data-theme="dark"` on `<html>`; tokens ship in V1, while the user-facing
+  toggle and final polish are tracked for V1.1.
 - Brand orange `--sv-color-brand` (#ff3e00) is for logos/accents only — it fails AA
   contrast on white; interactive elements use `--sv-color-primary`.

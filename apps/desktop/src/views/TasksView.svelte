@@ -3,7 +3,7 @@
 	import { api } from '@svelocity/backend';
 	import type { Doc } from '@svelocity/backend/dataModel';
 	import { getAuthState, sessionState } from '@svelocity/auth';
-	import { openCount, sortTasks, validateTaskTitle } from '@svelocity/app-core';
+	import { attemptTaskCreation, openCount, sortTasks } from '@svelocity/app-core';
 	import {
 		AlertDialog,
 		Avatar,
@@ -40,26 +40,42 @@
 
 	let title = $state('');
 	let formError = $state('');
+	let creationError = $state('');
+	let pendingCreateTitle = $state('');
 	let busy = $state(false);
 	let taskPendingDelete = $state<TaskDoc | null>(null);
 
-	async function createTask(event: SubmitEvent) {
-		event.preventDefault();
-		const result = validateTaskTitle(title);
-		if (!result.ok) {
-			formError = result.error ?? 'Invalid title';
-			return;
-		}
+	async function runTaskCreation(rawTitle: string) {
+		if (busy) return;
 		formError = '';
+		creationError = '';
 		busy = true;
 		try {
-			await client.mutation(api.tasks.create, { title: result.value! });
-			title = '';
-		} catch {
-			toast.error('Could not create the task.');
+			const result = await attemptTaskCreation(rawTitle, (normalizedTitle) =>
+				client.mutation(api.tasks.create, { title: normalizedTitle })
+			);
+			if (result.ok) {
+				title = '';
+				pendingCreateTitle = '';
+			} else if (result.pendingTitle) {
+				title = result.pendingTitle;
+				pendingCreateTitle = result.pendingTitle;
+				creationError = result.error;
+			} else {
+				formError = result.error;
+			}
 		} finally {
 			busy = false;
 		}
+	}
+
+	function createTask(event: SubmitEvent) {
+		event.preventDefault();
+		void runTaskCreation(title);
+	}
+
+	function retryCreateTask() {
+		if (pendingCreateTitle) void runTaskCreation(pendingCreateTitle);
 	}
 
 	function toggleTask(task: TaskDoc, completed: boolean) {
@@ -117,7 +133,7 @@
 								bind:value={title}
 								placeholder="What needs doing?"
 								aria-label="New task title"
-								error={Boolean(formError)}
+								error={Boolean(formError || creationError)}
 								disabled={busy}
 							/>
 							<Button type="submit" loading={busy} aria-label="Add task">
@@ -128,6 +144,15 @@
 							<p class="task-form__error" role="alert">{formError}</p>
 						{/if}
 					</form>
+					{#if creationError}
+						<ErrorState
+							class="task-form__failure"
+							title="Task not created"
+							message={creationError}
+							retryLabel="Retry"
+							onRetry={retryCreateTask}
+						/>
+					{/if}
 
 					{#if tasks.isLoading}
 						<LoadingState message="Loading tasks…" />
@@ -234,6 +259,9 @@
 		margin: var(--sv-space-1) 0 0;
 		font-size: var(--sv-text-sm);
 		color: var(--sv-color-danger);
+	}
+	:global(.task-form__failure) {
+		padding: var(--sv-space-4);
 	}
 	.task-list {
 		list-style: none;

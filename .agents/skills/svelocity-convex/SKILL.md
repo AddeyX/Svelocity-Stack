@@ -7,7 +7,7 @@ description: >
   query or mutation, or subscribe to live data on web/desktop/mobile. This skill is
   Svelocity-specific wiring only, not a Convex tutorial — for generic Convex
   patterns install the upstream skills (see .agents/README.md).
-compatibleStackVersion: 0.1.x
+compatibleStackVersion: 1.0.x
 ---
 
 # Svelocity Convex

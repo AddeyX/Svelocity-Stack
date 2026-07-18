@@ -4,7 +4,7 @@ Scaffolder and project tooling for the [Svelocity Stack](../../README.md).
 
 ## Bins
 
-- `create-svelocity` - scaffold a new project (`pnpm create svelocity` once published)
+- `create-svelocity` - scaffold a new project (`pnpm create svelocity`)
 - `svelocity` - `doctor` (static health checks) and `info` (manifest display)
 
 ## How Template Works
@@ -25,4 +25,5 @@ pnpm --filter create-svelocity test
 CLI_INTEGRATION=1 pnpm --filter create-svelocity test -- tests/integration.spec.ts
 ```
 
-Publishing (Phase 10): remove `"private": true`; `pnpm publish` runs `prepublishOnly`, producing fresh template + dist.
+Before publishing, run `npm pack --dry-run --json` and inspect package contents.
+`pnpm publish` runs `prepublishOnly`, producing a fresh template and CLI bundle.

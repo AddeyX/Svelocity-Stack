@@ -9,7 +9,7 @@ description: >
   Requires explicit user confirmation before running — never start without it.
 disable-model-invocation: true
 argument-hint: '[full|quick] [optional output path]'
-compatibleStackVersion: 0.1.x
+compatibleStackVersion: 1.0.x
 ---
 
 # Svelocity Alignment Audit
