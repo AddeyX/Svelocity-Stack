@@ -14,7 +14,7 @@
 - [x] 3 official skills exist and are installable in generated projects — five shipped: the original three plus `svelocity-alignment-audit` and `svelocity-changelog` (spec decision #3)
 - [ ] An AI agent can configure auth using `svelocity-auth` skill — not manually walked in Phase 7; lands with Phase 9/10 verification
 - [ ] An AI agent can add a Convex query using `svelocity-convex` skill — not manually walked in Phase 7; lands with Phase 9/10 verification
-- [x] Skills versioned and tied to `stackVersion` in manifest — every `SKILL.md` carries `compatibleStackVersion: 0.1.x` frontmatter
+- [x] Skills versioned and tied to `stackVersion` in manifest — every `SKILL.md` carries `compatibleStackVersion: 1.0.x` frontmatter
 
 ---
 
@@ -166,7 +166,7 @@ three — `svelocity-alignment-audit/` and `svelocity-changelog/`, each with sib
 table (design decision #1 and #3).
 
 - [x] Each skill is self-contained markdown — folder-scoped, with sibling reference/template files where a skill exceeds ~150 lines
-- [x] Each skill lists compatible `stackVersion` range — `compatibleStackVersion: 0.1.x` frontmatter
+- [x] Each skill lists compatible `stackVersion` range — `compatibleStackVersion: 1.0.x` frontmatter
 - [x] Skills included in CLI template output — `build-template.spec.ts` asserts all five `SKILL.md` files ship
 - [x] Manifest `skills` array lists installed skills — `.svelocity/manifest.schema.json` + e2e assertion
 

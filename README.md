@@ -3,7 +3,7 @@
 [![CI](https://github.com/AddeyX/Svelocity-Stack/actions/workflows/ci.yml/badge.svg)](https://github.com/AddeyX/Svelocity-Stack/actions/workflows/ci.yml)
 [![CLI golden path](https://github.com/AddeyX/Svelocity-Stack/actions/workflows/cli.yml/badge.svg)](https://github.com/AddeyX/Svelocity-Stack/actions/workflows/cli.yml)
 [![E2E](https://github.com/AddeyX/Svelocity-Stack/actions/workflows/e2e.yml/badge.svg)](https://github.com/AddeyX/Svelocity-Stack/actions/workflows/e2e.yml)
-[![node >=22](https://img.shields.io/badge/node-%3E%3D22-brightgreen)](docs/COMPATIBILITY.md)
+[![node >=22.18](https://img.shields.io/badge/node-%3E%3D22.18-brightgreen)](docs/COMPATIBILITY.md)
 [![pnpm >=10](https://img.shields.io/badge/pnpm-%3E%3D10-f69220)](docs/COMPATIBILITY.md)
 
 **Opinionated, AI-ready Svelte monorepo template — one shared core, shipped to web, desktop, and mobile.**
@@ -24,7 +24,7 @@ Svelocity Stack is a golden path for building the same Svelte app on three platf
 
 ## Prerequisites
 
-- [Node](https://nodejs.org/en/download) >= 22
+- [Node](https://nodejs.org/en/download) >= 22.18
 - [pnpm](https://pnpm.io/installation) >= 10
 - [Git](https://git-scm.com/downloads)
 
@@ -97,12 +97,21 @@ docs/                  guides, ADRs, phase plan
 | `pnpm format`            | Prettier write                                     |
 | `pnpm clean`             | Remove build artifacts                             |
 | `pnpm doctor`            | Static health checks (env, versions, manifest)     |
+| `pnpm audit:v1`          | Audit security and platform configuration          |
 | `pnpm validate:manifest` | Validate `.svelocity/` manifest against schema     |
 | `pnpm validate:v1`       | Pre-release gauntlet (`RUN_E2E=1` adds Playwright) |
 
+## Release Information
+
+- [Changelog](CHANGELOG.md)
+- [Known limitations](docs/KNOWN-LIMITATIONS.md)
+- [Compatibility matrix](docs/COMPATIBILITY.md)
+- [V1.1 backlog](docs/V1.1-BACKLOG.md)
+
 ## Contributing
 
-Working on the stack itself (not a generated project)? See [docs/CONTRIBUTING-STACK.md](docs/CONTRIBUTING-STACK.md).
+Working on the stack itself (not a generated project)? Start with
+[CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 

@@ -8,7 +8,7 @@ description: >
   release, bump the version, or document what shipped.
 disable-model-invocation: true
 argument-hint: '[patch|minor|major] [optional release date YYYY-MM-DD]'
-compatibleStackVersion: 0.1.x
+compatibleStackVersion: 1.0.x
 ---
 
 # Svelocity Changelog

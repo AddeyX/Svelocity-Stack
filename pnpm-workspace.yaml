@@ -31,6 +31,7 @@ catalog:
   '@testing-library/user-event': ^14.5.0
   jsdom: ^29.1.1
   '@playwright/test': ^1.60.0
+  '@axe-core/playwright': ^4.12.1
   # lint + format
   prettier: ^3.8.4
   prettier-plugin-svelte: ^3.5.1
@@ -44,7 +45,7 @@ catalog:
 
 catalogs:
   electron:
-    electron: ^38.3.0
+    electron: ^39.8.10
     electron-builder: ^26.0.12
     concurrently: ^9.2.3
     wait-on: ^7.2.0

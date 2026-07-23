@@ -226,3 +226,7 @@ body {
 	line-height: var(--sv-leading-normal);
 	-webkit-font-smoothing: antialiased;
 }
+
+.sv-app-root {
+	display: contents;
+}

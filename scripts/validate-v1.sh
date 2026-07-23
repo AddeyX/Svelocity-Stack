@@ -36,7 +36,27 @@ node packages/create-svelocity/dist/cli.js doctor
 
 if [[ "${RUN_E2E:-0}" == "1" ]]; then
 	step "E2E (Playwright, web)"
-	pnpm --filter web test:e2e
+	if [[ -z "${PUBLIC_CONVEX_URL:-}" ]]; then
+		echo "RUN_E2E=1 requires a live Convex backend." >&2
+		echo "Start one:  CONVEX_AGENT_MODE=anonymous pnpm --filter @svelocity/backend dev" >&2
+		echo "Then:       PUBLIC_CONVEX_URL=http://127.0.0.1:3210 RUN_E2E=1 pnpm validate:v1" >&2
+		exit 1
+	fi
+	results_file="$(mktemp -t playwright-results.XXXXXX.json)"
+	PLAYWRIGHT_JSON_OUTPUT_FILE="$results_file" CI=1 pnpm --filter web test:e2e
+	# tasks.spec.ts self-skips without a reachable backend; a skipped suite must
+	# not count as a green gate (mirrors the CI anti-silent-skip guard).
+	RESULTS_FILE="$results_file" node - <<-'EOF'
+		const { readFileSync } = require('node:fs');
+		const report = JSON.parse(readFileSync(process.env.RESULTS_FILE, 'utf8'));
+		const { expected = 0, unexpected = 0, flaky = 0, skipped = 0 } = report.stats ?? {};
+		const executed = expected + unexpected + flaky;
+		console.log(`Playwright stats: expected=${expected} unexpected=${unexpected} flaky=${flaky} skipped=${skipped}`);
+		if (executed === 0 || skipped > 0) {
+			console.error('E2E suite did not fully execute — gate failed.');
+			process.exit(1);
+		}
+	EOF
 else
 	step "E2E skipped (set RUN_E2E=1 to include)"
 fi

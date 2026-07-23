@@ -30,7 +30,7 @@
 	.sv-badge--neutral {
 		background: var(--sv-color-surface-sunken);
 		border-color: var(--sv-color-border);
-		color: var(--sv-color-text-muted);
+		color: var(--sv-color-text);
 	}
 	.sv-badge--primary {
 		background: var(--sv-color-primary-soft);

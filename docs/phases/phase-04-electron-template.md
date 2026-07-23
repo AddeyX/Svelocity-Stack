@@ -46,7 +46,7 @@
 - [x] Handle dev vs production URL/file loading
 - [x] Set minimum window size
 - [x] Set app name and icon placeholder
-- [ ] Handle macOS `activate` and Windows/Linux `window-all-closed`
+- [x] Handle macOS `activate` and Windows/Linux `window-all-closed`
 
 ## 4.3 — Preload Script
 

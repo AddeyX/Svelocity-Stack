@@ -1614,22 +1614,24 @@ The stack should remain useful without paid access.
 
 A solo developer should be able to:
 
-1. Install required tools
-2. Run one guided setup command
-3. Select web, desktop, and mobile
-4. Select shadcn-svelte or Bits UI
-5. Select Better Auth or Convex Auth
-6. Configure Convex
-7. Generate AI instruction files
-8. Install recommended skills
-9. Run the shared demo in browser
-10. Run the Electron application
-11. compile the Capacitor application locally
-12. run checks across the workspace
+1. Run `pnpm create svelocity` and receive the single golden-path repository
+2. Configure Convex and typed environment variables from the in-repo guides
+3. Run Shared Tasks in the browser with Convex Auth and real-time task sync
+4. Run the same Shared Tasks experience in Electron
+5. Build and sync the Capacitor shell for iOS or Android
+6. Use Bits UI components through the shared `packages/ui` package
+7. Use `AGENTS.md`, the Cursor rule, and five bundled Svelocity skills
+8. Run `svelocity doctor` with all critical checks passing
+9. Run workspace checks, tests, and builds successfully
+10. Deploy the web shell to Cloudflare using the deployment guide
 
 Target time:
 
 > Less than 30 minutes on a properly prepared machine.
+
+V1 deliberately ships one supported combination: Bits UI, Convex Auth, Convex, and all
+three platform shells. Alternative UI/auth choices, platform-add/upgrade commands, and
+automated native-store distribution are deferred until after V1.
 
 ### V1 Build Commands
 

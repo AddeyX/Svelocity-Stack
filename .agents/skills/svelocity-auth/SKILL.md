@@ -5,7 +5,7 @@ description: >
   sign-up, sign-out, route guards, session state, and the token flow shared by the
   web, Electron, and Capacitor shells. Use when the user asks to protect a route,
   add an auth provider, fix login/logout, or reason about where tokens live.
-compatibleStackVersion: 0.1.x
+compatibleStackVersion: 1.0.x
 ---
 
 # Svelocity Auth

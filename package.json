@@ -1,14 +1,14 @@
 {
 	"name": "svelocity-stack",
 	"private": true,
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"description": "Opinionated, AI-ready Svelte monorepo template — web, desktop, and mobile from one shared core.",
 	"license": "MIT",
 	"author": "Emmanuel Addey",
 	"type": "module",
 	"packageManager": "pnpm@10.33.2",
 	"engines": {
-		"node": ">=22",
+		"node": ">=22.18",
 		"pnpm": ">=10"
 	},
 	"scripts": {
@@ -23,6 +23,7 @@
 		"format": "prettier --write .",
 		"clean": "node scripts/clean.mjs",
 		"doctor": "node packages/create-svelocity/dist/cli.js doctor",
+		"audit:v1": "node scripts/audit-v1.mjs",
 		"validate:manifest": "node scripts/validate-manifest.mjs",
 		"validate:v1": "bash scripts/validate-v1.sh"
 	},

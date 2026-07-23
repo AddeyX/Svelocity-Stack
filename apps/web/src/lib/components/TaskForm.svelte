@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { validateTaskTitle } from '@svelocity/app-core';
-	import { Button, IconPlus, Input } from '@svelocity/ui';
+	import { attemptTaskCreation } from '@svelocity/app-core';
+	import { Button, ErrorState, IconPlus, Input } from '@svelocity/ui';
 
 	interface Props {
 		/** Called with a validated, trimmed title. Resolves when the mutation lands. */
@@ -10,24 +10,40 @@
 	let { onCreate }: Props = $props();
 
 	let title = $state('');
-	let error = $state('');
+	let validationError = $state('');
+	let creationError = $state('');
+	let pendingTitle = $state('');
 	let busy = $state(false);
 
-	async function submit(event: SubmitEvent) {
-		event.preventDefault();
-		const result = validateTaskTitle(title);
-		if (!result.ok) {
-			error = result.error ?? 'Invalid title';
-			return;
-		}
-		error = '';
+	async function create(rawTitle: string) {
+		if (busy) return;
+		validationError = '';
+		creationError = '';
 		busy = true;
 		try {
-			await onCreate(result.value!);
-			title = '';
+			const result = await attemptTaskCreation(rawTitle, onCreate);
+			if (result.ok) {
+				title = '';
+				pendingTitle = '';
+			} else if (result.pendingTitle) {
+				title = result.pendingTitle;
+				pendingTitle = result.pendingTitle;
+				creationError = result.error;
+			} else {
+				validationError = result.error;
+			}
 		} finally {
 			busy = false;
 		}
+	}
+
+	function submit(event: SubmitEvent) {
+		event.preventDefault();
+		void create(title);
+	}
+
+	function retry() {
+		if (pendingTitle) void create(pendingTitle);
 	}
 </script>
 
@@ -37,15 +53,24 @@
 			bind:value={title}
 			placeholder="What needs doing?"
 			aria-label="New task title"
-			error={Boolean(error)}
+			error={Boolean(validationError || creationError)}
 			disabled={busy}
 		/>
 		<Button type="submit" loading={busy} aria-label="Add task">
 			<IconPlus size={16} /> Add
 		</Button>
 	</div>
-	{#if error}
-		<p class="task-form__error" role="alert">{error}</p>
+	{#if validationError}
+		<p class="task-form__error" role="alert">{validationError}</p>
+	{/if}
+	{#if creationError}
+		<ErrorState
+			class="task-form__failure"
+			title="Task not created"
+			message={creationError}
+			retryLabel="Retry"
+			onRetry={retry}
+		/>
 	{/if}
 </form>
 
@@ -58,5 +83,8 @@
 		margin: var(--sv-space-1) 0 0;
 		font-size: var(--sv-text-sm);
 		color: var(--sv-color-danger);
+	}
+	.task-form :global(.task-form__failure) {
+		padding: var(--sv-space-4);
 	}
 </style>

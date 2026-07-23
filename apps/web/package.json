@@ -24,6 +24,7 @@
 		"convex-svelte": "catalog:"
 	},
 	"devDependencies": {
+		"@axe-core/playwright": "catalog:",
 		"@playwright/test": "catalog:",
 		"@svelocity/config": "workspace:*",
 		"@sveltejs/adapter-cloudflare": "catalog:",

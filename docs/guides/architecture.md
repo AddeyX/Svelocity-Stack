@@ -108,7 +108,7 @@ choices, and bundled skills:
 
 ```json
 {
-	"stackVersion": "0.1.0",
+	"stackVersion": "1.0.0",
 	"targets": ["web", "desktop", "mobile"],
 	"ui": "bits-ui",
 	"auth": "convex-auth",
