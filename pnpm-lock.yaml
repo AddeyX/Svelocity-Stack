@@ -150,7 +150,7 @@ importers:
         version: 5.56.4(@typescript-eslint/types@8.62.1)
 
   apps/desktop:
-    dependencies:
+    devDependencies:
       '@svelocity/app-core':
         specifier: workspace:*
         version: link:../../packages/app-core
@@ -160,6 +160,9 @@ importers:
       '@svelocity/backend':
         specifier: workspace:*
         version: link:../../packages/backend
+      '@svelocity/config':
+        specifier: workspace:*
+        version: link:../../packages/config
       '@svelocity/env':
         specifier: workspace:*
         version: link:../../packages/env
@@ -169,16 +172,6 @@ importers:
       '@svelocity/ui':
         specifier: workspace:*
         version: link:../../packages/ui
-      convex:
-        specifier: 'catalog:'
-        version: 1.42.1
-      convex-svelte:
-        specifier: 'catalog:'
-        version: 0.14.0(@sveltejs/kit@2.69.1(@sveltejs/vite-plugin-svelte@7.1.2(svelte@5.56.4(@typescript-eslint/types@8.62.1))(vite@8.1.3(@types/node@22.20.0)(esbuild@0.28.1)(jiti@2.7.0)))(svelte@5.56.4(@typescript-eslint/types@8.62.1))(typescript@6.0.3)(vite@8.1.3(@types/node@22.20.0)(esbuild@0.28.1)(jiti@2.7.0)))(convex@1.42.1)(svelte@5.56.4(@typescript-eslint/types@8.62.1))(zod@4.4.3)
-    devDependencies:
-      '@svelocity/config':
-        specifier: workspace:*
-        version: link:../../packages/config
       '@sveltejs/vite-plugin-svelte':
         specifier: 'catalog:'
         version: 7.1.2(svelte@5.56.4(@typescript-eslint/types@8.62.1))(vite@8.1.3(@types/node@22.20.0)(esbuild@0.28.1)(jiti@2.7.0))
@@ -188,6 +181,12 @@ importers:
       concurrently:
         specifier: catalog:electron
         version: 9.2.3
+      convex:
+        specifier: 'catalog:'
+        version: 1.42.1
+      convex-svelte:
+        specifier: 'catalog:'
+        version: 0.14.0(@sveltejs/kit@2.69.1(@sveltejs/vite-plugin-svelte@7.1.2(svelte@5.56.4(@typescript-eslint/types@8.62.1))(vite@8.1.3(@types/node@22.20.0)(esbuild@0.28.1)(jiti@2.7.0)))(svelte@5.56.4(@typescript-eslint/types@8.62.1))(typescript@6.0.3)(vite@8.1.3(@types/node@22.20.0)(esbuild@0.28.1)(jiti@2.7.0)))(convex@1.42.1)(svelte@5.56.4(@typescript-eslint/types@8.62.1))(zod@4.4.3)
       cross-env:
         specifier: catalog:electron
         version: 7.0.3

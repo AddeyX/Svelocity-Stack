@@ -16,21 +16,19 @@
 		"package": "pnpm build && electron-builder --config electron-builder.json",
 		"check": "svelte-check --tsconfig ./tsconfig.json && tsc -p tsconfig.electron.json"
 	},
-	"dependencies": {
+	"devDependencies": {
 		"@svelocity/app-core": "workspace:*",
 		"@svelocity/auth": "workspace:*",
 		"@svelocity/backend": "workspace:*",
+		"@svelocity/config": "workspace:*",
 		"@svelocity/env": "workspace:*",
 		"@svelocity/theme": "workspace:*",
 		"@svelocity/ui": "workspace:*",
-		"convex": "catalog:",
-		"convex-svelte": "catalog:"
-	},
-	"devDependencies": {
-		"@svelocity/config": "workspace:*",
 		"@sveltejs/vite-plugin-svelte": "catalog:",
 		"@types/node": "catalog:",
 		"concurrently": "catalog:electron",
+		"convex": "catalog:",
+		"convex-svelte": "catalog:",
 		"cross-env": "catalog:electron",
 		"electron": "catalog:electron",
 		"electron-builder": "catalog:electron",
