@@ -24,8 +24,8 @@ Source of truth for the full checklist: [`docs/phases/phase-10-hardening-release
 
 - [ ] Record actual setup times in `docs/phases/phase-10-hardening-release.md` §10.1:
   - Web only: ___ minutes (**must be under 30**)
-  - + Desktop: ___ minutes
-  - + Mobile: ___ minutes
+  - - Desktop: ___ minutes
+  - - Mobile: ___ minutes
 - [ ] If the web path exceeds 30 minutes, fix the slow step before continuing.
 - Windows / Linux runs: optional, do them if a machine is available.
 
