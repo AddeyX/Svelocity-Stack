@@ -38,7 +38,7 @@ Remove it again for production builds.
 ## Mobile UX baseline (Phase 5 §5.4)
 
 - `viewport-fit=cover` + `env(safe-area-inset-*)` via
-  `@svelocity/theme/platform/mobile.css` (`--sv-safe-*` tokens)
+  `@svelocity/ui/tokens/platform/mobile.css` (`--sv-safe-*` tokens)
 - Touch targets ≥44px (`--sv-touch-target: 2.75rem`)
 - Hover-dependent interactions disabled on touch
 - Android back button: register → login, otherwise OS default (`src/lib/native.ts`)

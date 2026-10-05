@@ -17,8 +17,7 @@ packages/                      ── the shared core
   backend/    Convex schema, functions, generated api    (@svelocity/backend)
   app-core/   domain types, validation, pure logic       (@svelocity/app-core)
   auth/       Convex Auth client state + route guards    (@svelocity/auth)
-  ui/         shared components (Bits UI wrappers)       (@svelocity/ui)
-  theme/      --sv-* design tokens + platform overrides  (@svelocity/theme)
+  ui/         shared components + tokens/                (@svelocity/ui)
   env/        typed env parsing (zod)                    (@svelocity/env)
   config/     tsconfig / eslint / prettier / vite presets(@svelocity/config)
   create-svelocity/  the CLI (create / doctor / info)
@@ -31,13 +30,12 @@ import each other:
 
 ```text
 apps/web ─┐
-apps/desktop ─┼──▶ ui ──▶ theme
-apps/mobile ─┘    │
-      │           └──▶ app-core
+apps/desktop ─┼──▶ ui (components + tokens/)
+apps/mobile ─┘
+      ├──▶ app-core
       ├──▶ auth ──▶ backend (generated api types)
       ├──▶ backend
-      ├──▶ env
-      └──▶ theme
+      └──▶ env
 
 backend ──▶ app-core   (shared validation, e.g. taskTitleSchema)
 ```
@@ -56,7 +54,7 @@ Rules (enforced by review + the `svelocity-alignment-audit` skill):
 | A database table, query, or mutation        | `packages/backend/convex/`                       |
 | Validation, domain types, pure functions    | `packages/app-core/src/`                         |
 | A reusable component                        | `packages/ui/src/components/`                    |
-| A color, spacing, or typography value       | `packages/theme/src/tokens.css`                  |
+| A color, spacing, or typography value       | `packages/ui/tokens/tokens.css`                  |
 | A new client env variable                   | `packages/env/src/index.ts` + app `.env.example` |
 | A page/route (web)                          | `apps/web/src/routes/`                           |
 | A view (desktop/mobile SPA)                 | `apps/<shell>/src/views/`                        |
@@ -77,8 +75,8 @@ Each shell imports the base tokens plus exactly one platform override in its roo
 layout/entry:
 
 ```ts
-import '@svelocity/theme/tokens.css';
-import '@svelocity/theme/platform/web.css'; // or desktop.css / mobile.css
+import '@svelocity/ui/tokens.css';
+import '@svelocity/ui/tokens/platform/web.css'; // or desktop.css / mobile.css
 ```
 
 ## app-core ownership

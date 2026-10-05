@@ -28,7 +28,7 @@
 		IconMore,
 		IconPlus
 	} from '../src/index.js';
-	import { applyTheme, type Theme } from '@svelocity/theme';
+	import { applyTheme, type Theme } from '@svelocity/ui/tokens';
 
 	let theme = $state<Theme>('light');
 	let dialogOpen = $state(false);

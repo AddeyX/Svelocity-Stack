@@ -18,7 +18,6 @@
 		"@svelocity/auth": "workspace:*",
 		"@svelocity/backend": "workspace:*",
 		"@svelocity/env": "workspace:*",
-		"@svelocity/theme": "workspace:*",
 		"@svelocity/ui": "workspace:*",
 		"convex": "catalog:",
 		"convex-svelte": "catalog:"

@@ -45,6 +45,6 @@ pnpm doctor   # static checks: env, versions, workspace, manifest
 ## Layout
 
 - `apps/` - web, desktop, mobile shells
-- `packages/` - shared theme, ui, app-core, auth, env, config, backend (Convex)
+- `packages/` - ui (components + tokens), app-core, auth, env, config, backend (Convex)
 - `docs/` - conventions, compatibility matrix, ADRs
 - `.svelocity/manifest.json` - what the CLI generated (read by `svelocity doctor` / `info`)

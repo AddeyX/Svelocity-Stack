@@ -24,36 +24,35 @@ One shared core, three platform shells: web (SvelteKit + Cloudflare), desktop (E
 
 ## Foundational Stack
 
-| Area            | Choice                                                   |
-| --------------- | -------------------------------------------------------- |
-| Framework       | SvelteKit 2 + Svelte 5 (runes only)                      |
-| UI primitives   | Bits UI (headless) styled with `@svelocity/theme` tokens |
-| Language        | TypeScript (strict)                                      |
-| Package manager | pnpm workspaces — versions pinned in the catalog         |
-| Backend         | Convex (`packages/backend`)                              |
-| Auth            | Convex Auth (`packages/auth` client helpers)             |
-| Web deploy      | Cloudflare via `@sveltejs/adapter-cloudflare`            |
-| Desktop         | Electron shell (`apps/desktop`)                          |
-| Mobile          | Capacitor shell (`apps/mobile`)                          |
+| Area            | Choice                                                |
+| --------------- | ----------------------------------------------------- |
+| Framework       | SvelteKit 2 + Svelte 5 (runes only)                   |
+| UI primitives   | Bits UI (headless) styled with `@svelocity/ui` tokens |
+| Language        | TypeScript (strict)                                   |
+| Package manager | pnpm workspaces — versions pinned in the catalog      |
+| Backend         | Convex (`packages/backend`)                           |
+| Auth            | Convex Auth (`packages/auth` client helpers)          |
+| Web deploy      | Cloudflare via `@sveltejs/adapter-cloudflare`         |
+| Desktop         | Electron shell (`apps/desktop`)                       |
+| Mobile          | Capacitor shell (`apps/mobile`)                       |
 
 ---
 
 ## Directory Map
 
-| Path                | Owns                                                       |
-| ------------------- | ---------------------------------------------------------- |
-| `apps/web`          | SvelteKit routing, Cloudflare deploy — thin shell          |
-| `apps/desktop`      | Electron main/preload + SPA renderer — thin shell          |
-| `apps/mobile`       | Capacitor config + SPA shell — thin shell                  |
-| `packages/app-core` | Business logic, validation, Convex client wrappers         |
-| `packages/ui`       | Shared Svelte components (Bits UI wrappers) — UI only      |
-| `packages/theme`    | Design tokens (CSS custom properties) + platform overrides |
-| `packages/auth`     | Convex Auth client helpers, session state, route guards    |
-| `packages/backend`  | Convex schema, functions, generated API                    |
-| `packages/env`      | Typed env parsing (zod)                                    |
-| `packages/config`   | Shared tsconfig/eslint/prettier/vite presets               |
-| `.svelocity/`       | Manifest + schema — what the CLI generated                 |
-| `.agents/skills/`   | Bundled agent skills (see `.agents/README.md`)             |
+| Path                | Owns                                                      |
+| ------------------- | --------------------------------------------------------- |
+| `apps/web`          | SvelteKit routing, Cloudflare deploy — thin shell         |
+| `apps/desktop`      | Electron main/preload + SPA renderer — thin shell         |
+| `apps/mobile`       | Capacitor config + SPA shell — thin shell                 |
+| `packages/app-core` | Business logic, validation, Convex client wrappers        |
+| `packages/ui`       | Shared components and design tokens (`tokens/`) — UI only |
+| `packages/auth`     | Convex Auth client helpers, session state, route guards   |
+| `packages/backend`  | Convex schema, functions, generated API                   |
+| `packages/env`      | Typed env parsing (zod)                                   |
+| `packages/config`   | Shared tsconfig/eslint/prettier/vite presets              |
+| `.svelocity/`       | Manifest + schema — what the CLI generated                |
+| `.agents/skills/`   | Bundled agent skills (see `.agents/README.md`)            |
 
 ---
 

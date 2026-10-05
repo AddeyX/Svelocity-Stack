@@ -166,9 +166,6 @@ importers:
       '@svelocity/env':
         specifier: workspace:*
         version: link:../../packages/env
-      '@svelocity/theme':
-        specifier: workspace:*
-        version: link:../../packages/theme
       '@svelocity/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -238,9 +235,6 @@ importers:
       '@svelocity/env':
         specifier: workspace:*
         version: link:../../packages/env
-      '@svelocity/theme':
-        specifier: workspace:*
-        version: link:../../packages/theme
       '@svelocity/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -293,9 +287,6 @@ importers:
       '@svelocity/env':
         specifier: workspace:*
         version: link:../../packages/env
-      '@svelocity/theme':
-        specifier: workspace:*
-        version: link:../../packages/theme
       '@svelocity/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -476,26 +467,11 @@ importers:
         specifier: 'catalog:'
         version: 4.1.9(@types/node@26.1.0)(jsdom@29.1.1(@noble/hashes@2.2.0))(vite@8.1.3(@types/node@26.1.0)(esbuild@0.28.1)(jiti@2.7.0))
 
-  packages/theme:
-    devDependencies:
-      '@svelocity/config':
-        specifier: workspace:*
-        version: link:../config
-      '@types/node':
-        specifier: 'catalog:'
-        version: 22.20.0
-      typescript:
-        specifier: 'catalog:'
-        version: 6.0.3
-
   packages/ui:
     dependencies:
       '@lucide/svelte':
         specifier: 'catalog:'
         version: 1.23.0(svelte@5.56.4(@typescript-eslint/types@8.62.1))
-      '@svelocity/theme':
-        specifier: workspace:*
-        version: link:../theme
       bits-ui:
         specifier: 'catalog:'
         version: 2.18.1(@internationalized/date@3.12.2)(@sveltejs/kit@2.69.1(@sveltejs/vite-plugin-svelte@7.1.2(svelte@5.56.4(@typescript-eslint/types@8.62.1))(vite@8.1.3(@types/node@26.1.0)(esbuild@0.28.1)(jiti@2.7.0)))(svelte@5.56.4(@typescript-eslint/types@8.62.1))(typescript@6.0.3)(vite@8.1.3(@types/node@26.1.0)(esbuild@0.28.1)(jiti@2.7.0)))(svelte@5.56.4(@typescript-eslint/types@8.62.1))

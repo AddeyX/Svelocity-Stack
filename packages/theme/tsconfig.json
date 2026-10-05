@@ -1,7 +1,0 @@
-{
-	"extends": "@svelocity/config/tsconfig/base",
-	"compilerOptions": {
-		"lib": ["ES2023", "DOM"]
-	},
-	"include": ["src/**/*.ts"]
-}

@@ -22,7 +22,6 @@
 		"@svelocity/backend": "workspace:*",
 		"@svelocity/config": "workspace:*",
 		"@svelocity/env": "workspace:*",
-		"@svelocity/theme": "workspace:*",
 		"@svelocity/ui": "workspace:*",
 		"@sveltejs/vite-plugin-svelte": "catalog:",
 		"@types/node": "catalog:",

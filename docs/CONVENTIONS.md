@@ -1,6 +1,6 @@
 # Svelocity Stack — Naming + Layout Conventions (V1)
 
-**Status:** Locked for v1.0.0
+**Status:** Locked for v1.0.0. Package layout updated by [ADR 0007](adr/0007-v2-defaults.md): tokens live in `packages/ui/tokens`.
 
 ---
 
@@ -33,8 +33,7 @@ apps/
   mobile/     — Vite + Svelte SPA + Capacitor shell
 packages/
   config/     — tsconfig, eslint, prettier, vite presets
-  theme/      — tokens.css, tokens.ts, platform overrides
-  ui/         — Bits UI wrappers + state components
+  ui/         — Bits UI wrappers + tokens/ (CSS tokens + platform overrides)
   app-core/   — domain types, validation, Convex wrappers, stores
   auth/       — Convex Auth client helpers, guards
   env/        — zod env schemas, parseEnv
@@ -55,8 +54,8 @@ docs/         — phase plan, guides, ADRs
 ## Dependency Direction
 
 ```text
-apps/*  →  @svelocity/{ui, app-core, auth, env, theme, config}
-ui      →  theme (tokens), bits-ui
+apps/*  →  @svelocity/{ui, app-core, auth, env, config}
+ui      →  bits-ui (tokens live in this package, under tokens/)
 app-core→  convex (types), zod
 auth    →  convex, @convex-dev/auth
 env     →  zod

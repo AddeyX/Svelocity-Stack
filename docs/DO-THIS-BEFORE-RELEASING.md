@@ -50,7 +50,7 @@ Do this as a real user would, in a directory outside this repo:
 
 ## 4. Dark mode sanity (§10.7)
 
-- [ ] If dark tokens exist in `packages/ui` theme: verify the basic toggle works on web.
+- [ ] If dark tokens exist in `packages/ui/tokens`: verify the basic toggle works on web.
 - [ ] If not: already documented as v1.1 — just confirm nothing looks broken in dark
       system theme (no unreadable text).
 

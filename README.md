@@ -64,8 +64,7 @@ apps/
   mobile/              Vite + Svelte SPA in a Capacitor shell
 packages/
   config/              tsconfig, eslint, prettier, vite presets
-  theme/               --sv-* design tokens + platform overrides
-  ui/                  shared components (Bits UI wrappers + state components)
+  ui/                  shared components + tokens/ (Bits UI wrappers, --sv-* tokens)
   app-core/            domain types, validation, Convex wrappers, stores
   auth/                Convex Auth client helpers + guards
   env/                 typed env parsing (zod)

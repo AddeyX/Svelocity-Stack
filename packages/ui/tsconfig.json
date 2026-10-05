@@ -1,4 +1,10 @@
 {
 	"extends": "@svelocity/config/tsconfig/svelte",
-	"include": ["src/**/*.ts", "src/**/*.svelte", "preview/**/*.ts", "preview/**/*.svelte"]
+	"include": [
+		"src/**/*.ts",
+		"src/**/*.svelte",
+		"preview/**/*.ts",
+		"preview/**/*.svelte",
+		"tokens/**/*.ts"
+	]
 }

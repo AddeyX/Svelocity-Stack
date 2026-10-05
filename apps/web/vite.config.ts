@@ -11,7 +11,6 @@ export default defineConfig({
 			'@svelocity/auth',
 			'@svelocity/backend',
 			'@svelocity/env',
-			'@svelocity/theme',
 			'@svelocity/ui'
 		]
 	},

@@ -41,7 +41,8 @@ describe('build-template', () => {
 			'CHANGELOG.md',
 			'CONTRIBUTING.md',
 			'docs/CONTRIBUTING-STACK.md',
-			'.claude'
+			'.claude',
+			'packages/theme'
 		]) {
 			expect(existsSync(join(out, p)), `${p} should be excluded`).toBe(false);
 		}
@@ -60,6 +61,14 @@ describe('build-template', () => {
 			'docs/adr/0003-monorepo-package-boundaries.md',
 			'docs/adr/0007-v2-defaults.md',
 			'AGENTS.md',
+			'VISION.md',
+			'DESIGN.md',
+			'TASKS.md',
+			'packages/ui/tokens/tokens.css',
+			'packages/ui/tokens/tokens.ts',
+			'packages/ui/tokens/platform/web.css',
+			'packages/ui/tokens/platform/desktop.css',
+			'packages/ui/tokens/platform/mobile.css',
 			'.cursor/rules/svelocity.mdc',
 			'.agents/README.md',
 			'.agents/skills/svelocity-convex/SKILL.md',

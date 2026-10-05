@@ -1,7 +1,11 @@
 # ADR 0004 — Shared UI Consumption Across Web/Desktop/Mobile
 
-**Status:** Accepted
+**Status:** Partially superseded by [ADR 0007](./0007-v2-defaults.md)
 **Date:** 2026-07-04
+
+> **2026-10-05:** [ADR 0007](./0007-v2-defaults.md) moved the token files from
+> `@svelocity/theme` into `@svelocity/ui/tokens`. Source consumption is unchanged.
+> The import paths below are the current ones.
 
 ## Context
 
@@ -10,17 +14,17 @@ a Capacitor WebView, without per-app builds.
 
 ## Decision
 
-Ship `@svelocity/ui` and `@svelocity/theme` as **source packages** (raw `.svelte` +
-`.ts` + `.css`), compiled by each consuming app's Vite/Svelte pipeline. No prebuild,
-no `svelte-package` step in v1.
+Ship `@svelocity/ui` as a **source package** (raw `.svelte` + `.ts` + `.css`,
+including `tokens/`), compiled by each consuming app's Vite/Svelte pipeline. No
+prebuild, no `svelte-package` step in v1.
 
 Platform differences are handled by **CSS override files**, not component forks:
 
 ```text
-@svelocity/theme/tokens.css              — base tokens (light + dark structure)
-@svelocity/theme/platform/web.css        — hover states on
-@svelocity/theme/platform/desktop.css    — window-chrome spacing, hover on
-@svelocity/theme/platform/mobile.css     — safe-area insets, ≥44px targets, hover off
+@svelocity/ui/tokens.css                     — base tokens (light + dark structure)
+@svelocity/ui/tokens/platform/web.css        — hover states on
+@svelocity/ui/tokens/platform/desktop.css    — window-chrome spacing, hover on
+@svelocity/ui/tokens/platform/mobile.css     — safe-area insets, ≥44px targets, hover off
 ```
 
 Each app imports base tokens plus exactly one platform file in its root layout/shell.

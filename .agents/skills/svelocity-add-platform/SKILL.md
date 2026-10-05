@@ -40,9 +40,11 @@ Use the matching app from a Svelocity Stack reference repo (same
 ### Step 2 — Wire workspace deps
 
 The new app's `package.json` depends on `@svelocity/ui`, `@svelocity/app-core`,
-`@svelocity/auth`, `@svelocity/theme`, `@svelocity/env`, `@svelocity/config`
-via `workspace:*`, with versions from the pnpm catalog. Run `pnpm install` and
-confirm the workspace picks the app up (it must live under `apps/`).
+`@svelocity/auth`, `@svelocity/env`, `@svelocity/config` via `workspace:*`, with
+versions from the pnpm catalog. Tokens come from `@svelocity/ui` (`tokens.css`
+plus `tokens/platform/<web|desktop|mobile>.css`) — there is no separate theme
+package. Run `pnpm install` and confirm the workspace picks the app up (it must
+live under `apps/`).
 
 ### Step 3 — Platform-specific config
 
