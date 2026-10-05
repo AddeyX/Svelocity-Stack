@@ -1,0 +1,66 @@
+name: Publish create-svelocity
+
+# Maintainer steps: docs/guides/publish-create-svelocity.md
+# Trusted publishing only. No NPM_TOKEN. This job stages; a maintainer approves.
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+
+      - uses: pnpm/action-setup@v4
+        # version comes from packageManager field in package.json
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+          cache: pnpm
+
+      - name: Require npm 11.15 or newer
+        run: npm install -g npm@^11.15.0
+
+      - name: Install (frozen lockfile)
+        run: pnpm install --frozen-lockfile
+
+      - name: Build create-svelocity
+        run: pnpm --filter create-svelocity build
+
+      - name: Check and unit tests
+        run: |
+          pnpm --filter create-svelocity check
+          pnpm --filter create-svelocity test
+
+      - name: CLI integration test
+        run: CLI_INTEGRATION=1 pnpm --filter create-svelocity test -- tests/integration.spec.ts
+        env:
+          CI: 'true'
+
+      - name: Skip a version that is already on npm
+        id: published
+        working-directory: packages/create-svelocity
+        run: |
+          VERSION=$(node --input-type=module -e 'import {readFileSync} from "node:fs"; process.stdout.write(JSON.parse(readFileSync("package.json","utf8")).version)')
+          if npm view "create-svelocity@${VERSION}" version >/dev/null 2>&1; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "create-svelocity@${VERSION} is already on npm; skipping stage"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Stage the package
+        if: steps.published.outputs.skip != 'true'
+        working-directory: packages/create-svelocity
+        run: npm stage publish

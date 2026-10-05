@@ -59,9 +59,9 @@ const EXCLUDE_DIR_NAMES = new Set([
 
 const EXCLUDE_PATHS = new Set([
 	'packages/create-svelocity',
-	'.github/workflows/ci.yml',
-	'.github/workflows/cli.yml',
-	'.github/workflows/e2e.yml',
+	// Stack workflows (ci, cli, e2e, publish-cli) stay here. Generated projects
+	// receive validate.yml and deploy.yml from assets/workflows instead.
+	'.github',
 	'.svelocity/manifest.json',
 	'apps/mobile/ios',
 	'apps/mobile/android',
@@ -74,6 +74,7 @@ const EXCLUDE_PATHS = new Set([
 	'docs/RISKS.md',
 	'docs/Svelocity-Stack-PR.md',
 	'docs/CONTRIBUTING-STACK.md',
+	'docs/guides/publish-create-svelocity.md',
 	'CHANGELOG.md',
 	'CONTRIBUTING.md',
 	'README.md',
@@ -177,6 +178,12 @@ for (const [rel, pairs] of TOKENIZE) {
 }
 
 cpSync(join(pkgRoot, 'assets/README.template.md'), join(out, 'README.md'));
+
+const workflowOut = join(out, '.github/workflows');
+mkdirSync(workflowOut, { recursive: true });
+for (const name of ['validate.yml', 'deploy.yml']) {
+	cpSync(join(pkgRoot, 'assets/workflows', name), join(workflowOut, name));
+}
 
 if (out !== finalOut) {
 	rmSync(finalOut, { recursive: true, force: true });

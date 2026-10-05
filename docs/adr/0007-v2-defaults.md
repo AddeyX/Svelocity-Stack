@@ -33,9 +33,11 @@ system, or a planning gate in front of `create`.
    planning step. A bundled `svelocity-flow` skill that fills those docs comes later.
 5. **The template ships validate, deploy, and Wrangler.** Generated projects include
    `.github/workflows/validate.yml`, `.github/workflows/deploy.yml`, and
-   `apps/web/wrangler.jsonc`. The stack repo's own CI, CLI, and E2E workflows stay
-   out of the snapshot. Desktop and mobile store or release automation is out of
-   scope.
+   `apps/web/wrangler.jsonc`. Those two workflows are copied into the snapshot when
+   the template is built. They are not workflows of this stack repository, so a
+   push to the stack's `main` does not deploy the stack. The stack's CI, CLI,
+   end-to-end, and package-publish workflows stay out of the snapshot. Desktop and
+   mobile store or release automation is out of scope.
 6. **Convex Auth env is a one-time deployment setup, not a GitHub secret.** Every
    Convex deployment — dev and prod — needs `JWT_PRIVATE_KEY`, `JWKS`, and
    `SITE_URL` before password login works. From `packages/backend`, set them once

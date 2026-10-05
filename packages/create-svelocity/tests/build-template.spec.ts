@@ -23,6 +23,8 @@ describe('build-template', () => {
 			'.github/workflows/ci.yml',
 			'.github/workflows/cli.yml',
 			'.github/workflows/e2e.yml',
+			'.github/workflows/publish-cli.yml',
+			'docs/guides/publish-create-svelocity.md',
 			'packages/create-svelocity',
 			'apps/mobile/ios',
 			'apps/mobile/android',
@@ -87,10 +89,19 @@ describe('build-template', () => {
 	});
 
 	it('ships exactly the validate and deploy workflows', () => {
+		const repoRoot = resolve(pkgRoot, '../..');
+		expect(existsSync(join(repoRoot, '.github/workflows/deploy.yml'))).toBe(false);
+		expect(existsSync(join(repoRoot, '.github/workflows/validate.yml'))).toBe(false);
+		expect(existsSync(join(repoRoot, '.github/workflows/publish-cli.yml'))).toBe(true);
 		expect(readdirSync(join(out, '.github/workflows')).sort()).toEqual([
 			'deploy.yml',
 			'validate.yml'
 		]);
+		for (const name of ['deploy.yml', 'validate.yml']) {
+			expect(readFileSync(join(out, '.github/workflows', name))).toEqual(
+				readFileSync(join(pkgRoot, 'assets/workflows', name))
+			);
+		}
 		const validate = readFileSync(join(out, '.github/workflows/validate.yml'), 'utf8');
 		expect(validate).toContain('cancel-in-progress: true');
 		expect(validate).not.toContain('wrangler deploy');
