@@ -24,36 +24,35 @@ One shared core, three platform shells: web (SvelteKit + Cloudflare), desktop (E
 
 ## Foundational Stack
 
-| Area            | Choice                                                   |
-| --------------- | -------------------------------------------------------- |
-| Framework       | SvelteKit 2 + Svelte 5 (runes only)                      |
-| UI primitives   | Bits UI (headless) styled with `@svelocity/theme` tokens |
-| Language        | TypeScript (strict)                                      |
-| Package manager | pnpm workspaces — versions pinned in the catalog         |
-| Backend         | Convex (`packages/backend`)                              |
-| Auth            | Convex Auth (`packages/auth` client helpers)             |
-| Web deploy      | Cloudflare via `@sveltejs/adapter-cloudflare`            |
-| Desktop         | Electron shell (`apps/desktop`)                          |
-| Mobile          | Capacitor shell (`apps/mobile`)                          |
+| Area            | Choice                                                |
+| --------------- | ----------------------------------------------------- |
+| Framework       | SvelteKit 2 + Svelte 5 (runes only)                   |
+| UI primitives   | Bits UI (headless) styled with `@svelocity/ui` tokens |
+| Language        | TypeScript (strict)                                   |
+| Package manager | pnpm workspaces — versions pinned in the catalog      |
+| Backend         | Convex (`packages/backend`)                           |
+| Auth            | Convex Auth (`packages/auth` client helpers)          |
+| Web deploy      | Cloudflare via `@sveltejs/adapter-cloudflare`         |
+| Desktop         | Electron shell (`apps/desktop`)                       |
+| Mobile          | Capacitor shell (`apps/mobile`)                       |
 
 ---
 
 ## Directory Map
 
-| Path                | Owns                                                       |
-| ------------------- | ---------------------------------------------------------- |
-| `apps/web`          | SvelteKit routing, Cloudflare deploy — thin shell          |
-| `apps/desktop`      | Electron main/preload + SPA renderer — thin shell          |
-| `apps/mobile`       | Capacitor config + SPA shell — thin shell                  |
-| `packages/app-core` | Business logic, validation, Convex client wrappers         |
-| `packages/ui`       | Shared Svelte components (Bits UI wrappers) — UI only      |
-| `packages/theme`    | Design tokens (CSS custom properties) + platform overrides |
-| `packages/auth`     | Convex Auth client helpers, session state, route guards    |
-| `packages/backend`  | Convex schema, functions, generated API                    |
-| `packages/env`      | Typed env parsing (zod)                                    |
-| `packages/config`   | Shared tsconfig/eslint/prettier/vite presets               |
-| `.svelocity/`       | Manifest + schema — what the CLI generated                 |
-| `.agents/skills/`   | Bundled agent skills (see `.agents/README.md`)             |
+| Path                | Owns                                                      |
+| ------------------- | --------------------------------------------------------- |
+| `apps/web`          | SvelteKit routing, Cloudflare deploy — thin shell         |
+| `apps/desktop`      | Electron main/preload + SPA renderer — thin shell         |
+| `apps/mobile`       | Capacitor config + SPA shell — thin shell                 |
+| `packages/app-core` | Business logic, validation, Convex client wrappers        |
+| `packages/ui`       | Shared components and design tokens (`tokens/`) — UI only |
+| `packages/auth`     | Convex Auth client helpers, session state, route guards   |
+| `packages/backend`  | Convex schema, functions, generated API                   |
+| `packages/env`      | Typed env parsing (zod)                                   |
+| `packages/config`   | Shared tsconfig/eslint/prettier/vite presets              |
+| `.svelocity/`       | Manifest + schema — what the CLI generated                |
+| `.agents/skills/`   | Bundled agent skills (see `.agents/README.md`)            |
 
 ---
 
@@ -125,6 +124,49 @@ When asked to review auth (or before merging auth-touching changes), check:
 4. No credentials or secrets committed; `.env.local` stays untracked
 
 ---
+
+## Convex Auth deployment env
+
+Password login needs three variables on **each** Convex deployment (dev and prod).
+They are not GitHub Actions secrets and they are never committed. Clients only
+use `PUBLIC_CONVEX_URL`.
+
+From `packages/backend`, once per deployment:
+
+```bash
+npx @convex-dev/auth --web-server-url http://localhost:5173
+# production, after the frontend origin exists:
+npx @convex-dev/auth --prod --web-server-url https://<your-frontend-origin>
+```
+
+That command generates `JWT_PRIVATE_KEY` and `JWKS` and sets `SITE_URL` to the
+frontend origin (`http://localhost:5173` in dev — not the `*.convex.site` URL).
+The same three names can be written with `npx convex env set` if you generate the
+key pair yourself. Details: `docs/guides/authentication.md`.
+
+`.github/workflows/deploy.yml` checks that those three **names** exist on the
+deployment selected by `CONVEX_DEPLOY_KEY` (`npx convex env list --names-only`)
+before it deploys. The check does not print or create the values.
+
+## GitHub Actions secrets
+
+`.github/workflows/deploy.yml` (push to `main`) expects these GitHub Actions
+secrets. They are not Convex env vars and they are not committed:
+
+| Secret                  | Used for                                              |
+| ----------------------- | ----------------------------------------------------- |
+| `CLOUDFLARE_API_TOKEN`  | `wrangler deploy` from `apps/web`                     |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare account for that deploy                    |
+| `CONVEX_DEPLOY_KEY`     | `convex deploy` from `packages/backend`               |
+| `PUBLIC_CONVEX_URL`     | Production Convex URL, passed to the Worker at deploy |
+
+`JWT_PRIVATE_KEY`, `JWKS`, and `SITE_URL` are **not** in this table. Set those on
+the Convex deployment. `SITE_URL` is the deployed frontend origin.
+
+`.github/workflows/validate.yml` runs on pull requests and manual dispatch. It
+installs, generates Wrangler types, typechecks every workspace (including desktop
+and mobile), tests, and builds web. It does not deploy. Desktop and mobile are
+not packaged for a store.
 
 ## Dev Login
 

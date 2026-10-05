@@ -56,7 +56,7 @@ v1 ships exactly three plugins: `@capacitor/app` (back button), `@capacitor/stat
 
 ## Safe areas and mobile UI
 
-Handled by `@svelocity/theme/platform/mobile.css`:
+Handled by `@svelocity/ui/tokens/platform/mobile.css`:
 
 - `viewport-fit=cover` + `env(safe-area-inset-*)` exposed as `--sv-safe-*` tokens
 - Touch targets ≥ 44px (`--sv-touch-target: 2.75rem`)

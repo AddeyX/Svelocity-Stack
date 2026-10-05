@@ -7,7 +7,8 @@ tokens, vanilla scoped CSS — no Tailwind dependency (ADR 0001).
 
 ```svelte
 <script lang="ts">
-	import '@svelocity/theme/tokens.css';
+	import '@svelocity/ui/tokens.css';
+	import '@svelocity/ui/tokens/platform/web.css';
 	import { Button, Card, FormField, Input, LoadingState, toast, Toaster } from '@svelocity/ui';
 </script>
 ```
@@ -52,6 +53,31 @@ every app needs `@sveltejs/vite-plugin-svelte`.
 - Dialogs: title + description wired (bits-ui enforces ARIA); Escape closes (tested).
 - States: `LoadingState`/`Spinner` announce via `role="status"`, `ErrorState` via
   `role="alert"`.
+
+## Tokens
+
+Design tokens live in this package, under `tokens/` (ADR 0007). Every app imports
+the base file plus exactly one platform file:
+
+```ts
+import '@svelocity/ui/tokens.css';
+import '@svelocity/ui/tokens/platform/web.css'; // desktop.css | mobile.css
+import { applyTheme } from '@svelocity/ui/tokens';
+```
+
+`applyTheme('dark')` sets `data-theme="dark"` on `<html>`. Components use semantic
+tokens (`--sv-color-primary`), never palette primitives and never hex values.
+
+| Category         | Prefix                                                     |
+| ---------------- | ---------------------------------------------------------- |
+| Color (semantic) | `--sv-color-*`                                             |
+| Typography       | `--sv-font-*`, `--sv-text-*`, `--sv-leading-*`             |
+| Spacing          | `--sv-space-*` (4px scale)                                 |
+| Radius           | `--sv-radius-*`                                            |
+| Shadow           | `--sv-shadow-*`                                            |
+| Motion           | `--sv-duration-*`, `--sv-ease-*`                           |
+| Z-index          | `--sv-z-*`                                                 |
+| Platform hooks   | `--sv-touch-target`, `--sv-safe-*`, `--sv-titlebar-height` |
 
 ## Dev
 

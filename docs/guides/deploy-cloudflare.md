@@ -31,43 +31,59 @@ definition) on the Worker/Pages project:
 
 - Dashboard: project → Settings → Variables → add `PUBLIC_CONVEX_URL` =
   `https://<your-prod-deployment>.convex.cloud`
-- Or in `wrangler.jsonc` under `vars` (fine to commit — the value is public).
+- Or at deploy time: `pnpm --filter web deploy -- --var PUBLIC_CONVEX_URL:https://<your-prod-deployment>.convex.cloud`.
+  The committed `wrangler.jsonc` does not include it, so the file stays free of
+  per-deployment values and of secrets.
 
-Also set `SITE_URL` **on the Convex deployment** to your deployed origin:
+Also set `JWT_PRIVATE_KEY`, `JWKS`, and `SITE_URL` **on the Convex deployment**
+(not as GitHub secrets). `SITE_URL` is your deployed origin:
 
 ```bash
 cd packages/backend
 npx convex env set SITE_URL https://<your-app>.workers.dev   # or your custom domain
 ```
 
+## GitHub Actions
+
+The project ships two workflows:
+
+| Workflow                         | When                          | What                                                                                          |
+| -------------------------------- | ----------------------------- | --------------------------------------------------------------------------------------------- |
+| `.github/workflows/validate.yml` | pull request, manual dispatch | Install, Wrangler types, `pnpm -r check` (desktop and mobile typecheck only), test, web build |
+| `.github/workflows/deploy.yml`   | push to `main`                | The same checks, then Convex deploy, then web build, then `wrangler deploy`                   |
+
+GitHub Actions secrets for deploy: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`,
+`CONVEX_DEPLOY_KEY`, `PUBLIC_CONVEX_URL`.
+
+`JWT_PRIVATE_KEY`, `JWKS`, and `SITE_URL` are not those secrets. Deploy refuses to
+continue if `npx convex env list --names-only` (with `CONVEX_DEPLOY_KEY`) does not
+show all three names. Set them on the production deployment first. The command
+prints names only, so the keys do not land in the log.
+
 ## Option A — Workers via wrangler
 
-Create `apps/web/wrangler.jsonc`:
+`apps/web/wrangler.jsonc` is already in the project: a name placeholder, `main`
+and `assets` pointed at the adapter-cloudflare output (`.svelte-kit/cloudflare`),
+`compatibility_date`, and `workers_dev`. It contains no secrets and no
+`PUBLIC_CONVEX_URL`. That URL is public, but it differs per deployment, so set it
+as a Worker var at deploy time (or in the dashboard) rather than committing it.
 
-```jsonc
-{
-	"name": "my-app-web",
-	"main": ".svelte-kit/cloudflare/_worker.js",
-	"compatibility_date": "2026-07-01",
-	"assets": {
-		"binding": "ASSETS",
-		"directory": ".svelte-kit/cloudflare"
-	},
-	"vars": {
-		"PUBLIC_CONVEX_URL": "https://<your-prod-deployment>.convex.cloud"
-	}
-}
-```
-
-Then:
+Rename `name` before the first deploy if the account already uses it. The
+scaffolder replaces the placeholder with the project name.
 
 ```bash
+pnpm --filter web cf-typegen   # wrangler types → worker-configuration.d.ts (gitignored)
 pnpm --filter web build
-cd apps/web
-pnpm dlx wrangler deploy      # first run opens a browser to log in
+pnpm --filter web deploy       # wrangler deploy; first run opens a browser to log in
 ```
 
-**You should see:** wrangler print a `https://my-app-web.<account>.workers.dev` URL.
+Pass the Convex URL without writing it into the config file:
+
+```bash
+pnpm --filter web deploy -- --var PUBLIC_CONVEX_URL:https://<your-prod-deployment>.convex.cloud
+```
+
+**You should see:** wrangler print a `https://<name>.<account>.workers.dev` URL.
 
 ## Option B — Cloudflare Pages (Git integration)
 

@@ -43,6 +43,16 @@ pnpm --filter web convex:dev   # terminal 1 — Convex dev backend
 pnpm --filter web dev          # terminal 2 — web app at http://localhost:5173
 ```
 
+Password login also needs `JWT_PRIVATE_KEY`, `JWKS`, and `SITE_URL` on that Convex
+deployment (once per deployment, including prod). They are not committed and they
+are not GitHub secrets. From `packages/backend`:
+
+```bash
+npx @convex-dev/auth --web-server-url http://localhost:5173
+```
+
+See [authentication](docs/guides/authentication.md).
+
 `pnpm dev:desktop` and `pnpm dev:mobile` start the other shells. Full walkthrough: [your first project](docs/guides/first-project.md).
 
 ## Repo Structure
@@ -54,8 +64,7 @@ apps/
   mobile/              Vite + Svelte SPA in a Capacitor shell
 packages/
   config/              tsconfig, eslint, prettier, vite presets
-  theme/               --sv-* design tokens + platform overrides
-  ui/                  shared components (Bits UI wrappers + state components)
+  ui/                  shared components + tokens/ (Bits UI wrappers, --sv-* tokens)
   app-core/            domain types, validation, Convex wrappers, stores
   auth/                Convex Auth client helpers + guards
   env/                 typed env parsing (zod)

@@ -32,7 +32,7 @@ tokens.
 
 ## Styling approach (sub-decision)
 
-Vanilla CSS with scoped Svelte styles + CSS custom properties from `@svelocity/theme`.
+Vanilla CSS with scoped Svelte styles + CSS custom properties from `@svelocity/ui/tokens`.
 No Tailwind dependency inside `@svelocity/ui`: keeps the package portable, avoids
 forcing a Tailwind version on all three app shells, and keeps generated CSS deduped.
 Apps may add Tailwind locally without conflict (tokens are plain custom properties).

@@ -10,7 +10,12 @@
 		".": {
 			"svelte": "./src/index.ts",
 			"default": "./src/index.ts"
-		}
+		},
+		"./tokens": "./tokens/tokens.ts",
+		"./tokens.css": "./tokens/tokens.css",
+		"./tokens/platform/web.css": "./tokens/platform/web.css",
+		"./tokens/platform/desktop.css": "./tokens/platform/desktop.css",
+		"./tokens/platform/mobile.css": "./tokens/platform/mobile.css"
 	},
 	"scripts": {
 		"dev": "vite",
@@ -19,8 +24,7 @@
 	},
 	"dependencies": {
 		"bits-ui": "catalog:",
-		"@lucide/svelte": "catalog:",
-		"@svelocity/theme": "workspace:*"
+		"@lucide/svelte": "catalog:"
 	},
 	"peerDependencies": {
 		"svelte": "catalog:"

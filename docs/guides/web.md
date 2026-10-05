@@ -6,13 +6,15 @@ logic, UI, auth, and backend come from the shared packages.
 
 ## Commands
 
-| Command                      | Does                                          |
-| ---------------------------- | --------------------------------------------- |
-| `pnpm dev` (root)            | Vite dev server on `http://localhost:5173`    |
-| `pnpm --filter web build`    | Production build for the Cloudflare adapter   |
-| `pnpm --filter web preview`  | Serve the production build locally            |
-| `pnpm --filter web check`    | `svelte-kit sync` + `svelte-check`            |
-| `pnpm --filter web test:e2e` | Playwright golden path (needs a live backend) |
+| Command                        | Does                                                  |
+| ------------------------------ | ----------------------------------------------------- |
+| `pnpm dev` (root)              | Vite dev server on `http://localhost:5173`            |
+| `pnpm --filter web build`      | Production build for the Cloudflare adapter           |
+| `pnpm --filter web preview`    | Serve the production build locally                    |
+| `pnpm --filter web check`      | `svelte-kit sync` + `svelte-check`                    |
+| `pnpm --filter web cf-typegen` | Generate Wrangler types (`worker-configuration.d.ts`) |
+| `pnpm --filter web deploy`     | `wrangler deploy` using `wrangler.jsonc`              |
+| `pnpm --filter web test:e2e`   | Playwright golden path (needs a live backend)         |
 
 The Convex backend must be running (`pnpm dev:backend`) and
 `apps/web/.env.local` must set `PUBLIC_CONVEX_URL` — see

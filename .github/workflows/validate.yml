@@ -1,0 +1,41 @@
+name: Validate
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        # version comes from packageManager field in package.json
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Wrangler types
+        run: pnpm --filter web cf-typegen
+
+      - name: Check
+        # pnpm -r check typechecks every workspace, including desktop
+        # (svelte-check + electron tsc) and mobile (svelte-check).
+        # No Electron packaging and no Capacitor native build.
+        run: pnpm -r check
+
+      - name: Test
+        run: pnpm -r test
+
+      - name: Build web
+        run: pnpm --filter web build

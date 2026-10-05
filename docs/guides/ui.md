@@ -1,16 +1,15 @@
 # Shared UI (Bits UI + Theme)
 
 How the design system works: [Bits UI](https://bits-ui.com/) headless primitives,
-wrapped once in `@svelocity/ui`, styled with `@svelocity/theme` tokens, consumed by
+wrapped once in `@svelocity/ui`, styled with that package's tokens, consumed by
 all three shells.
 
 ## Architecture
 
 ```text
 bits-ui (headless: behavior, a11y, keyboard, focus)
-   └── @svelocity/ui   wraps primitives, styles with tokens, exports components
-           └── @svelocity/theme   --sv-* CSS custom properties + platform overrides
-                   └── apps/*     import components; never re-style primitives directly
+   └── @svelocity/ui   wraps primitives, owns tokens/, exports components
+           └── apps/*  import components + one platform token file
 ```
 
 Why Bits UI over shadcn-svelte: ADR
@@ -90,18 +89,18 @@ reports offline.
 
 ## Theming and platform overrides
 
-Tokens live in `packages/theme/src/tokens.css` (`--sv-color-*`, `--sv-space-*`,
+Tokens live in `packages/ui/tokens/tokens.css` (`--sv-color-*`, `--sv-space-*`,
 `--sv-radius-*`, `--sv-text-*`, `--sv-shadow-*`, `--sv-z-*`, `--sv-duration-*`).
 Each shell imports the base tokens plus exactly one override file:
 
 ```ts
-import '@svelocity/theme/tokens.css';
-import '@svelocity/theme/platform/mobile.css'; // web.css | desktop.css | mobile.css
+import '@svelocity/ui/tokens.css';
+import '@svelocity/ui/tokens/platform/mobile.css'; // web.css | desktop.css | mobile.css
 ```
 
 Overrides adjust platform hooks — `--sv-touch-target`, `--sv-safe-*` (mobile safe
 areas), `--sv-titlebar-height` — without forking components. Dark mode:
-`applyTheme('dark')` from `@svelocity/theme` sets `data-theme="dark"` on `<html>`
+`applyTheme('dark')` from `@svelocity/ui/tokens` sets `data-theme="dark"` on `<html>`
 (structure ships in v1; visual polish is Phase 10).
 
 ## Accessibility expectations
@@ -117,4 +116,4 @@ areas), `--sv-titlebar-height` — without forking components. Dark mode:
 - **Don't** put business logic in components — validation, sorting, and domain rules
   live in `@svelocity/app-core`; components take props and emit events.
 - **Don't** import `bits-ui` directly in apps — wrap it in `@svelocity/ui` first.
-- **Don't** hardcode colors/sizes — if a token is missing, add it to the theme.
+- **Don't** hardcode colors/sizes — if a token is missing, add it under `packages/ui/tokens`.

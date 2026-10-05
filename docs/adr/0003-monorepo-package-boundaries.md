@@ -1,7 +1,11 @@
 # ADR 0003 — Monorepo Package Boundaries
 
-**Status:** Accepted
+**Status:** Partially superseded by [ADR 0007](./0007-v2-defaults.md)
 **Date:** 2026-07-04
+
+> **2026-10-05:** [ADR 0007](./0007-v2-defaults.md) folds `@svelocity/theme` into
+> `@svelocity/ui` and restates the v2 package set. The dependency-direction rules
+> below still apply. The package inventory in this ADR is the v1 decision.
 
 ## Context
 

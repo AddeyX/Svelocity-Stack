@@ -57,15 +57,15 @@ Auth tables (`users`, `authSessions`, ...) come from `@convex-dev/auth` via `aut
 
 ## Shared vs Platform-Specific Boundaries
 
-| Layer          | Location            | Contents                                                               |
-| -------------- | ------------------- | ---------------------------------------------------------------------- |
-| Business logic | `packages/app-core` | Task types, validation, Convex function references, task store helpers |
-| Auth client    | `packages/auth`     | Sign-in/out wrappers, session state types, guard helpers               |
-| UI components  | `packages/ui`       | All controls, states, task components' building blocks                 |
-| Theme          | `packages/theme`    | Tokens + platform override CSS                                         |
-| Web shell      | `apps/web`          | SvelteKit routing, SSR concerns, Cloudflare adapter                    |
-| Desktop shell  | `apps/desktop`      | Electron main/preload, window chrome, SPA routing                      |
-| Mobile shell   | `apps/mobile`       | Capacitor config, safe areas, mobile nav, SPA routing                  |
+| Layer          | Location             | Contents                                                               |
+| -------------- | -------------------- | ---------------------------------------------------------------------- |
+| Business logic | `packages/app-core`  | Task types, validation, Convex function references, task store helpers |
+| Auth client    | `packages/auth`      | Sign-in/out wrappers, session state types, guard helpers               |
+| UI components  | `packages/ui`        | All controls, states, task components' building blocks                 |
+| Theme          | `packages/ui/tokens` | Tokens + platform override CSS                                         |
+| Web shell      | `apps/web`           | SvelteKit routing, SSR concerns, Cloudflare adapter                    |
+| Desktop shell  | `apps/desktop`       | Electron main/preload, window chrome, SPA routing                      |
+| Mobile shell   | `apps/mobile`        | Capacitor config, safe areas, mobile nav, SPA routing                  |
 
 Apps compose; packages implement. An app file that exceeds routing/layout/shell duties
 is a smell — logic moves down into `app-core`.

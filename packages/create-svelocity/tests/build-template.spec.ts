@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -20,7 +20,9 @@ describe('build-template', () => {
 		for (const p of [
 			'node_modules',
 			'.git',
-			'.github',
+			'.github/workflows/ci.yml',
+			'.github/workflows/cli.yml',
+			'.github/workflows/e2e.yml',
 			'packages/create-svelocity',
 			'apps/mobile/ios',
 			'apps/mobile/android',
@@ -31,6 +33,8 @@ describe('build-template', () => {
 			'docs/phases',
 			'docs/superpowers',
 			'docs/V1-SCOPE.md',
+			'docs/V1.1-BACKLOG.md',
+			'docs/V2-BACKLOG.md',
 			'docs/V1-VALIDATION-REPORT.md',
 			'.svelocity/manifest.json',
 			'apps/desktop/release',
@@ -39,7 +43,8 @@ describe('build-template', () => {
 			'CHANGELOG.md',
 			'CONTRIBUTING.md',
 			'docs/CONTRIBUTING-STACK.md',
-			'.claude'
+			'.claude',
+			'packages/theme'
 		]) {
 			expect(existsSync(join(out, p)), `${p} should be excluded`).toBe(false);
 		}
@@ -53,9 +58,22 @@ describe('build-template', () => {
 			'.svelocity/manifest.schema.json',
 			'.svelocity/manifest.example.json',
 			'apps/web/.env.example',
+			'apps/web/wrangler.jsonc',
+			'.github/workflows/validate.yml',
+			'.github/workflows/deploy.yml',
 			'docs/CONVENTIONS.md',
 			'docs/COMPATIBILITY.md',
+			'docs/adr/0003-monorepo-package-boundaries.md',
+			'docs/adr/0007-v2-defaults.md',
 			'AGENTS.md',
+			'VISION.md',
+			'DESIGN.md',
+			'TASKS.md',
+			'packages/ui/tokens/tokens.css',
+			'packages/ui/tokens/tokens.ts',
+			'packages/ui/tokens/platform/web.css',
+			'packages/ui/tokens/platform/desktop.css',
+			'packages/ui/tokens/platform/mobile.css',
 			'.cursor/rules/svelocity.mdc',
 			'.agents/README.md',
 			'.agents/skills/svelocity-convex/SKILL.md',
@@ -66,6 +84,24 @@ describe('build-template', () => {
 		]) {
 			expect(existsSync(join(out, p)), `${p} should be included`).toBe(true);
 		}
+	});
+
+	it('ships exactly the validate and deploy workflows', () => {
+		expect(readdirSync(join(out, '.github/workflows')).sort()).toEqual([
+			'deploy.yml',
+			'validate.yml'
+		]);
+		const validate = readFileSync(join(out, '.github/workflows/validate.yml'), 'utf8');
+		expect(validate).toContain('cancel-in-progress: true');
+		expect(validate).not.toContain('wrangler deploy');
+		expect(validate).not.toContain('convex deploy');
+		const deploy = readFileSync(join(out, '.github/workflows/deploy.yml'), 'utf8');
+		expect(deploy).toContain('cancel-in-progress: false');
+		expect(deploy).toContain('convex env list --names-only');
+		expect(deploy).toContain('JWT_PRIVATE_KEY');
+		expect(deploy).toContain('JWKS');
+		expect(deploy).toContain('SITE_URL');
+		expect(deploy).not.toMatch(/BEGIN PRIVATE KEY/);
 	});
 
 	it('renames dotfiles npm would strip', () => {
@@ -86,6 +122,10 @@ describe('build-template', () => {
 		expect(readFileSync(join(out, 'AGENTS.md'), 'utf8')).toContain(
 			'# {{DISPLAY_NAME}} — Agent Guide'
 		);
+		const wrangler = readFileSync(join(out, 'apps/web/wrangler.jsonc'), 'utf8');
+		expect(wrangler).toContain('"name": "{{PROJECT_NAME}}"');
+		expect(wrangler).not.toContain('svelocity-web');
+		expect(wrangler).not.toMatch(/api_token|JWT_PRIVATE_KEY|CLOUDFLARE_API_TOKEN/i);
 	});
 
 	it('leaves @svelocity/* package names untouched', () => {

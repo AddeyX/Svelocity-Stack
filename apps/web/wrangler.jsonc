@@ -1,0 +1,13 @@
+{
+	// Placeholder worker name. The scaffolder replaces it with the project name.
+	// Rename before the first deploy if this account already uses it.
+	// No secrets belong in this file.
+	"name": "svelocity-web",
+	"main": ".svelte-kit/cloudflare/_worker.js",
+	"compatibility_date": "2026-10-01",
+	"workers_dev": true,
+	"assets": {
+		"binding": "ASSETS",
+		"directory": ".svelte-kit/cloudflare"
+	}
+}

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import '@svelocity/theme/tokens.css';
-	import '@svelocity/theme/platform/web.css';
+	import '@svelocity/ui/tokens.css';
+	import '@svelocity/ui/tokens/platform/web.css';
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
