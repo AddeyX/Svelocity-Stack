@@ -16,15 +16,28 @@ import {
 	statSync,
 	writeFileSync
 } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const pkgRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const repoRoot = resolve(pkgRoot, '../..');
 const finalOut = process.env.TEMPLATE_OUT ?? join(pkgRoot, 'template');
-const out = isInside(repoRoot, finalOut)
-	? mkdtempSync(join(dirname(repoRoot), '.svelocity-template-'))
-	: finalOut;
+const out = isInside(repoRoot, finalOut) ? stagingDir() : finalOut;
+
+function stagingDir() {
+	// Prefer a sibling of the repo so the final rename stays on one filesystem.
+	// Fall back when that parent is not writable (for example a repo at /workspace).
+	const prefix = '.svelocity-template-';
+	try {
+		return mkdtempSync(join(dirname(repoRoot), prefix));
+	} catch (error) {
+		if (error && typeof error === 'object' && 'code' in error && error.code === 'EACCES') {
+			return mkdtempSync(join(tmpdir(), prefix));
+		}
+		throw error;
+	}
+}
 
 const EXCLUDE_DIR_NAMES = new Set([
 	'node_modules',
@@ -165,7 +178,16 @@ cpSync(join(pkgRoot, 'assets/README.template.md'), join(out, 'README.md'));
 if (out !== finalOut) {
 	rmSync(finalOut, { recursive: true, force: true });
 	mkdirSync(dirname(finalOut), { recursive: true });
-	renameSync(out, finalOut);
+	try {
+		renameSync(out, finalOut);
+	} catch (error) {
+		if (error && typeof error === 'object' && 'code' in error && error.code === 'EXDEV') {
+			cpSync(out, finalOut, { recursive: true });
+			rmSync(out, { recursive: true, force: true });
+		} else {
+			throw error;
+		}
+	}
 }
 
 console.log(`template written to ${finalOut}`);
