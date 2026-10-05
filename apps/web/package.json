@@ -10,6 +10,8 @@
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"cf-typegen": "wrangler types",
+		"deploy": "wrangler deploy",
 		"convex:dev": "pnpm --filter @svelocity/backend dev",
 		"test:e2e": "playwright test"
 	},
@@ -32,6 +34,7 @@
 		"svelte": "catalog:",
 		"svelte-check": "catalog:",
 		"typescript": "catalog:",
-		"vite": "catalog:"
+		"vite": "catalog:",
+		"wrangler": "catalog:"
 	}
 }

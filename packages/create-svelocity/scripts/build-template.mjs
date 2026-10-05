@@ -110,7 +110,8 @@ const TOKENIZE = [
 			['Shared Tasks', '{{DISPLAY_NAME}}']
 		]
 	],
-	['AGENTS.md', [['# Svelocity Stack — Agent Guide', '# {{DISPLAY_NAME}} — Agent Guide']]]
+	['AGENTS.md', [['# Svelocity Stack — Agent Guide', '# {{DISPLAY_NAME}} — Agent Guide']]],
+	['apps/web/wrangler.jsonc', [['"name": "svelocity-web"', '"name": "{{PROJECT_NAME}}"']]]
 ];
 
 function toPosix(path) {

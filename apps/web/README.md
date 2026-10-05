@@ -24,13 +24,15 @@ pnpm --filter web dev
 
 ## Scripts
 
-| Script                       | Does                                                                                    |
-| ---------------------------- | --------------------------------------------------------------------------------------- |
-| `pnpm --filter web dev`      | Vite dev server on :5173                                                                |
-| `pnpm --filter web build`    | Production build (Cloudflare)                                                           |
-| `pnpm --filter web preview`  | Serve the production build                                                              |
-| `pnpm --filter web check`    | svelte-check                                                                            |
-| `pnpm --filter web test:e2e` | Playwright golden-path e2e (needs live backend; self-skips without `PUBLIC_CONVEX_URL`) |
+| Script                         | Does                                                                                    |
+| ------------------------------ | --------------------------------------------------------------------------------------- |
+| `pnpm --filter web dev`        | Vite dev server on :5173                                                                |
+| `pnpm --filter web build`      | Production build (Cloudflare)                                                           |
+| `pnpm --filter web preview`    | Serve the production build                                                              |
+| `pnpm --filter web check`      | svelte-check                                                                            |
+| `pnpm --filter web cf-typegen` | `wrangler types` (gitignored `worker-configuration.d.ts`)                               |
+| `pnpm --filter web deploy`     | `wrangler deploy` using `wrangler.jsonc`                                                |
+| `pnpm --filter web test:e2e`   | Playwright golden-path e2e (needs live backend; self-skips without `PUBLIC_CONVEX_URL`) |
 
 ## Architecture notes
 

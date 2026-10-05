@@ -56,6 +56,7 @@ describe('build-template', () => {
 			'.svelocity/manifest.schema.json',
 			'.svelocity/manifest.example.json',
 			'apps/web/.env.example',
+			'apps/web/wrangler.jsonc',
 			'docs/CONVENTIONS.md',
 			'docs/COMPATIBILITY.md',
 			'docs/adr/0003-monorepo-package-boundaries.md',
@@ -99,6 +100,10 @@ describe('build-template', () => {
 		expect(readFileSync(join(out, 'AGENTS.md'), 'utf8')).toContain(
 			'# {{DISPLAY_NAME}} — Agent Guide'
 		);
+		const wrangler = readFileSync(join(out, 'apps/web/wrangler.jsonc'), 'utf8');
+		expect(wrangler).toContain('"name": "{{PROJECT_NAME}}"');
+		expect(wrangler).not.toContain('svelocity-web');
+		expect(wrangler).not.toMatch(/api_token|JWT_PRIVATE_KEY|CLOUDFLARE_API_TOKEN/i);
 	});
 
 	it('leaves @svelocity/* package names untouched', () => {
