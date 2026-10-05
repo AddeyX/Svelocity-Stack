@@ -12,6 +12,23 @@ planning prompt to `create`.
 
 ---
 
+## Required setup (not a backlog feature)
+
+Password login does not work until **each** Convex deployment (dev and prod) has
+`JWT_PRIVATE_KEY`, `JWKS`, and `SITE_URL`. That is a one-time setup step, already
+required by Convex Auth, not a later project.
+
+- Set them from `packages/backend` with `npx @convex-dev/auth`, or generate the
+  key pair and `npx convex env set` each name. On prod, `SITE_URL` is the deployed
+  frontend origin.
+- They are Convex deployment env vars. They are not GitHub Actions secrets and
+  must not be committed.
+- The deploy workflow only checks that the names are present. It does not generate
+  or store the keys.
+- The Google recipe below must not replace this step.
+
+---
+
 ## Skills
 
 - [ ] **`svelocity-flow`** — bundled planning skill that fills the template's

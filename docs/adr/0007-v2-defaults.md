@@ -36,6 +36,16 @@ system, or a planning gate in front of `create`.
    `apps/web/wrangler.jsonc`. The stack repo's own CI, CLI, and E2E workflows stay
    out of the snapshot. Desktop and mobile store or release automation is out of
    scope.
+6. **Convex Auth env is a one-time deployment setup, not a GitHub secret.** Every
+   Convex deployment — dev and prod — needs `JWT_PRIVATE_KEY`, `JWKS`, and
+   `SITE_URL` before password login works. From `packages/backend`, set them once
+   with `npx @convex-dev/auth` (it generates the key pair and writes all three),
+   or generate the keys and run `npx convex env set` for each name. Repeat on the
+   production deployment with `SITE_URL` set to the deployed frontend origin, not
+   the `*.convex.site` URL. These values are never committed and are not GitHub
+   Actions secrets. The only client env var remains `PUBLIC_CONVEX_URL`. The
+   deploy workflow checks that the three names exist on the target deployment
+   before it deploys; it does not create the keys or print their values.
 
 ## Rationale
 
@@ -45,7 +55,10 @@ system, or a planning gate in front of `create`.
   keeps the export map and the dependency graph smaller without mixing tokens into
   app-core or auth.
 - Password auth is the path that does not require an OAuth client. Google stays a
-  recipe so the golden path does not grow a console setup.
+  recipe so the golden path does not grow a console setup. The JWT key pair and
+  `SITE_URL` are still required, once per deployment, because Convex Auth will not
+  issue tokens without them. They stay on the deployment so CI logs and the repo
+  never hold key material.
 - Forcing VISION/DESIGN/TASKS at create time front-loads planning that many users
   skip. Shipping empty stubs keeps the files where a later skill expects them.
 - Validate and deploy workflows, plus a Wrangler config, are the minimum that makes

@@ -126,6 +126,25 @@ When asked to review auth (or before merging auth-touching changes), check:
 
 ---
 
+## Convex Auth deployment env
+
+Password login needs three variables on **each** Convex deployment (dev and prod).
+They are not GitHub Actions secrets and they are never committed. Clients only
+use `PUBLIC_CONVEX_URL`.
+
+From `packages/backend`, once per deployment:
+
+```bash
+npx @convex-dev/auth --web-server-url http://localhost:5173
+# production, after the frontend origin exists:
+npx @convex-dev/auth --prod --web-server-url https://<your-frontend-origin>
+```
+
+That command generates `JWT_PRIVATE_KEY` and `JWKS` and sets `SITE_URL` to the
+frontend origin (`http://localhost:5173` in dev — not the `*.convex.site` URL).
+The same three names can be written with `npx convex env set` if you generate the
+key pair yourself. Details: `docs/guides/authentication.md`.
+
 ## Dev Login
 
 Local demo user (anonymous local Convex backend):

@@ -39,7 +39,12 @@ npx convex env set SITE_URL http://localhost:5173    # the FRONTEND origin
 | `SITE_URL`        | yes                            | Frontend origin — `http://localhost:5173` in dev, your deployed URL in prod. **Not** the `*.convex.site` URL. |
 
 Nothing auth-related goes in app `.env.local` files — clients only need
-`PUBLIC_CONVEX_URL`.
+`PUBLIC_CONVEX_URL`. Do not commit the three deployment variables, and do not put
+them in GitHub Actions secrets. `npx @convex-dev/auth` generates the key pair and
+writes `JWT_PRIVATE_KEY`, `JWKS`, and `SITE_URL` for you. For production, run it
+against that deployment (`npx @convex-dev/auth --prod --web-server-url https://<origin>`).
+A non-interactive alternative is to generate the same PKCS8 / JWKS pair the CLI
+uses and pass each value to `npx convex env set`.
 
 ## How route protection works (web)
 

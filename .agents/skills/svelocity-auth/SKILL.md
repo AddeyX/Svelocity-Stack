@@ -46,9 +46,25 @@ target shell(s) — web only, or all three.
 
 ### Step 2 — Backend
 
-Providers are configured in `packages/backend/convex/auth.ts`. Environment
-expectations live in `apps/web/.env.example` (`PUBLIC_CONVEX_URL` must be set and
-uncommented — `svelocity doctor` checks this).
+Providers are configured in `packages/backend/convex/auth.ts`. The client env
+file `apps/web/.env.example` only needs `PUBLIC_CONVEX_URL` (uncommented —
+`svelocity doctor` checks this).
+
+Convex Auth also needs three variables on **each** deployment (dev and prod).
+They are deployment env, not GitHub secrets, and they must not be committed.
+From `packages/backend`:
+
+```bash
+npx @convex-dev/auth --web-server-url http://localhost:5173
+# production deployment, SITE_URL = the deployed frontend origin:
+npx @convex-dev/auth --prod --web-server-url https://<your-frontend-origin>
+```
+
+`npx @convex-dev/auth` generates `JWT_PRIVATE_KEY` and `JWKS` and sets `SITE_URL`.
+To do it by hand, generate that same key pair and run `npx convex env set` for
+`JWT_PRIVATE_KEY`, `JWKS`, and `SITE_URL`. `SITE_URL` is the frontend origin
+(`http://localhost:5173` in dev), not the `*.convex.site` URL. See
+`docs/guides/authentication.md`.
 
 ### Step 3 — Client helpers
 

@@ -10,10 +10,17 @@ pnpm install
 # 1. Set up the Convex backend (creates your deployment, fills env):
 pnpm --filter @svelocity/backend dev
 
-# 2. Point the web app at it:
+# 2. One-time, on that deployment (dev and, later, prod). These are Convex
+#    env vars — not GitHub secrets, and not committed:
+cd packages/backend
+npx @convex-dev/auth --web-server-url http://localhost:5173
+#    sets JWT_PRIVATE_KEY, JWKS, and SITE_URL (frontend origin, not *.convex.site)
+cd ../..
+
+# 3. Point the web app at it:
 cp apps/web/.env.example apps/web/.env.local   # then set PUBLIC_CONVEX_URL
 
-# 3. Run the apps:
+# 4. Run the apps:
 pnpm dev            # web (SvelteKit)
 pnpm dev:desktop    # desktop (Electron)
 pnpm dev:mobile     # mobile web shell (Capacitor)
