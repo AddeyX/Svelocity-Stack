@@ -144,6 +144,30 @@ frontend origin (`http://localhost:5173` in dev — not the `*.convex.site` URL)
 The same three names can be written with `npx convex env set` if you generate the
 key pair yourself. Details: `docs/guides/authentication.md`.
 
+`.github/workflows/deploy.yml` checks that those three **names** exist on the
+deployment selected by `CONVEX_DEPLOY_KEY` (`npx convex env list --names-only`)
+before it deploys. The check does not print or create the values.
+
+## GitHub Actions secrets
+
+`.github/workflows/deploy.yml` (push to `main`) expects these GitHub Actions
+secrets. They are not Convex env vars and they are not committed:
+
+| Secret                  | Used for                                              |
+| ----------------------- | ----------------------------------------------------- |
+| `CLOUDFLARE_API_TOKEN`  | `wrangler deploy` from `apps/web`                     |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare account for that deploy                    |
+| `CONVEX_DEPLOY_KEY`     | `convex deploy` from `packages/backend`               |
+| `PUBLIC_CONVEX_URL`     | Production Convex URL, passed to the Worker at deploy |
+
+`JWT_PRIVATE_KEY`, `JWKS`, and `SITE_URL` are **not** in this table. Set those on
+the Convex deployment. `SITE_URL` is the deployed frontend origin.
+
+`.github/workflows/validate.yml` runs on pull requests and manual dispatch. It
+installs, generates Wrangler types, typechecks every workspace (including desktop
+and mobile), tests, and builds web. It does not deploy. Desktop and mobile are
+not packaged for a store.
+
 ## Dev Login
 
 Local demo user (anonymous local Convex backend):

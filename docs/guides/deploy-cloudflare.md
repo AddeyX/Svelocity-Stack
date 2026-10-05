@@ -43,6 +43,23 @@ cd packages/backend
 npx convex env set SITE_URL https://<your-app>.workers.dev   # or your custom domain
 ```
 
+## GitHub Actions
+
+The project ships two workflows:
+
+| Workflow                         | When                          | What                                                                                          |
+| -------------------------------- | ----------------------------- | --------------------------------------------------------------------------------------------- |
+| `.github/workflows/validate.yml` | pull request, manual dispatch | Install, Wrangler types, `pnpm -r check` (desktop and mobile typecheck only), test, web build |
+| `.github/workflows/deploy.yml`   | push to `main`                | The same checks, then Convex deploy, then web build, then `wrangler deploy`                   |
+
+GitHub Actions secrets for deploy: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`,
+`CONVEX_DEPLOY_KEY`, `PUBLIC_CONVEX_URL`.
+
+`JWT_PRIVATE_KEY`, `JWKS`, and `SITE_URL` are not those secrets. Deploy refuses to
+continue if `npx convex env list --names-only` (with `CONVEX_DEPLOY_KEY`) does not
+show all three names. Set them on the production deployment first. The command
+prints names only, so the keys do not land in the log.
+
 ## Option A — Workers via wrangler
 
 `apps/web/wrangler.jsonc` is already in the project: a name placeholder, `main`

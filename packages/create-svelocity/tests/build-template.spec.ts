@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -20,7 +20,9 @@ describe('build-template', () => {
 		for (const p of [
 			'node_modules',
 			'.git',
-			'.github',
+			'.github/workflows/ci.yml',
+			'.github/workflows/cli.yml',
+			'.github/workflows/e2e.yml',
 			'packages/create-svelocity',
 			'apps/mobile/ios',
 			'apps/mobile/android',
@@ -57,6 +59,8 @@ describe('build-template', () => {
 			'.svelocity/manifest.example.json',
 			'apps/web/.env.example',
 			'apps/web/wrangler.jsonc',
+			'.github/workflows/validate.yml',
+			'.github/workflows/deploy.yml',
 			'docs/CONVENTIONS.md',
 			'docs/COMPATIBILITY.md',
 			'docs/adr/0003-monorepo-package-boundaries.md',
@@ -80,6 +84,24 @@ describe('build-template', () => {
 		]) {
 			expect(existsSync(join(out, p)), `${p} should be included`).toBe(true);
 		}
+	});
+
+	it('ships exactly the validate and deploy workflows', () => {
+		expect(readdirSync(join(out, '.github/workflows')).sort()).toEqual([
+			'deploy.yml',
+			'validate.yml'
+		]);
+		const validate = readFileSync(join(out, '.github/workflows/validate.yml'), 'utf8');
+		expect(validate).toContain('cancel-in-progress: true');
+		expect(validate).not.toContain('wrangler deploy');
+		expect(validate).not.toContain('convex deploy');
+		const deploy = readFileSync(join(out, '.github/workflows/deploy.yml'), 'utf8');
+		expect(deploy).toContain('cancel-in-progress: false');
+		expect(deploy).toContain('convex env list --names-only');
+		expect(deploy).toContain('JWT_PRIVATE_KEY');
+		expect(deploy).toContain('JWKS');
+		expect(deploy).toContain('SITE_URL');
+		expect(deploy).not.toMatch(/BEGIN PRIVATE KEY/);
 	});
 
 	it('renames dotfiles npm would strip', () => {

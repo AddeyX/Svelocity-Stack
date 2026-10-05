@@ -1,0 +1,93 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        # version comes from packageManager field in package.json
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Wrangler types
+        run: pnpm --filter web cf-typegen
+
+      - name: Check
+        # Same lightweight check as validate.yml: desktop and mobile are
+        # typechecked only. No store or native release build.
+        run: pnpm -r check
+
+      - name: Test
+        run: pnpm -r test
+
+      - name: Build web
+        run: pnpm --filter web build
+
+      - name: Check Convex Auth env on the target deployment
+        working-directory: packages/backend
+        env:
+          CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY }}
+        run: |
+          set -euo pipefail
+          if [ -z "${CONVEX_DEPLOY_KEY}" ]; then
+            echo "::error::CONVEX_DEPLOY_KEY is empty. Add it as a GitHub Actions secret (Convex dashboard → production deploy key). It is not a Convex env var."
+            exit 1
+          fi
+          # --names-only prints names to stdout and never the values (Convex CLI 1.42+).
+          # CONVEX_DEPLOY_KEY selects the deployment, so this is the prod target, not local dev.
+          names="$(pnpm exec convex env list --names-only)"
+          missing=()
+          for var in JWT_PRIVATE_KEY JWKS SITE_URL; do
+            if ! printf '%s\n' "$names" | grep -qx "$var"; then
+              missing+=("$var")
+            fi
+          done
+          if [ "${#missing[@]}" -gt 0 ]; then
+            echo "::error::Convex deployment is missing: ${missing[*]}. These are Convex deployment env vars, not GitHub secrets, and they must not be committed. From packages/backend, once per deployment: npx @convex-dev/auth --prod --web-server-url https://<your-frontend-origin>"
+            exit 1
+          fi
+
+      - name: Deploy Convex
+        working-directory: packages/backend
+        env:
+          CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY }}
+        run: pnpm exec convex deploy
+
+      - name: Build web for deploy
+        env:
+          PUBLIC_CONVEX_URL: ${{ secrets.PUBLIC_CONVEX_URL }}
+        run: pnpm --filter web build
+
+      - name: Deploy web
+        working-directory: apps/web
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          PUBLIC_CONVEX_URL: ${{ secrets.PUBLIC_CONVEX_URL }}
+        run: |
+          set -euo pipefail
+          if [ -z "${CLOUDFLARE_API_TOKEN}" ] || [ -z "${CLOUDFLARE_ACCOUNT_ID}" ]; then
+            echo "::error::Set GitHub Actions secrets CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID."
+            exit 1
+          fi
+          if [ -z "${PUBLIC_CONVEX_URL}" ]; then
+            echo "::error::Set the GitHub Actions secret PUBLIC_CONVEX_URL to the production Convex URL. Do not commit it."
+            exit 1
+          fi
+          pnpm exec wrangler deploy --var "PUBLIC_CONVEX_URL:${PUBLIC_CONVEX_URL}"

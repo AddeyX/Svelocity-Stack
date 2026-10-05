@@ -59,7 +59,9 @@ const EXCLUDE_DIR_NAMES = new Set([
 
 const EXCLUDE_PATHS = new Set([
 	'packages/create-svelocity',
-	'.github',
+	'.github/workflows/ci.yml',
+	'.github/workflows/cli.yml',
+	'.github/workflows/e2e.yml',
 	'.svelocity/manifest.json',
 	'apps/mobile/ios',
 	'apps/mobile/android',

@@ -36,6 +36,21 @@ pnpm --filter mobile exec cap add android
 pnpm --filter mobile sync
 ```
 
+## Deploy
+
+`.github/workflows/validate.yml` checks pull requests (install, Wrangler types,
+typecheck including desktop and mobile, test, web build). It does not deploy.
+
+`.github/workflows/deploy.yml` runs on `main`. GitHub Actions secrets:
+
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
+- `CONVEX_DEPLOY_KEY`
+- `PUBLIC_CONVEX_URL` (the production Convex URL; public, but not committed)
+
+`JWT_PRIVATE_KEY`, `JWKS`, and `SITE_URL` are Convex deployment env vars, not
+those secrets. Set them once on the production deployment (`npx @convex-dev/auth --prod --web-server-url https://<your-frontend-origin>` from `packages/backend`) before the first deploy. The workflow lists env **names** only and fails if any of the three is missing. It never prints the keys.
+
 ## Health Check
 
 ```bash
