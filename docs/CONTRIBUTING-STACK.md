@@ -9,6 +9,9 @@ file. Agent instructions for both audiences live in `AGENTS.md`.
 Development follows `docs/phases/` (phase docs are stack-only, excluded from the
 template). Do not mark a phase done until its Exit Criteria pass. Scope changes go
 through `docs/V1-SCOPE.md` first; new ideas go to `docs/V1.1-BACKLOG.md`.
+The v2 follow-ups (flow skill, validate/deploy skill, Google recipe, and the
+axdstack sunset) live in `docs/V2-BACKLOG.md`. Both backlog files are excluded
+from the template snapshot.
 
 ## The repo is the template
 

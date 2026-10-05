@@ -153,5 +153,6 @@ Details: [Convex guide](convex.md) or the `svelocity-convex` skill.
   [package boundaries](../adr/0003-monorepo-package-boundaries.md) ·
   [UI consumption](../adr/0004-shared-ui-consumption.md) ·
   [thin CLI](../adr/0005-thin-cli-scope.md) ·
-  [AI assets](../adr/0006-ai-instructions-as-assets.md)
+  [AI assets](../adr/0006-ai-instructions-as-assets.md) ·
+  [v2 defaults](../adr/0007-v2-defaults.md)
 - [docs/CONVENTIONS.md](../CONVENTIONS.md) — naming, file layout, import aliases

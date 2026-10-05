@@ -54,6 +54,7 @@ const EXCLUDE_PATHS = new Set([
 	'docs/superpowers',
 	'docs/V1-SCOPE.md',
 	'docs/V1.1-BACKLOG.md',
+	'docs/V2-BACKLOG.md',
 	'docs/V1-VALIDATION-REPORT.md',
 	'docs/RISKS.md',
 	'docs/Svelocity-Stack-PR.md',
