@@ -17,7 +17,16 @@ from the template snapshot.
 
 `packages/create-svelocity/scripts/build-template.mjs` snapshots the repo root into
 `packages/create-svelocity/template/`, excluding stack-only paths (`EXCLUDE_PATHS`,
-`EXCLUDE_DIR_NAMES`) and injecting `{{TOKENS}}`. Consequences:
+`EXCLUDE_DIR_NAMES`) and injecting `{{TOKENS}}`. The whole `.github` tree is
+excluded. `packages/create-svelocity/assets/workflows/validate.yml` and `deploy.yml`
+are copied into the snapshot's `.github/workflows/` afterward, so a generated
+project still gets those two workflows and the stack never runs deploy on itself.
+Do not move them back under this repo's `.github/workflows/`.
+
+`docs/guides/publish-create-svelocity.md` is the maintainer guide for publishing
+the CLI. It is excluded from the snapshot.
+
+Consequences:
 
 - Anything you add at repo root ships to generated projects unless excluded
 - AGENTS.md must only reference paths that survive the snapshot
@@ -62,3 +71,7 @@ Native packaging is validated manually per
 
 Update catalog pins in `pnpm-workspace.yaml` → `pnpm install` → CI green → tag.
 See `docs/phases/phase-10-hardening-release.md` for the v1.0.0 checklist.
+
+Publishing `create-svelocity` (the `create-svelocity` and `svelocity` commands)
+follows `docs/guides/publish-create-svelocity.md`. That workflow stages the
+package with trusted publishing. Do not add an `NPM_TOKEN` secret.
